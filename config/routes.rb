@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users,
     controllers: {
-      confirmations: 'user/confirmations',
-      ominauth_callbacks: 'user/ominauth_callbacks',
-      passwords: 'user/passwords',
-      registrations: 'user/registrations',
-      sessions: 'user/sessions',
-      unlocks: 'user/unlocks',
+      confirmations: "user/confirmations",
+      ominauth_callbacks: "user/ominauth_callbacks",
+      passwords: "user/passwords",
+      registrations: "user/registrations",
+      sessions: "user/sessions",
+      unlocks: "user/unlocks"
     }
 
   devise_scope :user do

@@ -7,7 +7,9 @@ class ApplicationController < ActionController::Base
   include InertiaFlash
   include InertiaJson
 
-   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protect_from_forgery
 
   protected
 

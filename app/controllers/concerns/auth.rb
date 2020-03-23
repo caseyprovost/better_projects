@@ -1,4 +1,4 @@
-require 'active_support/concern'
+require "active_support/concern"
 
 module Auth
   extend ActiveSupport::Concern
@@ -6,8 +6,8 @@ module Auth
   included do
     before_action :authenticate_user!
 
-    rescue_from Pundit::AccessDenied do
-      render inertia: 'Error', props: {
+    rescue_from Pundit::NotAuthorizedError do
+      render inertia: "Error", props: {
         status: 403
       }
     end

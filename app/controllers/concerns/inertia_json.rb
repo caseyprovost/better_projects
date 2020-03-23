@@ -1,4 +1,4 @@
-require 'active_support/concern'
+require "active_support/concern"
 
 # Helper method to build a complex Hash with Jbuilder
 #
@@ -23,8 +23,8 @@ module InertiaJson
   extend ActiveSupport::Concern
 
   def jbuilder
-    JbuilderTemplate.new(view_context) do |json|
+    JbuilderTemplate.new(view_context) { |json|
       yield(json)
-    end.attributes!
+    }.attributes!
   end
 end

@@ -1,4 +1,4 @@
-require 'active_support/concern'
+require "active_support/concern"
 
 # Make flash messages available as shared data
 #

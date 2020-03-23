@@ -1,5 +1,4 @@
-
-require 'active_support/concern'
+require "active_support/concern"
 
 # Make errors from session (if there are any) available as shared data
 # and override `redirect_to` to move errors into session.

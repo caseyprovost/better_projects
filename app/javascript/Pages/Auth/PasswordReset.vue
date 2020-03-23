@@ -11,7 +11,7 @@
       >
         <div class="px-10 py-12">
           <h1 class="text-center font-bold text-2xl">
-            Welcome Back!
+            Reset Your Password
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2" />
           <text-input
@@ -22,37 +22,19 @@
             autofocus
             autocapitalize="off"
           />
-          <text-input
-            v-model="form.password"
-            class="mt-6"
-            label="Password"
-            type="password"
-          />
-          <label
-            class="mt-6 select-none flex items-center"
-            for="remember"
-          >
-            <input
-              id="remember"
-              v-model="form.remember_me"
-              class="mr-1"
-              type="checkbox"
-            >
-            <span class="text-sm">Remember Me</span>
-          </label>
         </div>
         <div class="px-10 py-4 bg-gray-100 border-t border-gray-200 flex justify-between items-center">
           <a
             class="hover:underline"
             tabindex="-1"
-            :href="resetPasswordPath"
-          >Forget password?</a>
+            :href="loginPath"
+          >Login</a>
           <loading-button
             :loading="sending"
             class="btn-indigo"
             type="submit"
           >
-            Login
+            Reset Password
           </loading-button>
         </div>
       </form>
@@ -84,15 +66,15 @@ export default {
     }
   },
   computed: {
-    resetPasswordPath () {
-      return this.$routes.new_user_password()
+    loginPath() {
+      return this.$routes.new_user_session()
     },
   },
   methods: {
     submit() {
       this.sending = true
       this.$inertia
-        .post(this.$routes.user_session(), {
+        .post(this.$routes.password(), {
           user: this.form,
         })
         .then(() => (this.sending = false))

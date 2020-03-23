@@ -1,4 +1,4 @@
-require 'active_support/concern'
+require "active_support/concern"
 
 # Store the CSRF token in a non-session cookie so Axios can access it
 # Name it as XSRF-TOKEN, because this is the Axios default
@@ -18,6 +18,6 @@ module InertiaCsrf
   private
 
   def set_csrf_cookie
-    cookies['XSRF-TOKEN'] = form_authenticity_token
+    cookies["XSRF-TOKEN"] = form_authenticity_token
   end
 end
