@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-indigo-800 min-h-screen flex justify-center items-center">
+  <div class="p-6 bg-gray-800 min-h-screen flex justify-center items-center">
     <div class="w-full max-w-md">
       <logo
         class="block mx-auto w-full max-w-xs fill-white"
@@ -11,7 +11,7 @@
       >
         <div class="px-10 py-12">
           <h1 class="text-center font-bold text-2xl">
-            Welcome Back!
+            Log in
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2" />
           <text-input
@@ -19,6 +19,7 @@
             class="mt-10"
             label="Email"
             type="email"
+            name="user[email]"
             autofocus
             autocapitalize="off"
           />
@@ -27,29 +28,41 @@
             class="mt-6"
             label="Password"
             type="password"
+            name="user[password]"
           />
-          <label
-            class="mt-6 select-none flex items-center"
-            for="remember"
-          >
-            <input
-              id="remember"
-              v-model="form.remember_me"
-              class="mr-1"
-              type="checkbox"
-            >
-            <span class="text-sm">Remember Me</span>
-          </label>
+          <div class="flex justify-between mt-6">
+            <div class="">
+              <label
+                class="select-none flex items-center"
+                for="remember"
+              >
+                <input
+                  id="remember"
+                  v-model="form.remember_me"
+                  class="mr-1"
+                  type="checkbox"
+                  name="user[remember_me]"
+                >
+                <span class="text-sm">Remember Me</span>
+              </label>
+            </div>
+            <div class="text-sm items-center">
+              <span class="mr-1">
+                Need an account?
+              </span>
+              <inertia-link class="hover:underline" tabindex="-1" :href="signUpPath">Sign Up!</inertia-link>
+            </div>
+          </div>
         </div>
         <div class="px-10 py-4 bg-gray-100 border-t border-gray-200 flex justify-between items-center">
-          <a
-            class="hover:underline"
+          <inertia-link
+            class="hover:underline text-sm"
             tabindex="-1"
             :href="resetPasswordPath"
-          >Forget password?</a>
+          >Forget your password?</inertia-link>
           <loading-button
             :loading="sending"
-            class="btn-indigo"
+            class="btn-green"
             type="submit"
           >
             Login
@@ -62,9 +75,9 @@
 
 <script>
 import Layout from '@/Layouts/Minimal'
-import LoadingButton from '@/Shared/LoadingButton'
-import Logo from '@/Shared/Logo'
-import TextInput from '@/Shared/TextInput'
+import LoadingButton from '@/Components/LoadingButton'
+import Logo from '@/Components/Logo'
+import TextInput from '@/Components/TextInput'
 export default {
   metaInfo: { title: 'Login' },
   layout: Layout,
@@ -77,8 +90,8 @@ export default {
     return {
       sending: false,
       form: {
-        email: 'johndoe@example.com',
-        password: 'secret',
+        email: null,
+        password: null,
         remember_me: null,
       },
     }
@@ -87,6 +100,9 @@ export default {
     resetPasswordPath () {
       return this.$routes.new_user_password()
     },
+    signUpPath()  {
+      return this.$routes.new_user_registration()
+    }
   },
   methods: {
     submit() {

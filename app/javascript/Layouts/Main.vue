@@ -6,18 +6,13 @@
         @click="hideDropdownMenus"
       >
         <div class="md:flex flex-shrink-0">
-          <div class="bg-indigo-900 md:flex-shrink-0 md:w-56 px-6 py-4 flex items-center justify-between md:justify-center">
+          <div class="bg-indigo-700 md:flex-shrink-0 px-6 py-4 flex items-center justify-between md:justify-center border-b border-indigo-500">
             <inertia-link
-              class="mt-1"
               :href="$routes.root()"
               aria-label="Home"
               role="navigation"
             >
-              <logo
-                class="fill-white"
-                width="120"
-                height="28"
-              />
+              <h1 class="text-2xl text-indigo-100">Better Projects</h1>
             </inertia-link>
             <dropdown
               class="md:hidden"
@@ -37,22 +32,18 @@
               </div>
             </dropdown>
           </div>
-          <div class="bg-white border-b w-full p-4 md:py-0 md:px-12 text-sm md:text-md flex justify-between items-center">
-            <div class="mt-1 mr-4">
-              {{ $page.auth.user.account.name }}
-            </div>
+          <div class="bg-indigo-600 border-b w-full p-4 md:py-0 md:px-12 text-sm text-indigo-100 md:text-md flex justify-end items-center border-indigo-500">
             <dropdown
               class="mt-1"
               placement="bottom-end"
               aria-label="User menu"
             >
               <div class="flex items-center cursor-pointer select-none group">
-                <div class="text-gray-800 group-hover:text-indigo-600 focus:text-indigo-600 mr-1 whitespace-no-wrap">
-                  <span>{{ $page.auth.user.first_name }}</span>
-                  <span class="hidden md:inline">{{ $page.auth.user.last_name }}</span>
+                <div class="text-indigo-100 group-hover:text-indigo-600 focus:text-indigo-600 mr-1 whitespace-no-wrap">
+                  <span>{{ $page.auth.user.name }}</span>
                 </div>
                 <icon
-                  class="w-5 h-5 group-hover:fill-indigo-600 fill-gray-800 focus:fill-indigo-600"
+                  class="w-5 h-5 group-hover:fill-indigo-600 fill-indigo-100 focus:fill-indigo-300"
                   name="cheveron-down"
                 />
               </div>
@@ -63,14 +54,14 @@
                 <inertia-link
                   class="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
                   role="navigation"
-                  :href="$routes.edit_user($page.auth.user.id)"
+                  :href="$routes.edit_user_registration($page.auth.user.id)"
                 >
                   My Profile
                 </inertia-link>
                 <inertia-link
                   class="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
                   role="navigation"
-                  :href="$routes.users()"
+                  :href="$routes.account_memberships($page.auth.account.id)"
                 >
                   Manage Users
                 </inertia-link>
@@ -85,13 +76,18 @@
             </dropdown>
           </div>
         </div>
+        <div v-if="$page.auth.account" class="bg-gray-800 py-2 px-4 text-gray-100 justify-end w-full flex border-b border-gray-700">
+          <div class="justify-between flex items-center">
+            <p class="text-sm mr-2">Current Account: </p>
+            <select-input v-model="$page.auth.account.id" class="text-sm">
+              <option value="">Choose an account</option>
+              <option :value="account.id" v-for="account in $page.auth.user.accounts">{{ account.name }}</option>
+            </select-input>
+          </div>
+        </div>
         <div class="flex flex-grow overflow-hidden">
-          <main-menu
-            :url="url()"
-            class="bg-indigo-800 flex-shrink-0 w-56 p-12 hidden md:block overflow-y-auto"
-          />
           <div
-            class="flex-1 px-4 py-8 md:p-12 overflow-y-auto"
+            class="flex-1 px-4 py-4 md:p-4 overflow-y-auto bg-gray-800"
             scroll-region
           >
             <slot />
@@ -104,17 +100,17 @@
 
 <script>
 import MinimalLayout from '@/Layouts/Minimal'
-import Dropdown from '@/Shared/Dropdown'
-import Icon from '@/Shared/Icon'
-import Logo from '@/Shared/Logo'
-import MainMenu from '@/Shared/MainMenu'
+import Dropdown from '@/Components/Dropdown'
+import Icon from '@/Components/Icon'
+import Logo from '@/Components/Logo'
+import SelectInput from '@/Components/SelectInput'
 export default {
   components: {
     MinimalLayout,
     Dropdown,
     Icon,
     Logo,
-    MainMenu,
+    SelectInput,
   },
   data() {
     return {

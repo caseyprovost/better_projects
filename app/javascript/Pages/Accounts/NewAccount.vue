@@ -11,31 +11,33 @@
       >
         <div class="px-10 py-12">
           <h1 class="text-center font-bold text-2xl">
-            Reset Your Password
+            Let's Get It Started
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2" />
           <text-input
-            v-model="form.email"
+            v-model="form.name"
             class="mt-10"
-            label="Email"
-            type="email"
-            :errors="fieldErrors('email')"
+            label="Name"
+            type="name"
+            autofocus
+            autocapitalize="off"
+          />
+          <text-input
+            v-model="form.subdomain"
+            class="mt-10"
+            label="Organization subdomain"
+            type="text"
             autofocus
             autocapitalize="off"
           />
         </div>
         <div class="px-10 py-4 bg-gray-100 border-t border-gray-200 flex justify-between items-center">
-          <inertia-link
-            class="hover:underline text-green-600"
-            tabindex="-1"
-            :href="loginPath"
-          >Login</inertia-link>
           <loading-button
             :loading="sending"
             class="btn-indigo"
             type="submit"
           >
-            Reset Password
+            Sign Up!
           </loading-button>
         </div>
       </form>
@@ -48,42 +50,34 @@ import Layout from '@/Layouts/Minimal'
 import LoadingButton from '@/Components/LoadingButton'
 import Logo from '@/Components/Logo'
 import TextInput from '@/Components/TextInput'
-import formHelpers from '@/utils/formHelpers'
-
 export default {
-  metaInfo: { title: 'Login' },
-  mixins: [formHelpers],
+  metaInfo: { title: 'Sign Up' },
   layout: Layout,
   components: {
     LoadingButton,
     Logo,
     TextInput,
   },
-  props: {
-    resource_errors: Object
-  },
   data() {
     return {
       sending: false,
       form: {
-        email: null,
+        name: null,
+        subdomain: null
       },
     }
   },
   computed: {
-    loginPath() {
-      return this.$routes.new_user_session()
-    },
   },
   methods: {
     submit() {
       this.sending = true
       this.$inertia
-        .post(this.$routes.user_password(), {
+        .post(this.$routes.account(), {
           user: this.form,
         })
         .then(() => (this.sending = false))
-    }
-  }
+    },
+  },
 }
 </script>

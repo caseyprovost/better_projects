@@ -9,7 +9,7 @@ development:
   host: localhost
   username: postgres
   password:
-  database: hub_development
+  database: better_projects_development
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 test:
@@ -17,13 +17,13 @@ test:
   host: <%= ENV['CI'].present? ? 'postgres' : 'localhost' %>
   username: postgres
   password:
-  database: hub_test
+  database: better_projects_test
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 production:
   <<: *shared_default
   host:     <%= ENV.fetch("DB_HOST") { "" } %>
-  database: hub_production
+  database: better_projects_production
   username: deploy
   password: <%= Rails.application.credentials.dig(:database, :password) %>
   sslca:    ./config/rds-combined-ca-bundle.pem

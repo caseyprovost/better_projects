@@ -15,7 +15,15 @@ Rails.application.routes.draw do
     end
 
     authenticated do
-      root to: "pages/landing_page#show", as: :unauthenticated_root
+      root to: "account/dashboard#show", as: :unauthenticated_root
     end
+
+    get 'users/password/', to: "user/passwords#new"
+    get 'users/', to: "user/registrations#new"
+  end
+
+  resources :accounts do
+    resource :dashboard, controller: "dashboard"
+    resources :memberships
   end
 end

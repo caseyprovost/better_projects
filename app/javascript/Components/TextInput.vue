@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-6">
     <label
       v-if="label"
       class="form-label"
@@ -19,7 +19,7 @@
       v-if="errors.length"
       class="form-error"
     >
-      {{ errors[0] }}
+      {{ errors.join(", ") }}
     </div>
   </div>
 </template>

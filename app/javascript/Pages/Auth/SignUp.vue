@@ -11,17 +11,40 @@
       >
         <div class="px-10 py-12">
           <h1 class="text-center font-bold text-2xl">
-            Reset Your Password
+            Let's Get It Started
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2" />
           <text-input
+            v-model="form.name"
+            class=""
+            label="Name"
+            type="name"
+            :errors="fieldErrors('name')"
+            autofocus
+            autocapitalize="off"
+          />
+          <text-input
             v-model="form.email"
-            class="mt-10"
+            class=""
             label="Email"
             type="email"
             :errors="fieldErrors('email')"
             autofocus
             autocapitalize="off"
+          />
+          <text-input
+            v-model="form.password"
+            class=""
+            label="Password"
+            type="password"
+            :errors="fieldErrors('password')"
+          />
+          <text-input
+            v-model="form.password_confirmation"
+            class=""
+            label="Confrim password"
+            type="password"
+            :errors="fieldErrors('password_confirmation')"
           />
         </div>
         <div class="px-10 py-4 bg-gray-100 border-t border-gray-200 flex justify-between items-center">
@@ -35,7 +58,7 @@
             class="btn-indigo"
             type="submit"
           >
-            Reset Password
+            Sign Up!
           </loading-button>
         </div>
       </form>
@@ -51,7 +74,7 @@ import TextInput from '@/Components/TextInput'
 import formHelpers from '@/utils/formHelpers'
 
 export default {
-  metaInfo: { title: 'Login' },
+  metaInfo: { title: 'Sign Up' },
   mixins: [formHelpers],
   layout: Layout,
   components: {
@@ -59,19 +82,19 @@ export default {
     Logo,
     TextInput,
   },
-  props: {
-    resource_errors: Object
-  },
   data() {
     return {
       sending: false,
       form: {
+        name: null,
         email: null,
+        password: null,
+        password_confirmation: null
       },
     }
   },
   computed: {
-    loginPath() {
+    loginPath () {
       return this.$routes.new_user_session()
     },
   },
@@ -79,11 +102,11 @@ export default {
     submit() {
       this.sending = true
       this.$inertia
-        .post(this.$routes.user_password(), {
+        .post(this.$routes.user_registration(), {
           user: this.form,
         })
         .then(() => (this.sending = false))
-    }
-  }
+    },
+  },
 }
 </script>
