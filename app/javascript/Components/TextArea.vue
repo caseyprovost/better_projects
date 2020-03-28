@@ -5,15 +5,14 @@
       class="form-label"
       :for="id"
     >{{ label }}:</label>
-    <input
+    <textarea
       :id="id"
       ref="input"
       v-bind="$attrs"
       :class="inputClasses"
-      :type="type"
       :value="value"
       @input="$emit('input', $event.target.value)"
-    >
+    />
     <div
       v-if="errors.length"
       class="form-error"
@@ -28,7 +27,6 @@ export default {
   inheritAttrs: false,
   props: {
     id: {
-      type: String,
       default() {
         return `text-input-${this._uid}`
       },
@@ -36,10 +34,6 @@ export default {
     inputClass: {
       type: String,
       default: ""
-    },
-    type: {
-      type: String,
-      default: 'text',
     },
     value: {
       type: String,
@@ -67,7 +61,7 @@ export default {
   },
   computed: {
     inputClasses() {
-      let classes = `${this.inputClass} form-input`
+      let classes = `${this.inputClass} form-textarea`
 
       if (this.errors.length > 0) {
         classes += " error"

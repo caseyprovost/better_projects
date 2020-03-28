@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_165228) do
+ActiveRecord::Schema.define(version: 2020_03_26_163511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,28 @@ ActiveRecord::Schema.define(version: 2020_03_24_165228) do
     t.index ["subdomain"], name: "index_accounts_on_subdomain", unique: true
   end
 
+  create_table "project_memberships", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "user_id", null: false
+    t.string "permission", default: "read", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id", "user_id"], name: "index_project_memberships_on_project_id_and_user_id", unique: true
+    t.index ["project_id"], name: "index_project_memberships_on_project_id"
+    t.index ["user_id"], name: "index_project_memberships_on_user_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.string "status", default: "active", null: false
+    t.text "description", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_projects_on_account_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -72,4 +94,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_165228) do
   add_foreign_key "account_members", "account_roles", column: "role_id"
   add_foreign_key "account_members", "accounts"
   add_foreign_key "account_members", "users"
+  add_foreign_key "project_memberships", "projects"
+  add_foreign_key "project_memberships", "users"
+  add_foreign_key "projects", "accounts"
 end

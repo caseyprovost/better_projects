@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/caseyprovost/guard.git
-  revision: a6e4049d0a2201e4a64e15a6950429d0aacbfcb3
+  remote: https://github.com/guard/guard.git
+  revision: 32e2d7f74ff75508a932e315da5a7f6f0eab0f7f
   specs:
     guard (2.16.1)
       formatador (>= 0.2.4)

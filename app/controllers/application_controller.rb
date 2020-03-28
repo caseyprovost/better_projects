@@ -12,17 +12,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def current_account
-    return nil if current_user.nil?
-
-    if session[:account_id]
-      @current_account ||= current_user.accounts.find(session[:account_id])
-    else
-      @current_account ||= current_user.accounts.first
-    end
-  end
-
-  def set_current_account(account)
-    session[:account_id] = account.id
+    return nil if current_user.nil? || Account::RESERVED_SUBDOMAINS.include?(request.subdomain)
+    @current_account ||= current_user.accounts.find_by(subdomain: request.subdomain)
   end
 
   def current_account_member

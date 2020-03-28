@@ -53,7 +53,7 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen"
   gem "spring-commands-rspec"
-  gem "guard", github: "caseyprovost/guard"
+  gem "guard", github: "guard/guard"
   gem "guard-bundler", "~> 2.1" # Update and install gems when necessary
   gem "guard-livereload", "~> 2.5" # Reload the browser when view files change
   gem "guard-process", "~> 1.2" # Run arbitrary processes from Guardfile

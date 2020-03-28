@@ -23,7 +23,12 @@ Rails.application.routes.draw do
   end
 
   resources :accounts do
-    resource :dashboard, controller: "dashboard"
-    resources :memberships
+    resource :dashboard, controller: "dashboard", module: 'accounts'
+    resources :memberships, module: 'accounts'
+  end
+
+  resources :projects do
+    resources :memberships, module: 'projects'
+    resources :todo_lists, module: 'projects'
   end
 end

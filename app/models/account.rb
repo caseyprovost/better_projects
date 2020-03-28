@@ -1,10 +1,11 @@
 class Account < ApplicationRecord
   RESERVED_SUBDOMAINS = %w(
-    admin help support mail test staging pre-production production qa
+    admin app help support mail test staging pre-production production qa www
   )
 
   has_many :account_memberships, class_name: "AccountMember"
   has_many :users, through: :account_memberships
+  has_many :projects
 
   before_validation :set_subdomain, on: :create
 

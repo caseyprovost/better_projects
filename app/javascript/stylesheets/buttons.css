@@ -3,7 +3,7 @@
 
   &:hover,
   &:focus {
-    @apply bg-orange-500
+    @apply bg-indigo-500
   }
 }
 
@@ -36,7 +36,7 @@
 }
 
 a {
-  @apply text-indigo-600;
+  @apply text-green-600;
 }
 
 @keyframes spinning {

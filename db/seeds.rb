@@ -1,12 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
 admin_role = AccountRole.find_or_create_by(name: "Admin")
+
+def setup_project_user(project, email:, permission:)
+  user = User.find_by(email: email)
+  user ||= FactoryBot.create(:user, name: Faker::Name.name, email: email)
+
+  if project.memberships.find_by(user_id: user.id).nil?
+    FactoryBot.create(:project_membership, project: project, user: user, permission: permission)
+  end
+end
 
 if Rails.env.development?
   account = Account.find_or_create_by(name: "avengers")
@@ -14,4 +15,14 @@ if Rails.env.development?
   user.confirm && user.save!
 
   AccountMember.find_or_create_by(account_id: account.id, user_id: user.id, role_id: admin_role.id)
+
+  project = Project.find_or_create_by(
+    name: "Mark XXX Suits",
+    description: "This is that project that marries the metal and technology of Wakanda with the nanotech of Mr. Stark!",
+    account_id: account.id
+  )
+
+  setup_project_user(project, email: "reader@avengers.net", permission: "read")
+  setup_project_user(project, email: "writer@avengers.net", permission: "write")
+  setup_project_user(project, email: "admin@avengers.net", permission: "admin")
 end

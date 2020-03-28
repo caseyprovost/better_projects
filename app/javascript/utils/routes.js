@@ -521,6 +521,15 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // edit_account_membership => /accounts/:account_id/memberships/:id/edit(.:format)
   // function(account_id, id, options)
   edit_account_membership: Utils.route([["account_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+// edit_project => /projects/:id/edit(.:format)
+  // function(id, options)
+  edit_project: Utils.route([["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+// edit_project_membership => /projects/:project_id/memberships/:id/edit(.:format)
+  // function(project_id, id, options)
+  edit_project_membership: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+// edit_project_todo_list => /projects/:project_id/todo_lists/:id/edit(.:format)
+  // function(project_id, id, options)
+  edit_project_todo_list: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
 // edit_user_password => /users/password/edit(.:format)
   // function(options)
   edit_user_password: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"password",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
@@ -536,6 +545,15 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // new_account_membership => /accounts/:account_id/memberships/new(.:format)
   // function(account_id, options)
   new_account_membership: Utils.route([["account_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// new_project => /projects/new(.:format)
+  // function(options)
+  new_project: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+// new_project_membership => /projects/:project_id/memberships/new(.:format)
+  // function(project_id, options)
+  new_project_membership: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// new_project_todo_list => /projects/:project_id/todo_lists/new(.:format)
+  // function(project_id, options)
+  new_project_todo_list: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
 // new_user_confirmation => /users/confirmation/new(.:format)
   // function(options)
   new_user_confirmation: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"confirmation",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
@@ -551,6 +569,24 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // new_user_unlock => /users/unlock/new(.:format)
   // function(options)
   new_user_unlock: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"unlock",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+// project => /projects/:id(.:format)
+  // function(id, options)
+  project: Utils.route([["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+// project_membership => /projects/:project_id/memberships/:id(.:format)
+  // function(project_id, id, options)
+  project_membership: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// project_memberships => /projects/:project_id/memberships(.:format)
+  // function(project_id, options)
+  project_memberships: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+// project_todo_list => /projects/:project_id/todo_lists/:id(.:format)
+  // function(project_id, id, options)
+  project_todo_list: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// project_todo_lists => /projects/:project_id/todo_lists(.:format)
+  // function(project_id, options)
+  project_todo_lists: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+// projects => /projects(.:format)
+  // function(options)
+  projects: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[1,[2,[8,".",false],[3,"format",false]],false]]]),
 // root => /
   // function(options)
   root: Utils.route([], {}, [7,"/",false]),

@@ -1,19 +1,19 @@
 <template>
-  <div class="p-6 bg-gray-800 min-h-screen flex justify-center items-center">
+  <div class="p-6 bg-indigo-900  min-h-screen flex justify-center items-center">
     <div class="w-full max-w-md">
       <logo
         class="block mx-auto w-full max-w-xs fill-white"
         height="50"
       />
       <form
-        class="mt-8 bg-white rounded-lg shadow-xl overflow-hidden"
+        class="mt-8 bg-gray-900  rounded-lg shadow-xl overflow-hidden"
         @submit.prevent="submit"
       >
         <div class="px-10 py-12">
-          <h1 class="text-center font-bold text-2xl">
+          <h1 class="text-center font-bold text-2xl text-gray-400">
             Log in
           </h1>
-          <div class="mx-auto mt-6 w-24 border-b-2" />
+          <div class="mx-auto mt-6 w-24 border-b-2 border-gray-400" />
           <text-input
             v-model="form.email"
             class="mt-10"
@@ -43,18 +43,18 @@
                   type="checkbox"
                   name="user[remember_me]"
                 >
-                <span class="text-sm">Remember Me</span>
+                <span class="text-sm text-gray-400">Remember Me</span>
               </label>
             </div>
             <div class="text-sm items-center">
-              <span class="mr-1">
+              <span class="mr-1 text-gray-400">
                 Need an account?
               </span>
               <inertia-link class="hover:underline" tabindex="-1" :href="signUpPath">Sign Up!</inertia-link>
             </div>
           </div>
         </div>
-        <div class="px-10 py-4 bg-gray-100 border-t border-gray-200 flex justify-between items-center">
+        <div class="px-10 py-4 bg-gray-900 border-t border-gray-800 flex justify-between items-center">
           <inertia-link
             class="hover:underline text-sm"
             tabindex="-1"
@@ -62,7 +62,7 @@
           >Forget your password?</inertia-link>
           <loading-button
             :loading="sending"
-            class="btn-green"
+            class="btn-indigo"
             type="submit"
           >
             Login

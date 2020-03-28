@@ -4,7 +4,7 @@
   <portal to="modal">
     <div
       v-if="showModal"
-      class="fixed inset-0"
+      class="fixed inset-0 mt-8"
     >
       <transition
         enter-active-class="transition-all transition-fast ease-out-quad"
@@ -41,11 +41,11 @@
           <div class="absolute inline-block align-middle w-0 h-screen" />
 
           <div
-            class="inline-block align-middle text-left my-6 rounded overflow-hidden"
+            class="inline-block align-middle text-left my-6 rounded overflow-hidden shadow-2xl"
             @click.stop
           >
-            <div class="px-8 py-4 bg-gray-100 border-b border-gray-200 flex justify-between items-center">
-              <h1 class="font-bold text-xl">
+            <div class="px-8 py-4 bg-gray-900 border-b border-gray-800 flex justify-between items-center">
+              <h1 class="font-bold text-xl text-indigo-100">
                 {{ title }}
               </h1>
 
@@ -57,7 +57,7 @@
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-4 h-4"
+                  class="w-4 h-4 fill-indigo-100"
                   viewBox="0 0 20 20"
                 >
                   <path d="M10 8.59L2.93 1.51 1.51 2.93 8.59 10l-7.08 7.07 1.42 1.42L10 11.41l7.07 7.08 1.42-1.42L11.41 10l7.08-7.07-1.42-1.42L10 8.59z" />

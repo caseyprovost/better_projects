@@ -28,6 +28,11 @@ Vue.use(PortalVue)
 
 import axios from 'axios'
 
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+import '@fortawesome/fontawesome-free/js/brands'
+
 // Tell Axios to send the CSRF token (taken from the cookie)
 // in the header named as "X-CSRF-Token", as this is the name
 // expected by Rails
