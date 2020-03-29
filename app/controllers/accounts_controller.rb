@@ -21,7 +21,6 @@ class AccountsController < ApplicationController
   private
 
   def account_params
-
   end
 
   def enforce_no_account

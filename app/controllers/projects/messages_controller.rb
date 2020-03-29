@@ -26,7 +26,7 @@ module Projects
 
     def update
       if message.update(message_params)
-        redirect_to project_message_path(current_project, message), notice: 'Message updated.'
+        redirect_to project_message_path(current_project, message), notice: "Message updated."
       else
         redirect_to edit_project_message_path(current_project, message), errors: message.errors
       end
@@ -42,7 +42,7 @@ module Projects
       message = message_board.messages.new(message_params)
 
       if message.update(message_params)
-        redirect_to project_message_path(current_project, message), notice: 'Message posted.'
+        redirect_to project_message_path(current_project, message), notice: "Message posted."
       else
         redirect_to edit_project_message_path(current_project, message), errors: message.errors
       end
@@ -50,7 +50,7 @@ module Projects
 
     def destroy
       if message.destroy
-        redirect_to project_messages_path(current_project), notice: 'Message deleted.'
+        redirect_to project_messages_path(current_project), notice: "Message deleted."
       else
         redirect_to project_message_path(current_project, message), errors: message.errors
       end

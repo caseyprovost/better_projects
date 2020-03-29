@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i(show edit update destroy)
+  before_action :set_project, only: %i[show edit update destroy]
   inertia_share current_project: -> { policy_scope(Project).find(params[:id]) }
 
   def show
@@ -23,10 +23,10 @@ class ProjectsController < ApplicationController
 
   def create
     project = current_account.projects.new(project_params)
-    project.memberships.build(user: current_user, permission: 'admin')
+    project.memberships.build(user: current_user, permission: "admin")
 
     if project.save
-      redirect_to account_dashboard_path(current_account), notice: 'Project created.'
+      redirect_to account_dashboard_path(current_account), notice: "Project created."
     else
       redirect_to account_dashboard_path(current_account), errors: project.errors
     end

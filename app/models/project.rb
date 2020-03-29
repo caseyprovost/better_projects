@@ -7,7 +7,7 @@ class Project < ApplicationRecord
   has_many :messages, through: :message_board
 
   validates :name, :description, presence: true
-  validates :name, uniqueness: { scope: :account_id }
+  validates :name, uniqueness: {scope: :account_id}
 
   after_initialize :set_default_status
 

@@ -18,21 +18,21 @@ Rails.application.routes.draw do
       root to: "accounts/dashboard#show"
     end
 
-    get 'users/password/', to: "user/passwords#new"
-    get 'users/', to: "user/registrations#new"
+    get "users/password/", to: "user/passwords#new"
+    get "users/", to: "user/registrations#new"
   end
 
   resources :accounts do
-    resource :dashboard, controller: "dashboard", module: 'accounts'
-    resources :memberships, module: 'accounts'
+    resource :dashboard, controller: "dashboard", module: "accounts"
+    resources :memberships, module: "accounts"
   end
 
   resources :projects do
-    resources :memberships, module: 'projects'
-    resources :todo_lists, module: 'projects'
-    resource :message_board, controller: 'message_board', module: 'projects'
-    resources :messages, module: 'projects' do
-      resources :comments, module: 'messages'
+    resources :memberships, module: "projects"
+    resources :todo_lists, module: "projects"
+    resource :message_board, controller: "message_board", module: "projects"
+    resources :messages, module: "projects" do
+      resources :comments, module: "messages"
       resources :copies, only: %i[new create], module: "messages"
       resources :moves, only: %i[new create], module: "messages"
     end

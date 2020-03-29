@@ -22,7 +22,7 @@ gem "sidekiq"
 gem "interactor"
 gem "pundit"
 gem "pagy"
-gem 'amoeba'
+gem "amoeba"
 
 # Use Active Storage variant
 gem "image_processing", "~> 1.2"

@@ -18,7 +18,7 @@ module Projects
     def current_project
       @current_project ||= current_account.projects
         .includes(
-          message_board: { messages: [:creator] },
+          message_board: {messages: [:creator]}
         ).find(params[:project_id])
     end
 

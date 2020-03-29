@@ -12,6 +12,6 @@ class MessageMove < Move
       MessageBoard.create!(project: project)
     end
 
-     @message_board = project.message_board
+    @message_board = project.message_board
   end
 end
