@@ -52,7 +52,9 @@
             class="hover:underline text-green-600"
             tabindex="-1"
             :href="loginPath"
-          >Login</inertia-link>
+          >
+            Login
+          </inertia-link>
           <loading-button
             :loading="sending"
             class="btn btn-indigo"
@@ -75,13 +77,13 @@ import formHelpers from '@/utils/formHelpers'
 
 export default {
   metaInfo: { title: 'Sign Up' },
-  mixins: [formHelpers],
-  layout: Layout,
   components: {
     LoadingButton,
     Logo,
     TextInput,
   },
+  mixins: [formHelpers],
+  layout: Layout,
   data() {
     return {
       sending: false,
@@ -89,7 +91,7 @@ export default {
         name: null,
         email: null,
         password: null,
-        password_confirmation: null
+        password_confirmation: null,
       },
     }
   },

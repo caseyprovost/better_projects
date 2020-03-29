@@ -5,16 +5,17 @@
         v-model="form.subject"
         :errors="$page.errors.subject"
         class="w-full"
-        inputClass="border-gray-900"
+        input-class="border-gray-900"
         placeholder="Type a title..."
       />
       <VueTrix
-        inputId="message_content"
         v-model="form.content"
+        input-id="message_content"
         :errors="$page.errors.content"
         class="w-full"
-        inputClass="border-gray-900 h-48"
-        placeholder="Write away..." />
+        input-class="border-gray-900 h-48"
+        placeholder="Write away..."
+      />
     </div>
     <slot />
   </form>
@@ -29,7 +30,7 @@ export default {
   components: {
     TextInput,
     TextArea,
-    VueTrix
+    VueTrix,
   },
   props: {
     form: {

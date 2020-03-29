@@ -3,7 +3,9 @@
     <div class="flex justify-center">
       <div class="w-full bg-gray-900">
         <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full flex-wrap">
-          <h1 class="text-indigo-400 text-3xl w-full">Copy this message</h1>
+          <h1 class="text-indigo-400 text-3xl w-full">
+            Copy this message
+          </h1>
         </div>
       </div>
     </div>
@@ -14,7 +16,10 @@
           <div>
             {{ message.subject }}
           </div>
-          <div class="text-purple-100" v-html="message.content.body"></div>
+          <div
+            class="text-purple-100"
+            v-html="message.content.body"
+          />
         </div>
       </div>
       <div class="md:w-2/3 w-full">
@@ -23,10 +28,12 @@
           class="bg-gray-900"
           :projects="projects"
           @submit="submit"
-        >
-        </copy-message-form>
+        />
         <div class="px-4 md:py-1 flex justify-end items-center flex-1 pt-2 pb-4">
-          <inertia-link :href="messagePath" class="btn-blue-outline mr-1">
+          <inertia-link
+            :href="messagePath"
+            class="btn-blue-outline mr-1"
+          >
             Nevermind
           </inertia-link>
           <loading-button
@@ -60,16 +67,16 @@ export default {
   props: {
     copy: {
       type: Object,
-      required: true
+      required: true,
     },
     message: {
       type: Object,
-      required: true
+      required: true,
     },
     projects: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -78,6 +85,11 @@ export default {
         project_id: this.copy.project_id,
       },
     }
+  },
+  computed: {
+    messagePath() {
+      return this.$routes.project_message(this.project, this.message)
+    },
   },
   methods: {
     submit() {
@@ -91,10 +103,5 @@ export default {
       })
     },
   },
-  computed: {
-    messagePath() {
-      return this.$routes.project_message(this.project, this.message)
-    }
-  }
 }
 </script>

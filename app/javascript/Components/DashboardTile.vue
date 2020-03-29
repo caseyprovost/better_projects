@@ -1,16 +1,25 @@
 <template>
-  <a :href="href" class="shadow p-4 w-full bg-gray-900 max-w-sm md:w-1/3 mb-4 hover:cursor-pointer hover:bg-indigo-700">
+  <a
+    :href="href"
+    class="shadow p-4 w-full bg-gray-900 max-w-sm md:w-1/3 mb-4 hover:cursor-pointer hover:bg-indigo-700"
+  >
     <h2 class="text-indigo-400 text-2xl text-center pb-4 border-b border-gray-800">{{ title }}</h2>
     <div class="justify-center flex p-4 flex-wrap">
-      <div v-show="empty" class="w-full">
+      <div
+        v-show="empty"
+        class="w-full"
+      >
         <div :class="iconWrapperClasses">
-          <i :class="iconClasses"></i>
+          <i :class="iconClasses" />
         </div>
       </div>
       <div v-if="empty">
         <p class="text-indigo-100 w-full text-center pt-4 px-6 leading-snug">{{ emptyText }}</p>
       </div>
-      <slot name="full" v-if="!empty"></slot>
+      <slot
+        v-if="!empty"
+        name="full"
+      />
     </div>
   </a>
 </template>
@@ -21,36 +30,32 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     empty: {
       type: Boolean,
-      required: true
+      required: true,
     },
     iconColor: {
       type: String,
-      required: true
+      required: true,
     },
     icon: {
       type: String,
-      required: true
+      required: true,
     },
     emptyText: {
       type: String,
-      required: true
+      required: true,
     },
     href: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
     }
-  },
-  watch: {
-  },
-  methods: {
   },
   computed: {
     iconWrapperClasses() {
@@ -58,8 +63,12 @@ export default {
     },
     iconClasses() {
       return `fas fa-${this.icon} text-${this.iconColor}-100 text-5xl`
-    }
-  }
+    },
+  },
+  watch: {
+  },
+  methods: {
+  },
 }
 </script>
 

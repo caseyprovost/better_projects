@@ -1,6 +1,6 @@
 export default {
   props: {
-    resource_errors: Object
+    resource_errors: Object,
   },
   methods: {
     fieldErrors: function(field) {
@@ -9,6 +9,6 @@ export default {
       } else {
         return []
       }
-    }
-  }
+    },
+  },
 }

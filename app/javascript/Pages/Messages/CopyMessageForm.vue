@@ -5,11 +5,16 @@
         v-model="form.project_id"
         :errors="$page.errors.project_id"
         class="w-full"
-        inputClass="border-gray-900"
+        input-class="border-gray-900"
         placeholder="Type a title..."
         label="Choose where to put this copy"
       >
-        <option :value="project.id" v-for="project in projects">{{ project.name }}</option>
+        <option
+          v-for="project in projects"
+          :value="project.id"
+        >
+          {{ project.name }}
+        </option>
       </select-input>
     </div>
     <slot />
@@ -30,8 +35,8 @@ export default {
     },
     projects: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
 }
 </script>

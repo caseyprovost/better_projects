@@ -50,7 +50,13 @@
               <span class="mr-1 text-gray-400">
                 Need an account?
               </span>
-              <inertia-link class="hover:underline" tabindex="-1" :href="signUpPath">Sign Up!</inertia-link>
+              <inertia-link
+                class="hover:underline"
+                tabindex="-1"
+                :href="signUpPath"
+              >
+                Sign Up!
+              </inertia-link>
             </div>
           </div>
         </div>
@@ -59,7 +65,9 @@
             class="hover:underline text-sm"
             tabindex="-1"
             :href="resetPasswordPath"
-          >Forget your password?</inertia-link>
+          >
+            Forget your password?
+          </inertia-link>
           <loading-button
             :loading="sending"
             class="btn btn-indigo"
@@ -102,7 +110,7 @@ export default {
     },
     signUpPath()  {
       return this.$routes.new_user_registration()
-    }
+    },
   },
   methods: {
     submit() {

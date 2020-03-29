@@ -3,24 +3,30 @@
     <div class="flex justify-center">
       <div class="w-full bg-gray-900 relative">
         <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full justify-between items-center">
-          <h1 class="text-indigo-400 text-3xl w-full">{{ message.subject }}</h1>
+          <h1 class="text-indigo-400 text-3xl w-full">
+            {{ message.subject }}
+          </h1>
           <a
             href="#"
-            @click.prevent="showActionsMenu"
             class="btn-circle-outline btn-circle-indigo text-sm w-8 h-8"
+            @click.prevent="showActionsMenu"
           >
-            <i class="fas fa-ellipsis-h"></i>
+            <i class="fas fa-ellipsis-h" />
           </a>
         </div>
         <message-actions-popover
           :message="message"
           :opened="displayActions"
-          @close="closeActions" />
+          @close="closeActions"
+        />
       </div>
     </div>
 
     <div class="flex mt-4 bg-gray-900 p-8">
-      <div class="trix-content text-gray-500" v-html="message.content.body"></div>
+      <div
+        class="trix-content text-gray-500"
+        v-html="message.content.body"
+      />
     </div>
   </div>
 </template>
@@ -39,20 +45,12 @@ export default {
   props: {
     message: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       showActions: false,
-    }
-  },
-  methods: {
-    showActionsMenu() {
-      this.showActions = true
-    },
-    closeActions() {
-      this.showActions = false
     }
   },
   computed: {
@@ -61,7 +59,15 @@ export default {
     },
     displayActions() {
       return this.showActions
-    }
-  }
+    },
+  },
+  methods: {
+    showActionsMenu() {
+      this.showActions = true
+    },
+    closeActions() {
+      this.showActions = false
+    },
+  },
 }
 </script>

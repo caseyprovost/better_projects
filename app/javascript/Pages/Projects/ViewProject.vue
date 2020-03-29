@@ -3,7 +3,9 @@
     <div class="flex justify-center">
       <div class="w-full bg-gray-900">
         <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full flex-wrap">
-          <h1 class="text-indigo-400 text-3xl w-full">{{ project.name }}</h1>
+          <h1 class="text-indigo-400 text-3xl w-full">
+            {{ project.name }}
+          </h1>
         </div>
       </div>
     </div>
@@ -13,14 +15,17 @@
         <dashboard-tile
           title="Message Board"
           :empty="messages.length === 0"
-          iconColor="blue"
+          icon-color="blue"
           icon="sticky-note"
-          emptyText="Post accouncements, pitch ideas, progress updates, etc. Keep feedback on topic."
+          empty-text="Post accouncements, pitch ideas, progress updates, etc. Keep feedback on topic."
           :href="messageBoardPath"
         >
           <template v-slot:full>
             <ul>
-              <li v-for="message in messages" key="id">
+              <li
+                v-for="message in messages"
+                key="id"
+              >
                 <p>{{ message.subject }}</p>
                 <p>{{ message.content_preview }}</p>
               </li>
@@ -30,56 +35,66 @@
         <dashboard-tile
           title="To-dos"
           :empty="todos.length === 0"
-          iconColor="green"
+          icon-color="green"
           icon="check"
-          emptyText="Make lists of work to be done, assign items, due dates, and discuss"
+          empty-text="Make lists of work to be done, assign items, due dates, and discuss"
         >
           <template v-slot:full>
-            <p class="text-indigo-100 w-full text-center">Full</p>
+            <p class="text-indigo-100 w-full text-center">
+              Full
+            </p>
           </template>
         </dashboard-tile>
         <dashboard-tile
           title="Docs & Files"
           :empty="documents.length === 0"
-          iconColor="orange"
+          icon-color="orange"
           icon="upload"
-          emptyText="Share docs, files, images, and even spreadsheets. Organize in folders so that they're easy to find."
+          empty-text="Share docs, files, images, and even spreadsheets. Organize in folders so that they're easy to find."
         >
           <template v-slot:full>
-            <p class="text-indigo-100 w-full text-center">Full</p>
+            <p class="text-indigo-100 w-full text-center">
+              Full
+            </p>
           </template>
         </dashboard-tile>
         <dashboard-tile
           title="Fireside Chat"
           :empty="chats.length === 0"
-          iconColor="pink"
+          icon-color="pink"
           icon="comments"
-          emptyText="Chat casually with the group, ask random questions, and share stuff without ceremony."
+          empty-text="Chat casually with the group, ask random questions, and share stuff without ceremony."
         >
           <template v-slot:full>
-            <p class="text-indigo-100 w-full text-center">Full</p>
+            <p class="text-indigo-100 w-full text-center">
+              Full
+            </p>
           </template>
         </dashboard-tile>
         <dashboard-tile
           title="Automatic Check-ins"
           :empty="checkIns.length === 0"
-          iconColor="purple"
+          icon-color="purple"
           icon="question"
-          emptyText="Create recurring questions so you don't have to pester your team about what's going on."
+          empty-text="Create recurring questions so you don't have to pester your team about what's going on."
         >
           <template v-slot:full>
-            <p class="text-indigo-100 w-full text-center">Full</p>
+            <p class="text-indigo-100 w-full text-center">
+              Full
+            </p>
           </template>
         </dashboard-tile>
         <dashboard-tile
           title="Budget"
           :empty="checkIns.length === 0"
-          iconColor="teal"
+          icon-color="teal"
           icon="dollar-sign"
-          emptyText="Keep track of your project's expenses and get approvals on important budget updates."
+          empty-text="Keep track of your project's expenses and get approvals on important budget updates."
         >
           <template v-slot:full>
-            <p class="text-indigo-100 w-full text-center">Full</p>
+            <p class="text-indigo-100 w-full text-center">
+              Full
+            </p>
           </template>
         </dashboard-tile>
       </div>
@@ -101,27 +116,27 @@ export default {
     project: Object,
     messages: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     documents: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     chats: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     todos: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     checkIns: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     activities: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
   data() {
@@ -135,7 +150,7 @@ export default {
       } else {
         return this.$routes.project_message_board(this.project)
       }
-    }
+    },
   },
   methods: {
   },

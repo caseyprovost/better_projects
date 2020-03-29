@@ -63,7 +63,7 @@ export default {
       sending: false,
       form: {
         name: null,
-        subdomain: null
+        subdomain: null,
       },
     }
   },

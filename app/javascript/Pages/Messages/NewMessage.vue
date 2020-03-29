@@ -3,7 +3,9 @@
     <div class="flex justify-center">
       <div class="w-full bg-gray-900">
         <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full flex-wrap">
-          <h1 class="text-indigo-400 text-3xl w-full">Post a New Message</h1>
+          <h1 class="text-indigo-400 text-3xl w-full">
+            Post a New Message
+          </h1>
         </div>
       </div>
     </div>
@@ -57,6 +59,8 @@ export default {
       },
     }
   },
+  computed: {
+  },
   methods: {
     submit() {
       this.sending = true
@@ -69,7 +73,5 @@ export default {
       })
     },
   },
-  computed: {
-  }
 }
 </script>

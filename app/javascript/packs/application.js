@@ -68,5 +68,5 @@ new Vue({
   }),
 }).$mount(app)
 
-require("trix")
-require("@rails/actiontext")
+require('trix')
+require('@rails/actiontext')

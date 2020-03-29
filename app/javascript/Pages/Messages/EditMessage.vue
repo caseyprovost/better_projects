@@ -3,7 +3,9 @@
     <div class="flex justify-center">
       <div class="w-full bg-gray-900">
         <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full flex-wrap">
-          <h1 class="text-indigo-400 text-3xl w-full">{{ message.subject }}</h1>
+          <h1 class="text-indigo-400 text-3xl w-full">
+            {{ message.subject }}
+          </h1>
         </div>
       </div>
     </div>
@@ -15,7 +17,10 @@
         @submit="submit"
       >
         <div class="px-2 py-3 border-t border-gray-800 flex justify-end items-center">
-          <inertia-link :href="messagePath" class="btn-blue-outline mr-1">
+          <inertia-link
+            :href="messagePath"
+            class="btn-blue-outline mr-1"
+          >
             Discard changes
           </inertia-link>
           <loading-button
@@ -48,8 +53,8 @@ export default {
   props: {
     message: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -59,6 +64,11 @@ export default {
         content: this.message.content.body,
       },
     }
+  },
+  computed: {
+    messagePath() {
+      return this.$routes.project_message(this.project, this.message)
+    },
   },
   methods: {
     submit() {
@@ -72,10 +82,5 @@ export default {
       })
     },
   },
-  computed: {
-    messagePath() {
-      return this.$routes.project_message(this.project, this.message)
-    }
-  }
 }
 </script>

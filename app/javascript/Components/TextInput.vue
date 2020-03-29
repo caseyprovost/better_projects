@@ -35,7 +35,7 @@ export default {
     },
     inputClass: {
       type: String,
-      default: ""
+      default: '',
     },
     type: {
       type: String,
@@ -54,6 +54,17 @@ export default {
       default: () => [],
     },
   },
+  computed: {
+    inputClasses() {
+      let classes = `${this.inputClass} form-input`
+
+      if (this.errors.length > 0) {
+        classes += ' error'
+      }
+
+      return classes
+    },
+  },
   methods: {
     focus() {
       this.$refs.input.focus()
@@ -65,16 +76,5 @@ export default {
       this.$refs.input.setSelectionRange(start, end)
     },
   },
-  computed: {
-    inputClasses() {
-      let classes = `${this.inputClass} form-input`
-
-      if (this.errors.length > 0) {
-        classes += " error"
-      }
-
-      return classes
-    }
-  }
 }
 </script>

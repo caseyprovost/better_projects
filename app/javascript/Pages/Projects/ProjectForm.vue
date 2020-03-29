@@ -5,16 +5,16 @@
         v-model="form.name"
         :errors="$page.errors.name"
         class="w-full"
-        inputClass="border-gray-900"
+        input-class="border-gray-900"
         label="Name"
       />
       <text-area
         v-model="form.description"
         :errors="$page.errors.description"
         class="w-full"
-        inputClass="border-gray-900 h-48"
-        label="Description">
-      </text-area>
+        input-class="border-gray-900 h-48"
+        label="Description"
+      />
     </div>
     <slot />
   </form>

@@ -12,7 +12,9 @@
               aria-label="Home"
               role="navigation"
             >
-              <h1 class="text-2xl text-indigo-100">Better Projects</h1>
+              <h1 class="text-2xl text-indigo-100">
+                Better Projects
+              </h1>
             </inertia-link>
             <dropdown
               class="md:hidden"
@@ -81,23 +83,37 @@
             class="flex-1 px-4 py-4 md:p-4 overflow-y-auto bg-gray-800"
             scroll-region
           >
-            <div class="bg-gray-700 py-2 px-3" v-if="currentProject">
+            <div
+              v-if="currentProject"
+              class="bg-gray-700 py-2 px-3"
+            >
               <div class="breadcrumb relative inline-block pr-2">
-                <inertia-link :href="this.$routes.project(currentProject)" class="text-gray-100 underline hover:text-green-400 font-semibold">
+                <inertia-link
+                  :href="this.$routes.project(currentProject)"
+                  class="text-gray-100 underline hover:text-green-400 font-semibold"
+                >
                   {{ currentProject.name }}
                 </inertia-link>
               </div>
-              <div class="breadcrumb relative inline-block pr-2" v-if="onMessageBoard">
+              <div
+                v-if="onMessageBoard"
+                class="breadcrumb relative inline-block pr-2"
+              >
                 <inertia-link
                   :href="this.$routes.project(currentProject)"
-                  class="text-gray-100 underline hover:text-green-400 ml-2">
+                  class="text-gray-100 underline hover:text-green-400 ml-2"
+                >
                   Message Board
                 </inertia-link>
               </div>
-              <div class="breadcrumb relative inline-block pr-2" v-if="inMessages">
+              <div
+                v-if="inMessages"
+                class="breadcrumb relative inline-block pr-2"
+              >
                 <inertia-link
                   :href="this.$routes.project_message(currentProject, message)"
-                  class="text-gray-100 underline hover:text-green-400 ml-2">
+                  class="text-gray-100 underline hover:text-green-400 ml-2"
+                >
                   {{ message.subject }}
                 </inertia-link>
               </div>
@@ -131,14 +147,6 @@ export default {
       accounts: null,
     }
   },
-  methods: {
-    url() {
-      return location.pathname.substr(1)
-    },
-    hideDropdownMenus() {
-      this.showUserMenu = false
-    },
-  },
   computed: {
     currentProject() {
       return this.$page.current_project
@@ -147,13 +155,21 @@ export default {
       return this.$page.message
     },
     inMessages() {
-      return location.pathname.includes("messages/")
+      return location.pathname.includes('messages/')
     },
     onMessageBoard() {
-      return location.pathname.includes("message_board") ||
-        location.pathname.includes("messages/")
+      return location.pathname.includes('message_board') ||
+        location.pathname.includes('messages/')
     },
-  }
+  },
+  methods: {
+    url() {
+      return location.pathname.substr(1)
+    },
+    hideDropdownMenus() {
+      this.showUserMenu = false
+    },
+  },
 }
 </script>
 
