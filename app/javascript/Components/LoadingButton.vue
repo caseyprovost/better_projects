@@ -2,6 +2,7 @@
   <button
     :disabled="loading"
     class="flex items-center"
+    @click="$emit('click')"
   >
     <div
       v-if="loading"

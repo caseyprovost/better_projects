@@ -26,6 +26,7 @@ Vue.use(VueMeta)
 import PortalVue from 'portal-vue'
 Vue.use(PortalVue)
 
+import 'vue-trix'
 import axios from 'axios'
 
 import '@fortawesome/fontawesome-free/js/fontawesome'
@@ -66,3 +67,6 @@ new Vue({
     },
   }),
 }).$mount(app)
+
+require("trix")
+require("@rails/actiontext")

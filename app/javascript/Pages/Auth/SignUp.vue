@@ -55,7 +55,7 @@
           >Login</inertia-link>
           <loading-button
             :loading="sending"
-            class="btn-indigo"
+            class="btn btn-indigo"
             type="submit"
           >
             Sign Up!

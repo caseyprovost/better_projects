@@ -3,6 +3,9 @@ class Project < ApplicationRecord
   has_many :memberships, class_name: "ProjectMembership"
   has_many :users, through: :memberships
 
+  has_one :message_board
+  has_many :messages, through: :message_board
+
   validates :name, :description, presence: true
   validates :name, uniqueness: { scope: :account_id }
 

@@ -527,6 +527,15 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // edit_project_membership => /projects/:project_id/memberships/:id/edit(.:format)
   // function(project_id, id, options)
   edit_project_membership: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+// edit_project_message => /projects/:project_id/messages/:id/edit(.:format)
+  // function(project_id, id, options)
+  edit_project_message: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+// edit_project_message_board => /projects/:project_id/message_board/edit(.:format)
+  // function(project_id, options)
+  edit_project_message_board: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"message_board",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// edit_project_message_comment => /projects/:project_id/messages/:message_id/comments/:id/edit(.:format)
+  // function(project_id, message_id, id, options)
+  edit_project_message_comment: Utils.route([["project_id",true],["message_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]]]),
 // edit_project_todo_list => /projects/:project_id/todo_lists/:id/edit(.:format)
   // function(project_id, id, options)
   edit_project_todo_list: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
@@ -551,6 +560,18 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // new_project_membership => /projects/:project_id/memberships/new(.:format)
   // function(project_id, options)
   new_project_membership: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// new_project_message => /projects/:project_id/messages/new(.:format)
+  // function(project_id, options)
+  new_project_message: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// new_project_message_board => /projects/:project_id/message_board/new(.:format)
+  // function(project_id, options)
+  new_project_message_board: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"message_board",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// new_project_message_comment => /projects/:project_id/messages/:message_id/comments/new(.:format)
+  // function(project_id, message_id, options)
+  new_project_message_comment: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
+// new_project_message_copy => /projects/:project_id/messages/:message_id/copies/new(.:format)
+  // function(project_id, message_id, options)
+  new_project_message_copy: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"copies",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
 // new_project_todo_list => /projects/:project_id/todo_lists/new(.:format)
   // function(project_id, options)
   new_project_todo_list: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
@@ -578,6 +599,24 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // project_memberships => /projects/:project_id/memberships(.:format)
   // function(project_id, options)
   project_memberships: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+// project_message => /projects/:project_id/messages/:id(.:format)
+  // function(project_id, id, options)
+  project_message: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// project_message_board => /projects/:project_id/message_board(.:format)
+  // function(project_id, options)
+  project_message_board: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"message_board",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+// project_message_comment => /projects/:project_id/messages/:message_id/comments/:id(.:format)
+  // function(project_id, message_id, id, options)
+  project_message_comment: Utils.route([["project_id",true],["message_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
+// project_message_comments => /projects/:project_id/messages/:message_id/comments(.:format)
+  // function(project_id, message_id, options)
+  project_message_comments: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+// project_message_copies => /projects/:project_id/messages/:message_id/copies(.:format)
+  // function(project_id, message_id, options)
+  project_message_copies: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"copies",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+// project_messages => /projects/:project_id/messages(.:format)
+  // function(project_id, options)
+  project_messages: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
 // project_todo_list => /projects/:project_id/todo_lists/:id(.:format)
   // function(project_id, id, options)
   project_todo_list: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),

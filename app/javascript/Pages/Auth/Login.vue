@@ -39,7 +39,7 @@
                 <input
                   id="remember"
                   v-model="form.remember_me"
-                  class="mr-1"
+                  class="mr-1 border border-indigo-700"
                   type="checkbox"
                   name="user[remember_me]"
                 >
@@ -62,7 +62,7 @@
           >Forget your password?</inertia-link>
           <loading-button
             :loading="sending"
-            class="btn-indigo"
+            class="btn btn-indigo"
             type="submit"
           >
             Login

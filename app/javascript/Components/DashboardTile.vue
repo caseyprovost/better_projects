@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow p-4 w-full bg-gray-900 max-w-sm md:ml-2 md:w-1/3 mb-4">
+  <a :href="href" class="shadow p-4 w-full bg-gray-900 max-w-sm md:w-1/3 mb-4 hover:cursor-pointer hover:bg-indigo-700">
     <h2 class="text-indigo-400 text-2xl text-center pb-4 border-b border-gray-800">{{ title }}</h2>
     <div class="justify-center flex p-4 flex-wrap">
       <div v-show="empty" class="w-full">
@@ -12,7 +12,7 @@
       </div>
       <slot name="full" v-if="!empty"></slot>
     </div>
-  </div>
+  </a>
 </template>
 
 <script>
@@ -38,6 +38,10 @@ export default {
     emptyText: {
       type: String,
       required: true
+    },
+    href: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -58,3 +62,9 @@ export default {
   }
 }
 </script>
+
+<style scoped="true">
+  a:hover h2 {
+    @apply text-indigo-100
+  }
+</style>

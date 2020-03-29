@@ -11,11 +11,11 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     unauthenticated do
-      root to: "devise/sessions#new"
+      root to: "devise/sessions#new", as: :unauthenticated_root
     end
 
     authenticated do
-      root to: "account/dashboard#show", as: :unauthenticated_root
+      root to: "accounts/dashboard#show"
     end
 
     get 'users/password/', to: "user/passwords#new"
@@ -30,5 +30,11 @@ Rails.application.routes.draw do
   resources :projects do
     resources :memberships, module: 'projects'
     resources :todo_lists, module: 'projects'
+    resource :message_board, controller: 'message_board', module: 'projects'
+    resources :messages, module: 'projects' do
+      resources :comments, module: 'messages'
+      resources :copies, only: %i[new create], module: "messages"
+      resources :moves, only: %i[new create], module: "messages"
+    end
   end
 end

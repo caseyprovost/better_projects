@@ -1,9 +1,11 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i(show edit update destroy)
+  inertia_share current_project: -> { policy_scope(Project).find(params[:id]) }
 
   def show
     render inertia: "Projects/ViewProject", props: {
-      project: @project
+      project: @project,
+      messages: json_messages
     }
   end
 
@@ -24,7 +26,6 @@ class ProjectsController < ApplicationController
     project.memberships.build(user: current_user, permission: 'admin')
 
     if project.save
-
       redirect_to account_dashboard_path(current_account), notice: 'Project created.'
     else
       redirect_to account_dashboard_path(current_account), errors: project.errors
@@ -35,6 +36,11 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def json_messages
+    @project.messages.includes(:creator).limit(10)
+      .as_json(include: [:creator], methods: [:content_preview])
+  end
 
   def set_project
     @project = policy_scope(Project).find(params[:id])

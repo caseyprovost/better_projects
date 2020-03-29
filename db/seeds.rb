@@ -9,6 +9,12 @@ def setup_project_user(project, email:, permission:)
   end
 end
 
+def setup_project(project)
+  if project.message_board.nil?
+    MessageBoard.create!(project: project)
+  end
+end
+
 if Rails.env.development?
   account = Account.find_or_create_by(name: "avengers")
   user = User.find_or_create_by(name: "Bruce Banner", email: "hulk@avengers.net")
@@ -21,6 +27,8 @@ if Rails.env.development?
     description: "This is that project that marries the metal and technology of Wakanda with the nanotech of Mr. Stark!",
     account_id: account.id
   )
+
+  setup_project(project)
 
   setup_project_user(project, email: "reader@avengers.net", permission: "read")
   setup_project_user(project, email: "writer@avengers.net", permission: "write")

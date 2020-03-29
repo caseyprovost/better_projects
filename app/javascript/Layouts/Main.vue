@@ -6,7 +6,7 @@
         @click="hideDropdownMenus"
       >
         <div class="md:flex flex-shrink-0">
-          <div class="bg-indigo-700 md:flex-shrink-0 px-6 py-4 flex items-center justify-between md:justify-center border-b border-indigo-500">
+          <div class="bg-indigo-700 md:flex-shrink-0 p-3 flex items-center justify-between md:justify-center border-b border-indigo-500">
             <inertia-link
               :href="$routes.root()"
               aria-label="Home"
@@ -81,6 +81,27 @@
             class="flex-1 px-4 py-4 md:p-4 overflow-y-auto bg-gray-800"
             scroll-region
           >
+            <div class="bg-gray-700 py-2 px-3" v-if="currentProject">
+              <div class="breadcrumb relative inline-block pr-2">
+                <inertia-link :href="this.$routes.project(currentProject)" class="text-gray-100 underline hover:text-green-400 font-semibold">
+                  {{ currentProject.name }}
+                </inertia-link>
+              </div>
+              <div class="breadcrumb relative inline-block pr-2" v-if="onMessageBoard">
+                <inertia-link
+                  :href="this.$routes.project(currentProject)"
+                  class="text-gray-100 underline hover:text-green-400 ml-2">
+                  Message Board
+                </inertia-link>
+              </div>
+              <div class="breadcrumb relative inline-block pr-2" v-if="inMessages">
+                <inertia-link
+                  :href="this.$routes.project_message(currentProject, message)"
+                  class="text-gray-100 underline hover:text-green-400 ml-2">
+                  {{ message.subject }}
+                </inertia-link>
+              </div>
+            </div>
             <slot />
           </div>
         </div>
@@ -95,6 +116,7 @@ import Dropdown from '@/Components/Dropdown'
 import Icon from '@/Components/Icon'
 import Logo from '@/Components/Logo'
 import SelectInput from '@/Components/SelectInput'
+
 export default {
   components: {
     MinimalLayout,
@@ -117,5 +139,36 @@ export default {
       this.showUserMenu = false
     },
   },
+  computed: {
+    currentProject() {
+      return this.$page.current_project
+    },
+    message() {
+      return this.$page.message
+    },
+    inMessages() {
+      return location.pathname.includes("messages/")
+    },
+    onMessageBoard() {
+      return location.pathname.includes("message_board") ||
+        location.pathname.includes("messages/")
+    },
+  }
 }
 </script>
+
+<style scoped="true" language="scss">
+  .breadcrumb::after {
+    content: '>';
+    position: absolute;
+    display: inline-block;
+    width: 2em;
+    text-align: center;
+    top: 2px;
+    @apply text-gray-100 text-xs;
+  }
+
+  .breadcrumb:last-child:after {
+    content: '';
+  }
+</style>

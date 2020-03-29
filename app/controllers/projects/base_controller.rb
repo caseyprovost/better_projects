@@ -4,6 +4,8 @@ module Projects
 
     helper_method :current_project
 
+    inertia_share current_project: -> { current_project }
+
     private
 
     def enforce_project_access!
@@ -14,7 +16,10 @@ module Projects
     end
 
     def current_project
-      @current_project ||= current_account.project.find(params[:project_id])
+      @current_project ||= current_account.projects
+        .includes(
+          message_board: { messages: [:creator] },
+        ).find(params[:project_id])
     end
 
     def user_belongs_to_account?

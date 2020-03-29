@@ -1,18 +1,81 @@
-.btn-indigo {
-  @apply px-6 py-3 rounded bg-indigo-600 text-white text-sm font-bold whitespace-no-wrap;
+.btn {
+  @apply px-6 py-3 rounded text-sm font-bold whitespace-no-wrap items-center inline-flex;
+}
+
+.btn-circle {
+  @apply justify-center items-center inline-flex;
+}
+
+.btn-circle-outline {
+  @apply justify-center items-center inline-flex border border-transparent rounded-full;
+}
+
+.btn-circle-indigo {
+  @apply border-indigo-600 text-indigo-600;
 
   &:hover,
   &:focus {
-    @apply bg-indigo-500
+    @apply bg-indigo-600 text-indigo-100;
   }
 }
 
-.btn-green {
-  @apply px-6 py-3 rounded bg-green-600 text-white text-sm font-bold whitespace-no-wrap;
+.btn-indigo {
+  @apply bg-indigo-600 text-white;
 
   &:hover,
   &:focus {
-    @apply bg-green-500
+    @apply bg-indigo-500;
+  }
+}
+
+.btn-with-icon > i,
+.btn-with-icon > svg {
+  @apply mr-1 text-sm;
+}
+
+.btn-indigo-outline {
+  @apply px-6 py-3 rounded bg-transparent border border-indigo-500 text-indigo-500 text-sm font-semibold whitespace-no-wrap;
+
+  &:hover,
+  &:focus {
+    @apply bg-indigo-500 text-indigo-100;
+  }
+}
+
+.btn-blue-outline {
+  @apply px-6 py-3 rounded bg-transparent border border-blue-500 text-blue-500 text-sm font-semibold whitespace-no-wrap;
+
+  &:hover,
+  &:focus {
+    @apply bg-blue-500 text-blue-100;
+  }
+}
+
+.btn-red-outline {
+  @apply px-6 py-3 rounded bg-transparent border border-red-500 text-red-500 text-sm font-semibold whitespace-no-wrap;
+
+  &:hover,
+  &:focus {
+    @apply bg-red-500 text-red-100;
+  }
+}
+
+.btn-orange-outline {
+  @apply px-6 py-3 rounded bg-transparent border border-orange-500 text-orange-500 text-sm font-semibold whitespace-no-wrap;
+
+  &:hover,
+  &:focus {
+    @apply bg-orange-500 text-orange-100;
+  }
+}
+
+
+.btn-green {
+  @apply px-6 py-3 rounded bg-green-600 border border-green-600 text-white text-sm font-bold whitespace-no-wrap;
+
+  &:hover,
+  &:focus {
+    @apply bg-green-500;
   }
 }
 

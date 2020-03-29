@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_26_163511) do
+ActiveRecord::Schema.define(version: 2020_03_29_143645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,55 @@ ActiveRecord::Schema.define(version: 2020_03_26_163511) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_accounts_on_name", unique: true
     t.index ["subdomain"], name: "index_accounts_on_subdomain", unique: true
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "message_boards", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_message_boards_on_project_id", unique: true
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "message_board_id", null: false
+    t.bigint "creator_id", null: false
+    t.text "subject", default: "", null: false
+    t.text "content", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_messages_on_creator_id"
+    t.index ["message_board_id"], name: "index_messages_on_message_board_id"
   end
 
   create_table "project_memberships", force: :cascade do |t|
@@ -94,6 +143,10 @@ ActiveRecord::Schema.define(version: 2020_03_26_163511) do
   add_foreign_key "account_members", "account_roles", column: "role_id"
   add_foreign_key "account_members", "accounts"
   add_foreign_key "account_members", "users"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "message_boards", "projects"
+  add_foreign_key "messages", "message_boards"
+  add_foreign_key "messages", "users", column: "creator_id"
   add_foreign_key "project_memberships", "projects"
   add_foreign_key "project_memberships", "users"
   add_foreign_key "projects", "accounts"
