@@ -34,6 +34,9 @@ import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 
+require('trix')
+require('@rails/actiontext')
+
 // Tell Axios to send the CSRF token (taken from the cookie)
 // in the header named as "X-CSRF-Token", as this is the name
 // expected by Rails
@@ -67,6 +70,3 @@ new Vue({
     },
   }),
 }).$mount(app)
-
-require('trix')
-require('@rails/actiontext')

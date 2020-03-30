@@ -7,6 +7,7 @@ module Auth
     before_action :authenticate_user!
 
     rescue_from Pundit::NotAuthorizedError do
+      binding.pry
       render inertia: "Error", props: {
         status: 403
       }

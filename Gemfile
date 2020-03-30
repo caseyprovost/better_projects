@@ -23,6 +23,8 @@ gem "interactor"
 gem "pundit"
 gem "pagy"
 gem "amoeba"
+gem "m"
+gem 'rack-cors'
 
 # Use Active Storage variant
 gem "image_processing", "~> 1.2"
@@ -44,6 +46,7 @@ group :test do
   gem "minitest-reporters"
   gem "mocha"
   gem "ruby-prof"
+  gem "selenium-webdriver"
 end
 
 group :development do

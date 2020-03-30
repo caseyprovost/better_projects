@@ -1,16 +1,16 @@
 <template>
-  <div class="p-6 bg-gray-800 min-h-screen flex justify-center items-center">
+  <div class="p-6 bg-indigo-900 min-h-screen flex justify-center items-center">
     <div class="w-full max-w-md">
       <logo
         class="block mx-auto w-full max-w-xs fill-white"
         height="50"
       />
       <form
-        class="mt-8 bg-white rounded-lg shadow-xl overflow-hidden"
+        class="mt-8 bg-gray-900 rounded-lg shadow-xl overflow-hidden"
         @submit.prevent="submit"
       >
         <div class="px-10 py-12">
-          <h1 class="text-center font-bold text-2xl">
+          <h1 class="text-center font-bold text-2xl text-gray-400">
             Let's Get It Started
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2" />
@@ -21,6 +21,7 @@
             type="name"
             autofocus
             autocapitalize="off"
+            :errors="$page.errors.name"
           />
           <text-input
             v-model="form.subdomain"
@@ -29,12 +30,13 @@
             type="text"
             autofocus
             autocapitalize="off"
+            :errors="$page.errors.subdomain"
           />
         </div>
-        <div class="px-10 py-4 bg-gray-100 border-t border-gray-200 flex justify-between items-center">
+        <div class="px-10 py-4 bg-gray-900 border-t border-gray-800 flex justify-end items-center w-full">
           <loading-button
             :loading="sending"
-            class="btn-indigo"
+            class="btn btn-indigo"
             type="submit"
           >
             Sign Up!
@@ -73,8 +75,8 @@ export default {
     submit() {
       this.sending = true
       this.$inertia
-        .post(this.$routes.account(), {
-          user: this.form,
+        .post(this.$routes.accounts(), {
+          account: this.form,
         })
         .then(() => (this.sending = false))
     },

@@ -67,13 +67,12 @@
                 >
                   Manage Users
                 </inertia-link>
-                <inertia-link
+                <a
                   class="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
                   :href="$routes.destroy_user_session()"
-                  method="delete"
                 >
                   Logout
-                </inertia-link>
+                </a>
               </div>
             </dropdown>
           </div>

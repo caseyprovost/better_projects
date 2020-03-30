@@ -11,5 +11,11 @@ FactoryBot.define do
         user.save!
       end
     end
+
+    trait :locked do
+      after(:create) do |user|
+        user.lock_access!
+      end
+    end
   end
 end

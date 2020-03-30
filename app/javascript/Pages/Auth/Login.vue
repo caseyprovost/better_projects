@@ -11,7 +11,7 @@
       >
         <div class="px-10 py-12">
           <h1 class="text-center font-bold text-2xl text-gray-400">
-            Log in
+            Sign In
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2 border-gray-400" />
           <text-input
@@ -22,6 +22,7 @@
             name="user[email]"
             autofocus
             autocapitalize="off"
+            id="user_email"
           />
           <text-input
             v-model="form.password"
@@ -29,6 +30,7 @@
             label="Password"
             type="password"
             name="user[password]"
+            id="user_password"
           />
           <div class="flex justify-between mt-6">
             <div class="">
@@ -73,7 +75,7 @@
             class="btn btn-indigo"
             type="submit"
           >
-            Login
+            Sign in
           </loading-button>
         </div>
       </form>

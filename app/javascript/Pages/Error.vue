@@ -23,6 +23,7 @@ export default {
   computed: {
     title() {
       return {
+        401: '401: Forbidden',
         403: '403: Forbidden',
         404: '404: Page Not Found',
         500: '500: Server Error',
@@ -31,6 +32,7 @@ export default {
     },
     description() {
       return {
+        401: 'Sorry, you are forbidden from accessing this page.',
         403: 'Sorry, you are forbidden from accessing this page.',
         404: 'Sorry, the page you are looking for could not be found.',
         500: 'Whoops, something went wrong on our servers.',

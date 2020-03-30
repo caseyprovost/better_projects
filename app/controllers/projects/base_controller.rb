@@ -1,6 +1,7 @@
 module Projects
   class BaseController < ApplicationController
     before_action :enforce_project_access!
+    before_action :authenticate_user!
 
     helper_method :current_project
 

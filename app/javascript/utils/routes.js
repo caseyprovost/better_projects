@@ -509,6 +509,9 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // cancel_user_registration => /users/cancel(.:format)
   // function(options)
   cancel_user_registration: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"cancel",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+// choose_launch_pad => /launch_pad/choose(.:format)
+  // function(options)
+  choose_launch_pad: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"launch_pad",false],[2,[7,"/",false],[2,[6,"choose",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
 // destroy_user_session => /users/sign_out(.:format)
   // function(options)
   destroy_user_session: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"sign_out",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
@@ -545,6 +548,9 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // edit_user_registration => /users/edit(.:format)
   // function(options)
   edit_user_registration: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+// launch_pad => /launch_pad(.:format)
+  // function(options)
+  launch_pad: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"launch_pad",false],[1,[2,[8,".",false],[3,"format",false]],false]]]),
 // new_account => /accounts/new(.:format)
   // function(options)
   new_account: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),

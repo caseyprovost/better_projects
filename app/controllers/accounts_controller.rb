@@ -1,15 +1,23 @@
 class AccountsController < ApplicationController
-  before_action :enforce_no_account, only: [:new]
+  before_action :authenticate_user!, only: [:edit, :update, :destroy]
 
   def new
-    render inertia: "Account/NewAccount", props: {}
+    render inertia: "Accounts/NewAccount", props: {}
   end
 
   def create
+    account = Account.new(account_params.merge(owner: current_user))
+
+    if account.save
+      flash.notice = "Your account was successfully created"
+      redirect_to root_url(subdomain: account.subdomain)
+    else
+      redirect_to new_account_path, errors: account.errors
+    end
   end
 
   def edit
-    render inertia: "Account/EditAccount", props: {}
+    render inertia: "Accounts/EditAccount", props: {}
   end
 
   def update
@@ -21,11 +29,6 @@ class AccountsController < ApplicationController
   private
 
   def account_params
-  end
-
-  def enforce_no_account
-    return if current_user.accounts.count.zero?
-    flash.alert = "You already have an account"
-    redirect_to edit_account_path(current_user.accounts.first)
+    params.require(:account).permit(:name, :subdomain)
   end
 end

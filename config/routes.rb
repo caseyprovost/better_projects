@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     unauthenticated do
-      root to: "devise/sessions#new", as: :unauthenticated_root
+      root to: "user/sessions#new", as: :unauthenticated_root
     end
 
     authenticated do
@@ -20,6 +20,12 @@ Rails.application.routes.draw do
 
     get "users/password/", to: "user/passwords#new"
     get "users/", to: "user/registrations#new"
+  end
+
+  resource :launch_pad, controller: "launch_pad", only: [:show] do
+    collection do
+      get "/choose", to: "launch_pad#choose"
+    end
   end
 
   resources :accounts do

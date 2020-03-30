@@ -1,5 +1,5 @@
 module Accounts
-  class MembershipsController < ApplicationController
+  class MembershipsController < BaseController
     def index
       render inertia: "Accounts/MembershipList", props: {
         memberships: current_account.account_memberships.as_json(include: [:role, :user])
