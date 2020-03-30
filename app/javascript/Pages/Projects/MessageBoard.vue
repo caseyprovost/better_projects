@@ -22,10 +22,14 @@
           :href="messagePath(message)"
           class="bg-gray-900 rounded-lg shadow-xl p-4 w-full border border-transparent items-center mt-2 block hover:cursor-pointer hover:border-pink-600"
         >
-          <h3 class="text-gray-500 flex-1">
-            {{ message.subject }}
+          <h3 class="text-gray-500 flex-1 leading-normal">
+            <span>{{ message.subject }}</span>
           </h3>
-          <p class="flex-1">
+          <div class="message-meta text-gray-500 leading-normal text-purple-700">
+            <span>{{ message.creator.name }} - </span>
+            <span>{{ messageCreatedAt(message) }}</span>
+          </div>
+          <p class="flex-1 text-gray-500 py-2">
             {{ message.content_preview }}
           </p>
         </inertia-link>
@@ -58,6 +62,12 @@
       messagePath(message) {
         return this.$routes.project_message(this.project, message)
       },
+      messageCreatedAt(message) {
+        let dateString = message.created_at.toString();
+        const date = new Date(dateString)
+        const month = date.toLocaleString('default', { month: 'short' })
+        return `${month} ${date.getDay()}, ${date.getYear()}`
+      }
     },
   }
 </script>

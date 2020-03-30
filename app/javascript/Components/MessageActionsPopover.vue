@@ -31,7 +31,7 @@
         </li>
         <li>
           <a
-            href="#"
+            :href="moveMessagePath"
             class="text-indigo-100 py-2 px-6 hover:bg-pink-600 hover:text-pink-100 block items-center flex-inline"
           >
             <i class="fas fa-arrow-circle-right text-sm mr-1" />
@@ -142,6 +142,9 @@
       },
       copyMessagePath() {
         return this.$routes.new_project_message_copy(this.project, this.message)
+      },
+      moveMessagePath() {
+        return this.$routes.new_project_message_move(this.project, this.message)
       },
     },
   }

@@ -3,7 +3,7 @@ module Projects
     class MovesController < BaseController
       def new
         move = MessageMove.new(resource: message, project_id: current_project.id)
-        render inertia: "Messages/NewMove", props: {
+        render inertia: "Messages/MoveMessage", props: {
           move: move.attributes,
           message: message.as_json,
           projects: current_account.projects.as_json(only: %i[id name])
@@ -11,14 +11,14 @@ module Projects
       end
 
       def create
-        message_copy = MessageMove.new(move_params)
+        move = MessageMove.new(move_params)
 
-        if message_copy.save
-          new_message = message_copy.message
-          flash.notice = "Your copy of #{new_message.subject} has been created."
-          redirect_to project_message_path(message_copy.project, new_message)
+        if move.save
+          message = move.resource
+          flash.notice = "Your copy of #{message.subject} has been created."
+          redirect_to project_message_path(message.project, message)
         else
-          redirect_to new_project_message_copy_path(current_project, new_message), errors: message_copy.errors
+          redirect_to new_project_message_move_path(current_project, message), errors: message.errors
         end
       end
 

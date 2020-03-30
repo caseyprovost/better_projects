@@ -28,9 +28,10 @@ Rails.application.routes.draw do
   end
 
   resources :projects do
+    resource :message_board, controller: "message_board", module: "projects"
     resources :memberships, module: "projects"
     resources :todo_lists, module: "projects"
-    resource :message_board, controller: "message_board", module: "projects"
+
     resources :messages, module: "projects" do
       resources :comments, module: "messages"
       resources :copies, only: %i[new create], module: "messages"

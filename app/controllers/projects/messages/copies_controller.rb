@@ -3,7 +3,7 @@ module Projects
     class CopiesController < BaseController
       def new
         copy = MessageCopy.new(source_message: message, project_id: current_project.id)
-        render inertia: "Messages/NewCopy", props: {
+        render inertia: "Messages/CopyMessage", props: {
           copy: copy.attributes,
           message: message.as_json,
           projects: current_account.projects.as_json(only: %i[id name])

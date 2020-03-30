@@ -83,41 +83,7 @@
             class="flex-1 px-4 py-4 md:p-4 overflow-y-auto bg-gray-800"
             scroll-region
           >
-            <div
-              v-if="currentProject"
-              class="bg-gray-700 py-2 px-3"
-            >
-              <div class="breadcrumb relative inline-block pr-2">
-                <inertia-link
-                  :href="this.$routes.project(currentProject)"
-                  class="text-gray-100 underline hover:text-green-400 font-semibold"
-                >
-                  {{ currentProject.name }}
-                </inertia-link>
-              </div>
-              <div
-                v-if="onMessageBoard"
-                class="breadcrumb relative inline-block pr-2"
-              >
-                <inertia-link
-                  :href="this.$routes.project(currentProject)"
-                  class="text-gray-100 underline hover:text-green-400 ml-2"
-                >
-                  Message Board
-                </inertia-link>
-              </div>
-              <div
-                v-if="inMessages"
-                class="breadcrumb relative inline-block pr-2"
-              >
-                <inertia-link
-                  :href="this.$routes.project_message(currentProject, message)"
-                  class="text-gray-100 underline hover:text-green-400 ml-2"
-                >
-                  {{ message.subject }}
-                </inertia-link>
-              </div>
-            </div>
+            <bread-crumbs :project="currentProject" :message="message" />
             <slot />
           </div>
         </div>
@@ -131,7 +97,7 @@ import MinimalLayout from '@/Layouts/Minimal'
 import Dropdown from '@/Components/Dropdown'
 import Icon from '@/Components/Icon'
 import Logo from '@/Components/Logo'
-import SelectInput from '@/Components/SelectInput'
+import BreadCrumbs from '@/Components/BreadCrumbs'
 
 export default {
   components: {
@@ -139,12 +105,11 @@ export default {
     Dropdown,
     Icon,
     Logo,
-    SelectInput,
+    BreadCrumbs,
   },
   data() {
     return {
       showUserMenu: false,
-      accounts: null,
     }
   },
   computed: {
@@ -153,14 +118,7 @@ export default {
     },
     message() {
       return this.$page.message
-    },
-    inMessages() {
-      return location.pathname.includes('messages/')
-    },
-    onMessageBoard() {
-      return location.pathname.includes('message_board') ||
-        location.pathname.includes('messages/')
-    },
+    }
   },
   methods: {
     url() {
@@ -172,19 +130,3 @@ export default {
   },
 }
 </script>
-
-<style scoped="true" language="scss">
-  .breadcrumb::after {
-    content: '>';
-    position: absolute;
-    display: inline-block;
-    width: 2em;
-    text-align: center;
-    top: 2px;
-    @apply text-gray-100 text-xs;
-  }
-
-  .breadcrumb:last-child:after {
-    content: '';
-  }
-</style>

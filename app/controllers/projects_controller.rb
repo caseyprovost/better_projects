@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
   end
 
   def set_project
-    @project = policy_scope(Project).find(params[:id])
+    @project = policy_scope(Project).includes(:message_board).find(params[:id])
   end
 
   def project_params

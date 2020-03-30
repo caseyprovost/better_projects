@@ -21,20 +21,22 @@
           :href="messageBoardPath"
         >
           <template v-slot:full>
-            <ul>
+            <ul class="w-full">
               <li
                 v-for="message in messages"
-                key="id"
+                :key="message.id"
+                class="mb-4 text-gray-400"
               >
                 <p>{{ message.subject }}</p>
-                <p>{{ message.content_preview }}</p>
+                <div>{{ truncate(message.content_preview, 30) }}</div>
               </li>
             </ul>
           </template>
         </dashboard-tile>
         <dashboard-tile
+          :href="todoListsPath"
           title="To-dos"
-          :empty="todos.length === 0"
+          :empty="todoLists.length === 0"
           icon-color="green"
           icon="check"
           empty-text="Make lists of work to be done, assign items, due dates, and discuss"
@@ -46,6 +48,7 @@
           </template>
         </dashboard-tile>
         <dashboard-tile
+          :href="documentsPath"
           title="Docs & Files"
           :empty="documents.length === 0"
           icon-color="orange"
@@ -59,6 +62,7 @@
           </template>
         </dashboard-tile>
         <dashboard-tile
+          :href="chatsPath"
           title="Fireside Chat"
           :empty="chats.length === 0"
           icon-color="pink"
@@ -72,6 +76,7 @@
           </template>
         </dashboard-tile>
         <dashboard-tile
+          :href="questionsPath"
           title="Automatic Check-ins"
           :empty="checkIns.length === 0"
           icon-color="purple"
@@ -85,6 +90,7 @@
           </template>
         </dashboard-tile>
         <dashboard-tile
+          :href="budgetPath"
           title="Budget"
           :empty="checkIns.length === 0"
           icon-color="teal"
@@ -126,7 +132,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    todos: {
+    todoLists: {
       type: Array,
       default: () => [],
     },
@@ -151,8 +157,34 @@ export default {
         return this.$routes.project_message_board(this.project)
       }
     },
+    todoListsPath() {
+      if (this.todoLists.length === 0) {
+        return this.$routes.new_project_todo_list(this.project)
+      } else {
+        return this.$routes.project_todo_lists(this.project)
+      }
+    },
+    documentsPath() {
+      // return this.$routes.project_todo_lists(this.project)
+      return ""
+    },
+    chatsPath() {
+      // return this.$routes.project_todo_lists(this.project)
+      return ""
+    },
+    questionsPath() {
+      // return this.$routes.project_todo_lists(this.project)
+      return ""
+    },
+    budgetPath() {
+      // return this.$routes.project_todo_lists(this.project)
+      return ""
+    },
   },
   methods: {
+    truncate(string, max) {
+      return string.length > max ? string.substr(0, max-1) + '…' : string;
+    }
   },
 }
 </script>
