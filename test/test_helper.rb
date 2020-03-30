@@ -25,7 +25,15 @@ class ActiveSupport::TestCase
   include Devise::Test::IntegrationHelpers
 
   def teardown
-    Sidekiq::Worker.clear_all
-    Rails.local_ephemeral_cache.clear
+    # Sidekiq::Worker.clear_all
+    # Rails.local_ephemeral_cache.clear
   end
+end
+
+class ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+end
+
+class ActionController::TestCase
+  include Devise::Test::ControllerHelpers
 end

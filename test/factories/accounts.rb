@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :account do
-    name { "MyString" }
-    subdomain { "MyString" }
-    active { false }
+    name { Faker::Team.name }
+    active { true }
   end
 end

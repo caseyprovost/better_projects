@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
     project.memberships.build(user: current_user, permission: "admin")
 
     if project.save
-      redirect_to account_dashboard_path(current_account), notice: "Project created."
+      redirect_to project_path(project), notice: "Project created."
     else
       redirect_to account_dashboard_path(current_account), errors: project.errors
     end
