@@ -4,6 +4,8 @@ class Message < ApplicationRecord
 
   delegate :project, to: :message_board
 
+  validates :content, :subject, presence: true
+
   has_rich_text :content
 
   amoeba do

@@ -20,7 +20,7 @@
 }
 
 .btn-indigo {
-  @apply bg-indigo-600 text-white;
+  @apply bg-indigo-600 text-indigo-100;
 
   &:hover,
   &:focus {

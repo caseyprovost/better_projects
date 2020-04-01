@@ -5,14 +5,14 @@
         v-model="form.name"
         :errors="$page.errors.name"
         class="w-full"
-        input-class="border-gray-900"
+        input-class="border-indigo-700"
         label="Name"
       />
       <text-area
         v-model="form.description"
         :errors="$page.errors.description"
         class="w-full"
-        input-class="border-gray-900 h-48"
+        input-class="border-indigo-700 h-48"
         label="Description"
       />
     </div>

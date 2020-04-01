@@ -21,7 +21,7 @@ guard :process, name: "Webpack Dev Server", command: "./bin/webpack-dev-server" 
 end
 
 guard :sidekiq, environment: "development", queue: %w[default] do
-  watch(%r{^workers/(.+)\.rb$})
+  watch(%r{^jobs/(.+)\.rb$})
 end
 
 guard "livereload" do

@@ -22,8 +22,9 @@
           :key="message.id"
           :href="messagePath(message)"
           class="bg-gray-900 rounded-lg shadow-xl p-4 w-full border border-transparent items-center mt-2 block hover:cursor-pointer hover:border-pink-600"
+          data-component="MessageBox"
         >
-          <h3 class="text-gray-500 flex-1 leading-normal">
+          <h3 class="text-gray-500 flex-1 leading-normal font-semibold">
             <span>{{ message.subject }}</span>
           </h3>
           <div class="message-meta text-gray-500 leading-normal text-purple-700">
@@ -67,7 +68,7 @@
         let dateString = message.created_at.toString()
         const date = new Date(dateString)
         const month = date.toLocaleString('default', { month: 'short' })
-        return `${month} ${date.getDay()}, ${date.getYear()}`
+        return `${month} ${date.getDay()}, ${date.getFullYear()}`
       },
     },
   }

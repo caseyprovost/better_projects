@@ -1,6 +1,5 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
-  inertia_share current_project: -> { policy_scope(Project).find(params[:id]) }
 
   def show
     render inertia: "Projects/ViewProject", props: {

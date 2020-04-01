@@ -4,7 +4,7 @@
     class="bg-gray-900 max-w-3xl"
     @submit="submit"
   >
-    <div class="px-2 py-3 bg-gray-800 border-t border-gray-700 flex justify-end items-center">
+    <div class="px-2 py-3 bg-gray-900 border-t border-gray-800 flex justify-end items-center">
       <loading-button
         :loading="sending"
         class="btn btn-indigo"

@@ -4,7 +4,7 @@
       <div class="w-full bg-gray-900">
         <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full flex-wrap">
           <h1 class="text-indigo-400 text-3xl w-full">
-            {{ message.subject }}
+            Edit {{ message.subject }}
           </h1>
         </div>
       </div>

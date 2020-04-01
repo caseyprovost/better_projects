@@ -45,7 +45,7 @@
             @click.stop
           >
             <div class="px-8 py-4 bg-gray-900 border-b border-gray-800 flex justify-between items-center">
-              <h1 class="font-bold text-xl text-indigo-100">
+              <h1 class="font-bold text-xl text-gray-400">
                 {{ title }}
               </h1>
 

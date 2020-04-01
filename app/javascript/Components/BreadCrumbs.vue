@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     inMessages() {
-      return location.pathname.includes('messages/')
+      return location.pathname.includes('messages/') && !location.pathname.includes('messages/new')
     },
     onMessageBoard() {
       return location.pathname.includes('message_board') ||
