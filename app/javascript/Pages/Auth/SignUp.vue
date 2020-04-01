@@ -19,6 +19,7 @@
             class=""
             label="Name"
             type="name"
+            id="user_name"
             :errors="fieldErrors('name')"
             autofocus
             autocapitalize="off"
@@ -28,6 +29,7 @@
             class=""
             label="Email"
             type="email"
+            id="user_email"
             :errors="fieldErrors('email')"
             autofocus
             autocapitalize="off"
@@ -37,6 +39,7 @@
             class=""
             label="Password"
             type="password"
+            id="user_password"
             :errors="fieldErrors('password')"
           />
           <text-input
@@ -44,6 +47,7 @@
             class=""
             label="Confrim password"
             type="password"
+            id="user_password_confirmation"
             :errors="fieldErrors('password_confirmation')"
           />
         </div>

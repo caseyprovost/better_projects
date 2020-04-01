@@ -24,9 +24,11 @@ class Account < ApplicationRecord
 
   def add_owner
     return true if owner.nil?
+
     self.account_memberships.build(
       user: owner,
-      role: AccountRole.find_or_create_by(name: "Admin", slug: "admin")
+      role: AccountRole.find_or_create_by(name: "Admin", slug: "admin"),
+      account: self
     )
   end
 

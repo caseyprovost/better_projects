@@ -35,6 +35,7 @@
           </div>
           <inertia-link
             v-for="project in projects"
+            :key="project.id"
             :href="projectPath(project)"
             class="md:w-1/4 w-full pr-2 pb-4"
           >

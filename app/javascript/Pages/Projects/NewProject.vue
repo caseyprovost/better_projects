@@ -7,7 +7,7 @@
     <div class="px-2 py-3 bg-gray-800 border-t border-gray-700 flex justify-end items-center">
       <loading-button
         :loading="sending"
-        class="btn-indigo"
+        class="btn btn-indigo"
         type="submit"
       >
         Create Project

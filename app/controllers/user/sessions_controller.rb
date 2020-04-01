@@ -18,6 +18,12 @@ class User::SessionsController < Devise::SessionsController
       return
     end
 
+    if user && !user.confirmed?
+      set_flash_message!(:alert, "unconfirmed", scope: "devise.failure")
+      redirect_to new_user_session_path
+      return
+    end
+
     if (self.resource = warden.authenticate(auth_options))
       set_flash_message!(:notice, :signed_in)
       sign_in(resource_name, resource)

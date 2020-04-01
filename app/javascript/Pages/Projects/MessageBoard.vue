@@ -20,6 +20,7 @@
         <inertia-link
           v-for="message in messages"
           :href="messagePath(message)"
+          :key="message.id"
           class="bg-gray-900 rounded-lg shadow-xl p-4 w-full border border-transparent items-center mt-2 block hover:cursor-pointer hover:border-pink-600"
         >
           <h3 class="text-gray-500 flex-1 leading-normal">

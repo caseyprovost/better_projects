@@ -16,6 +16,8 @@
           <div class="mx-auto mt-6 w-24 border-b-2" />
           <text-input
             v-model="form.email"
+            name="user[email]"
+            id="user_email"
             class="mt-10"
             label="Email"
             type="email"

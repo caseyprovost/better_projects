@@ -51,17 +51,11 @@
 
               <button
                 type="button"
-                class="p-1 rounded hover:bg-gray-300"
+                class="px-2 py-1 rounded hover:bg-teal-600 hover:text-teal-100 bg-gray-800 relative text-teal-600"
                 title="Close"
                 @click="close"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-4 h-4 fill-indigo-100"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 8.59L2.93 1.51 1.51 2.93 8.59 10l-7.08 7.07 1.42 1.42L10 11.41l7.07 7.08 1.42-1.42L11.41 10l7.08-7.07-1.42-1.42L10 8.59z" />
-                </svg>
+                <span>X</span>
               </button>
             </div>
 

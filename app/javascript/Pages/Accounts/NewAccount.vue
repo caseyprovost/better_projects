@@ -7,7 +7,8 @@
       />
       <form
         class="mt-8 bg-gray-900 rounded-lg shadow-xl overflow-hidden"
-        @submit.prevent="submit"
+        :action="submitRoute"
+        method="post"
       >
         <div class="px-10 py-12">
           <h1 class="text-center font-bold text-2xl text-gray-400">
@@ -19,6 +20,8 @@
             class="mt-10"
             label="Name"
             type="name"
+            name="account[name]"
+            id="account_name"
             autofocus
             autocapitalize="off"
             :errors="$page.errors.name"
@@ -26,8 +29,10 @@
           <text-input
             v-model="form.subdomain"
             class="mt-10"
-            label="Organization subdomain"
+            label="Subdomain"
             type="text"
+            name="account[subdomain]"
+            id="account_subdomain"
             autofocus
             autocapitalize="off"
             :errors="$page.errors.subdomain"
@@ -39,7 +44,7 @@
             class="btn btn-indigo"
             type="submit"
           >
-            Sign Up!
+            Create Account
           </loading-button>
         </div>
       </form>
@@ -70,6 +75,9 @@ export default {
     }
   },
   computed: {
+    submitRoute() {
+      return this.$routes.accounts()
+    }
   },
   methods: {
     submit() {

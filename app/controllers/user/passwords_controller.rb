@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User::PasswordsController < Devise::PasswordsController
+  before_action :ensure_user_confirmed, only: [:create]
+  before_action :ensure_user_not_locked, only: [:create]
   # GET /resource/password/new
   def new
     render inertia: "Auth/PasswordReset", props: {}
@@ -12,11 +14,11 @@ class User::PasswordsController < Devise::PasswordsController
     yield resource if block_given?
 
     if successfully_sent?(resource)
+      set_flash_message!(:notice, "send_instructions", scope: "devise.passwords")
       respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name))
     else
-      render inertia: "Auth/PasswordReset", props: {
-        resource_errors: resource.errors
-      }
+      flash.alert = "Sorry, we didn’t recognize that email address. Want to try another?"
+      redirect_back(fallback_location: new_user_password_path)
     end
   end
 
@@ -48,7 +50,23 @@ class User::PasswordsController < Devise::PasswordsController
     end
   end
 
-  # protected
+  protected
+
+    def ensure_user_confirmed
+      return if user.nil? || user&.confirmed?
+      flash.alert = "You must confirm your account before you reset your password."
+      redirect_to root_path
+    end
+
+    def ensure_user_not_locked
+      return if user.nil? || !user&.access_locked?
+      flash.alert = "Your account is locked. Please contact to support to reset your password."
+      redirect_to root_path
+    end
+
+    def user
+      @user ||= User.find_by(email: params.dig(:user, :email))
+    end
 
   # def after_resetting_password_path_for(resource)
   #   super(resource)

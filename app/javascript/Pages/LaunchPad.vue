@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-full bg-gray-900">
-      <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full flex-wrap">
+    <div class="w-full">
+      <div class="flex rounded-lg  overflow-hidden p-4 w-full flex-wrap">
         <h1 class="text-indigo-400 text-3xl w-full">
           Accounts
         </h1>
