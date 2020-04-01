@@ -8,6 +8,6 @@ module SystemTestHelper
   end
 
   def fill_in_rich_text_area(locator = nil, with:)
-    page.execute_script(%Q{ document.querySelector('.trix-content > div').innerText = "#{with}" })
+    page.execute_script(%{ document.querySelector('.trix-content > div').innerText = "#{with}" })
   end
 end

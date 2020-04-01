@@ -48,8 +48,8 @@ group :test do
   gem "mocha"
   gem "ruby-prof"
   gem "selenium-webdriver"
-  gem 'database_cleaner-active_record'
-  gem 'database_cleaner-redis'
+  gem "database_cleaner-active_record"
+  gem "database_cleaner-redis"
 end
 
 group :development do

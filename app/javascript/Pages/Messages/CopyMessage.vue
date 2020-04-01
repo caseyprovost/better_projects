@@ -12,7 +12,10 @@
 
     <div class="flex mt-4 bg-gray-900 md:justify-between md:flex-wrap">
       <div class="hidden md:block md:w-1/3">
-        <div class="bg-purple-900 shadow px-4 py-2 text-xs m-2" style="min-height: 8.5rem">
+        <div
+          class="bg-purple-900 shadow px-4 py-2 text-xs m-2"
+          style="min-height: 8.5rem"
+        >
           <div>
             {{ message.subject }}
           </div>

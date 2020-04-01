@@ -9,7 +9,7 @@ class ProjectPolicy < ApplicationPolicy
     private
 
     def user_projects_through_accounts(scope, user)
-      scope.joins(:account).where(accounts: { id: user.accounts }).pluck(:id)
+      scope.joins(:account).where(accounts: {id: user.accounts}).pluck(:id)
     end
   end
 end

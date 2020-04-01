@@ -2,23 +2,26 @@
   <form @submit.prevent="$emit('submit')">
     <div class="p-6 flex flex-wrap">
       <text-input
+        id="message_subject"
         v-model="form.subject"
         :errors="$page.errors.subject"
         class="w-full"
         input-class="border-gray-900"
         placeholder="Type a title..."
-        id="message_subject"
       />
       <div class="w-full">
         <VueTrix
           v-model="form.content"
-          inputId="message_content"
-          inputName="message[content]"
+          input-id="message_content"
+          input-name="message[content]"
           class="w-full"
           input-class="border-gray-900 h-48"
           placeholder="Write away..."
         />
-        <div v-if="$page.errors && $page.errors.content && $page.errors.content.length" class="form-error">
+        <div
+          v-if="$page.errors && $page.errors.content && $page.errors.content.length"
+          class="form-error"
+        >
           {{ $page.errors.content.join(", ") }}
         </div>
       </div>

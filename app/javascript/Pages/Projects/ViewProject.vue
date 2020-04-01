@@ -31,8 +31,12 @@
                   <span>{{ userInitials(message.creator) }}</span>
                 </div>
                 <div class="text-sm ml-2 my-auto flex flex-wrap">
-                  <p class="font-semibold w-full">{{ message.subject }}</p>
-                  <p class="w-full">{{ truncate(message.content_preview, 30) }}</p>
+                  <p class="font-semibold w-full">
+                    {{ message.subject }}
+                  </p>
+                  <p class="w-full">
+                    {{ truncate(message.content_preview, 30) }}
+                  </p>
                 </div>
               </li>
             </ul>
@@ -191,9 +195,9 @@ export default {
       return string.length > max ? string.substr(0, max-1) + '…' : string
     },
     userInitials(user) {
-      let parts = user.name.split(" ")
-      return parts.map(p => p[0]).join("")
-    }
+      let parts = user.name.split(' ')
+      return parts.map(p => p[0]).join('')
+    },
   },
 }
 </script>
