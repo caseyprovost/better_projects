@@ -2,8 +2,8 @@
 
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
+require_relative "../config/environment"
 require "rails/test_help"
-require "minitest/rails"
 require "mocha/minitest"
 
 # Improved Minitest output (color and progress bar)
@@ -23,11 +23,6 @@ end
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   include Devise::Test::IntegrationHelpers
-
-  def teardown
-    # Sidekiq::Worker.clear_all
-    # Rails.local_ephemeral_cache.clear
-  end
 end
 
 class ActionDispatch::IntegrationTest

@@ -34,10 +34,11 @@ gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do
   gem "pry-rails"
+  gem "pry-byebug"
+  gem "pry-doc"
   gem "faker"
   gem "factory_bot_rails"
   gem "standard"
-  gem "minitest-rails"
 end
 
 group :test do
@@ -47,6 +48,8 @@ group :test do
   gem "mocha"
   gem "ruby-prof"
   gem "selenium-webdriver"
+  gem 'database_cleaner-active_record'
+  gem 'database_cleaner-redis'
 end
 
 group :development do
