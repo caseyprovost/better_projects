@@ -8,10 +8,13 @@
         input-class="border-gray-900"
         placeholder="Type a title..."
         label="Choose where to put this copy"
+        name="move[project_id]"
+        id="project_id"
       >
         <option
           v-for="project in projects"
           :value="project.id"
+          :key="project.id"
         >
           {{ project.name }}
         </option>

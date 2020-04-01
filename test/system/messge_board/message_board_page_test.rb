@@ -1,6 +1,6 @@
 require_relative "../system_test_helper"
 
-class MessageBoardTest < ApplicationSystemTestCase
+class MessageBoardPTest < ApplicationSystemTestCase
   include SystemTestHelper
 
   setup do

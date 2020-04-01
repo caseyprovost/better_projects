@@ -13,6 +13,7 @@
           <inertia-link
             v-for="account in accounts"
             :id="linkId(account)"
+            :key="account.id"
             :href="chooseAccountPath(account)"
             class="md:w-1/4 w-full pr-2 pb-4"
           >

@@ -4,7 +4,8 @@ class Message < ApplicationRecord
 
   delegate :project, to: :message_board
 
-  validates :content, :subject, presence: true
+  validates :subject, presence: true
+  validate :validate_content_exists
 
   has_rich_text :content
 
@@ -15,5 +16,12 @@ class Message < ApplicationRecord
 
   def content_preview
     content.to_plain_text
+  end
+
+  private
+
+  def validate_content_exists
+    return if content_preview.length > 0
+    errors.add(:content, "can't be blank")
   end
 end

@@ -5,7 +5,7 @@ class Account < ApplicationRecord
 
   attribute :owner
 
-  has_many :account_memberships, class_name: "AccountMember"
+  has_many :account_memberships, class_name: "AccountMember", dependent: :destroy
   has_many :users, through: :account_memberships
   has_many :projects
 

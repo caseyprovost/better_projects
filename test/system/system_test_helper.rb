@@ -6,4 +6,8 @@ module SystemTestHelper
     account_role ||= create(:account_role, name: role.titleize)
     create(:account_member, account: account, user: user, role: account_role)
   end
+
+  def fill_in_rich_text_area(locator = nil, with:)
+    page.execute_script(%Q{ document.querySelector('.trix-content > div').innerText = "#{with}" })
+  end
 end

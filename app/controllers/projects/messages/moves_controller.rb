@@ -15,7 +15,7 @@ module Projects
 
         if move.save
           message = move.resource
-          flash.notice = "Your copy of #{message.subject} has been created."
+          flash.notice = "Your message was moved to #{message.project.name}"
           redirect_to project_message_path(message.project, message)
         else
           redirect_to new_project_message_move_path(current_project, message), errors: message.errors

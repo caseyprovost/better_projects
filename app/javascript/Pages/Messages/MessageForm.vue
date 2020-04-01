@@ -7,15 +7,21 @@
         class="w-full"
         input-class="border-gray-900"
         placeholder="Type a title..."
+        id="message_subject"
       />
-      <VueTrix
-        v-model="form.content"
-        input-id="message_content"
-        :errors="$page.errors.content"
-        class="w-full"
-        input-class="border-gray-900 h-48"
-        placeholder="Write away..."
-      />
+      <div class="w-full">
+        <VueTrix
+          v-model="form.content"
+          inputId="message_content"
+          inputName="message[content]"
+          class="w-full"
+          input-class="border-gray-900 h-48"
+          placeholder="Write away..."
+        />
+        <div v-if="$page.errors && $page.errors.content && $page.errors.content.length" class="form-error">
+          {{ $page.errors.content.join(", ") }}
+        </div>
+      </div>
     </div>
     <slot />
   </form>

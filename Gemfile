@@ -57,13 +57,12 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen"
   gem "spring-commands-rspec"
-  gem "guard", github: "guard/guard"
+  gem "guard"
   gem "guard-bundler", "~> 2.1" # Update and install gems when necessary
   gem "guard-livereload", "~> 2.5" # Reload the browser when view files change
   gem "guard-process", "~> 1.2" # Run arbitrary processes from Guardfile
   gem "guard-rails", "~> 0.8" # Start and restart Rails server when necessary
   gem "guard-sidekiq", "~> 0.1" # Monitor Rails sidekiq process intelligently
-  gem "guard-minitest"
   gem "js-routes", require: false
 end
 
