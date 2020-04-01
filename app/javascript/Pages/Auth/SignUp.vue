@@ -15,39 +15,39 @@
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2 bg-gray-400" />
           <text-input
+            id="user_name"
             v-model="form.name"
             class=""
             label="Name"
             type="name"
-            id="user_name"
             :errors="fieldErrors('name')"
             autofocus
             autocapitalize="off"
           />
           <text-input
+            id="user_email"
             v-model="form.email"
             class=""
             label="Email"
             type="email"
-            id="user_email"
             :errors="fieldErrors('email')"
             autofocus
             autocapitalize="off"
           />
           <text-input
+            id="user_password"
             v-model="form.password"
             class=""
             label="Password"
             type="password"
-            id="user_password"
             :errors="fieldErrors('password')"
           />
           <text-input
+            id="user_password_confirmation"
             v-model="form.password_confirmation"
             class=""
             label="Confrim password"
             type="password"
-            id="user_password_confirmation"
             :errors="fieldErrors('password_confirmation')"
           />
         </div>

@@ -25,7 +25,7 @@ class Account < ApplicationRecord
   def add_owner
     return true if owner.nil?
 
-    self.account_memberships.build(
+    account_memberships.build(
       user: owner,
       role: AccountRole.find_or_create_by(name: "Admin", slug: "admin"),
       account: self
@@ -38,6 +38,6 @@ class Account < ApplicationRecord
   end
 
   def set_subdomain
-    self.subdomain ||= name.downcase.parameterize
+    self.subdomain ||= name.downcase.gsub(/\s/, "")
   end
 end

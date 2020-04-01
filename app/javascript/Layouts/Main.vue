@@ -67,12 +67,12 @@
                 >
                   Manage Users
                 </inertia-link>
-                <a
+                <inertia-link
                   class="block px-6 py-2 hover:bg-indigo-600 hover:text-white"
                   :href="$routes.destroy_user_session()"
                 >
                   Logout
-                </a>
+                </inertia-link>
               </div>
             </dropdown>
           </div>
@@ -82,7 +82,10 @@
             class="flex-1 px-4 py-4 md:p-4 overflow-y-auto bg-gray-800"
             scroll-region
           >
-            <bread-crumbs :project="currentProject" :message="message" />
+            <bread-crumbs
+              :project="currentProject"
+              :message="message"
+            />
             <slot />
           </div>
         </div>
@@ -117,7 +120,7 @@ export default {
     },
     message() {
       return this.$page.message
-    }
+    },
   },
   methods: {
     url() {

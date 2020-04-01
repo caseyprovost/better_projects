@@ -24,7 +24,7 @@ gem "pundit"
 gem "pagy"
 gem "amoeba"
 gem "m"
-gem 'rack-cors'
+gem "rack-cors"
 
 # Use Active Storage variant
 gem "image_processing", "~> 1.2"

@@ -19,8 +19,8 @@
       <div class="w-full flex flex-wrap mt-4">
         <inertia-link
           v-for="message in messages"
-          :href="messagePath(message)"
           :key="message.id"
+          :href="messagePath(message)"
           class="bg-gray-900 rounded-lg shadow-xl p-4 w-full border border-transparent items-center mt-2 block hover:cursor-pointer hover:border-pink-600"
         >
           <h3 class="text-gray-500 flex-1 leading-normal">
@@ -64,11 +64,11 @@
         return this.$routes.project_message(this.project, message)
       },
       messageCreatedAt(message) {
-        let dateString = message.created_at.toString();
+        let dateString = message.created_at.toString()
         const date = new Date(dateString)
         const month = date.toLocaleString('default', { month: 'short' })
         return `${month} ${date.getDay()}, ${date.getYear()}`
-      }
+      },
     },
   }
 </script>

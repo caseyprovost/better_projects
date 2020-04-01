@@ -52,21 +52,21 @@ class User::PasswordsController < Devise::PasswordsController
 
   protected
 
-    def ensure_user_confirmed
-      return if user.nil? || user&.confirmed?
-      flash.alert = "You must confirm your account before you reset your password."
-      redirect_to root_path
-    end
+  def ensure_user_confirmed
+    return if user.nil? || user&.confirmed?
+    flash.alert = "You must confirm your account before you reset your password."
+    redirect_to root_path
+  end
 
-    def ensure_user_not_locked
-      return if user.nil? || !user&.access_locked?
-      flash.alert = "Your account is locked. Please contact to support to reset your password."
-      redirect_to root_path
-    end
+  def ensure_user_not_locked
+    return if user.nil? || !user&.access_locked?
+    flash.alert = "Your account is locked. Please contact to support to reset your password."
+    redirect_to root_path
+  end
 
-    def user
-      @user ||= User.find_by(email: params.dig(:user, :email))
-    end
+  def user
+    @user ||= User.find_by(email: params.dig(:user, :email))
+  end
 
   # def after_resetting_password_path_for(resource)
   #   super(resource)

@@ -15,6 +15,7 @@
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2 border-gray-400" />
           <text-input
+            id="user_email"
             v-model="form.email"
             class="mt-10"
             label="Email"
@@ -22,15 +23,14 @@
             name="user[email]"
             autofocus
             autocapitalize="off"
-            id="user_email"
           />
           <text-input
+            id="user_password"
             v-model="form.password"
             class="mt-6"
             label="Password"
             type="password"
             name="user[password]"
-            id="user_password"
           />
           <div class="flex justify-between mt-6">
             <div class="">

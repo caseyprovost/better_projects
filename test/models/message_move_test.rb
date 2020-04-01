@@ -8,7 +8,7 @@ class MessageMoveTest < ActiveSupport::TestCase
   end
 
   test "can move a message between projects" do
-    account = create(:account)
+    account = create(:account, name: "foobar", subdomain: "foobar")
     project1 = create(:project, account: account)
     project2 = create(:project, account: account)
     message = create(:message, message_board: project1.message_board, content: "Testing")

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="project" class="bg-gray-700 py-2 px-3">
+  <div
+    v-if="project"
+    class="bg-gray-700 py-2 px-3"
+  >
     <div class="breadcrumb relative inline-block pr-2">
       <inertia-link
         :href="this.$routes.project(project)"
@@ -38,20 +41,20 @@
 export default {
   components: {
   },
-  data() {
-    return {
-    }
-  },
   props: {
     message: {
       type: Object,
       required: false,
-      default: null
+      default: null,
     },
     project: {
       type: Object,
       required: false,
-      default: null
+      default: null,
+    },
+  },
+  data() {
+    return {
     }
   },
   computed: {

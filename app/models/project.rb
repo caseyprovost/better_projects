@@ -19,7 +19,7 @@ class Project < ApplicationRecord
   end
 
   def set_up_the_world
-    self.build_message_board if message_board.nil?
+    build_message_board if message_board.nil?
     # self.vaults.build(name: "Docs & Files")
   end
 end

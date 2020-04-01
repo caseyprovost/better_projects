@@ -10,13 +10,14 @@
           id="accounts_list"
           class="w-full mt-8 flex flex-wrap sm:flex-row"
         >
-          <a
+          <inertia-link
             v-for="account in accounts"
+            :id="linkId(account)"
             :href="chooseAccountPath(account)"
             class="md:w-1/4 w-full pr-2 pb-4"
           >
             <account-card :account="account" />
-          </a>
+          </inertia-link>
         </div>
       </div>
     </div>
@@ -45,6 +46,9 @@ export default {
   methods: {
     chooseAccountPath (account) {
       return this.$routes.choose_launch_pad({ account_id: account.id })
+    },
+    linkId(account) {
+      return `account_${account.id}`
     },
   },
 }

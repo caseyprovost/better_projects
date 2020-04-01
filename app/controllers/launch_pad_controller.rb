@@ -9,6 +9,7 @@ class LaunchPadController < ApplicationController
 
   def choose
     account = current_user.accounts.find(params[:account_id])
-    redirect_to root_url(subdomain: account.subdomain)
+    response.set_header("X-Inertia-Location", root_url(subdomain: account.subdomain))
+    head 409
   end
 end

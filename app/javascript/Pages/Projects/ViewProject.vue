@@ -166,25 +166,25 @@ export default {
     },
     documentsPath() {
       // return this.$routes.project_todo_lists(this.project)
-      return ""
+      return ''
     },
     chatsPath() {
       // return this.$routes.project_todo_lists(this.project)
-      return ""
+      return ''
     },
     questionsPath() {
       // return this.$routes.project_todo_lists(this.project)
-      return ""
+      return ''
     },
     budgetPath() {
       // return this.$routes.project_todo_lists(this.project)
-      return ""
+      return ''
     },
   },
   methods: {
     truncate(string, max) {
-      return string.length > max ? string.substr(0, max-1) + '…' : string;
-    }
+      return string.length > max ? string.substr(0, max-1) + '…' : string
+    },
   },
 }
 </script>

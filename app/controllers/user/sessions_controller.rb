@@ -12,7 +12,7 @@ class User::SessionsController < Devise::SessionsController
   def create
     user = User.find_for_database_authentication(email: params.dig(:user, :email))
 
-    if user && user.valid_password?(params.dig(:user, :password)) && user.access_locked?
+    if user&.valid_password?(params.dig(:user, :password)) && user&.access_locked?
       set_flash_message!(:alert, "locked", scope: "devise.failure")
       redirect_to new_user_session_path
       return
@@ -28,7 +28,8 @@ class User::SessionsController < Devise::SessionsController
       set_flash_message!(:notice, :signed_in)
       sign_in(resource_name, resource)
       yield resource if block_given?
-      redirect_to after_sign_in_path_for(resource)
+      response.set_header("X-Inertia-Location", after_sign_in_path_for(resource))
+      head 409
     else
       flash.alert = "Invalid email or password!"
       redirect_to root_url(subdomain: "app")
@@ -61,7 +62,8 @@ class User::SessionsController < Devise::SessionsController
     end
   end
 
-  def after_sign_out_path_for(resource_name)
-    root_url(subdomain: "app")
+  def respond_to_on_destroy
+    response.set_header("X-Inertia-Location", root_url(subdomain: "app"))
+    head 409
   end
 end

@@ -1,12 +1,8 @@
 FactoryBot.define do
   factory :project do
     association :account
-    name { Faker::Beer.name }
+    sequence(:name) { |n| "#{Faker::Beer.name}-#{n}" }
     status { "active" }
     description { Faker::Lorem.sentences(number: 3).join(" ") }
-
-    after(:create) do |project|
-      MessageBoard.create(project: project)
-    end
   end
 end

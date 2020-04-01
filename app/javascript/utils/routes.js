@@ -6,693 +6,693 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 (function() {
   var DeprecatedGlobbingBehavior, NodeTypes, ParameterMissing, ReservedOptions, SpecialOptionsKey, UriEncoderSegmentRegex, Utils, result, root,
     hasProp = {}.hasOwnProperty,
-    slice = [].slice;
+    slice = [].slice
 
-  root = typeof exports !== "undefined" && exports !== null ? exports : this;
+  root = typeof exports !== 'undefined' && exports !== null ? exports : this
 
   ParameterMissing = function(message, fileName, lineNumber) {
-    var instance;
-    instance = new Error(message, fileName, lineNumber);
+    var instance
+    instance = new Error(message, fileName, lineNumber)
     if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
+      Object.setPrototypeOf(instance, Object.getPrototypeOf(this))
     } else {
-      instance.__proto__ = this.__proto__;
+      instance.__proto__ = this.__proto__
     }
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(instance, ParameterMissing);
+      Error.captureStackTrace(instance, ParameterMissing)
     }
-    return instance;
-  };
+    return instance
+  }
 
   ParameterMissing.prototype = Object.create(Error.prototype, {
     constructor: {
       value: Error,
       enumerable: false,
       writable: true,
-      configurable: true
-    }
-  });
+      configurable: true,
+    },
+  })
 
   if (Object.setPrototypeOf) {
-    Object.setPrototypeOf(ParameterMissing, Error);
+    Object.setPrototypeOf(ParameterMissing, Error)
   } else {
-    ParameterMissing.__proto__ = Error;
+    ParameterMissing.__proto__ = Error
   }
 
-  NodeTypes = {"GROUP":1,"CAT":2,"SYMBOL":3,"OR":4,"STAR":5,"LITERAL":6,"SLASH":7,"DOT":8};
+  NodeTypes = {'GROUP':1,'CAT':2,'SYMBOL':3,'OR':4,'STAR':5,'LITERAL':6,'SLASH':7,'DOT':8}
 
-  DeprecatedGlobbingBehavior = false;
+  DeprecatedGlobbingBehavior = false
 
-  SpecialOptionsKey = "_options";
+  SpecialOptionsKey = '_options'
 
-  UriEncoderSegmentRegex = /[^a-zA-Z0-9\-\._~!\$&'\(\)\*\+,;=:@]/g;
+  UriEncoderSegmentRegex = /[^a-zA-Z0-9\-\._~!\$&'\(\)\*\+,;=:@]/g
 
-  ReservedOptions = ['anchor', 'trailing_slash', 'subdomain', 'host', 'port', 'protocol'];
+  ReservedOptions = ['anchor', 'trailing_slash', 'subdomain', 'host', 'port', 'protocol']
 
   Utils = {
     configuration: {
-      prefix: "",
+      prefix: '',
       default_url_options: {},
-      special_options_key: "_options",
-      serializer: null
+      special_options_key: '_options',
+      serializer: null,
     },
     default_serializer: function(object, prefix) {
-      var element, i, j, key, len, prop, s;
+      var element, i, j, key, len, prop, s
       if (prefix == null) {
-        prefix = null;
+        prefix = null
       }
       if (object == null) {
-        return "";
+        return ''
       }
-      if (!prefix && !(this.get_object_type(object) === "object")) {
-        throw new Error("Url parameters should be a javascript hash");
+      if (!prefix && !(this.get_object_type(object) === 'object')) {
+        throw new Error('Url parameters should be a javascript hash')
       }
-      s = [];
+      s = []
       switch (this.get_object_type(object)) {
-        case "array":
+        case 'array':
           for (i = j = 0, len = object.length; j < len; i = ++j) {
-            element = object[i];
-            s.push(this.default_serializer(element, prefix + "[]"));
+            element = object[i]
+            s.push(this.default_serializer(element, prefix + '[]'))
           }
-          break;
-        case "object":
+          break
+        case 'object':
           for (key in object) {
-            if (!hasProp.call(object, key)) continue;
-            prop = object[key];
+            if (!hasProp.call(object, key)) continue
+            prop = object[key]
             if ((prop == null) && (prefix != null)) {
-              prop = "";
+              prop = ''
             }
             if (prop != null) {
               if (prefix != null) {
-                key = prefix + "[" + key + "]";
+                key = prefix + '[' + key + ']'
               }
-              s.push(this.default_serializer(prop, key));
+              s.push(this.default_serializer(prop, key))
             }
           }
-          break;
+          break
         default:
           if (object != null) {
-            s.push((encodeURIComponent(prefix.toString())) + "=" + (encodeURIComponent(object.toString())));
+            s.push((encodeURIComponent(prefix.toString())) + '=' + (encodeURIComponent(object.toString())))
           }
       }
       if (!s.length) {
-        return "";
+        return ''
       }
-      return s.join("&");
+      return s.join('&')
     },
     serialize: function(object) {
-      var custom_serializer;
-      custom_serializer = this.configuration.serializer;
-      if ((custom_serializer != null) && this.get_object_type(custom_serializer) === "function") {
-        return custom_serializer(object);
+      var custom_serializer
+      custom_serializer = this.configuration.serializer
+      if ((custom_serializer != null) && this.get_object_type(custom_serializer) === 'function') {
+        return custom_serializer(object)
       } else {
-        return this.default_serializer(object);
+        return this.default_serializer(object)
       }
     },
     clean_path: function(path) {
-      var last_index;
-      path = path.split("://");
-      last_index = path.length - 1;
-      path[last_index] = path[last_index].replace(/\/+/g, "/");
-      return path.join("://");
+      var last_index
+      path = path.split('://')
+      last_index = path.length - 1
+      path[last_index] = path[last_index].replace(/\/+/g, '/')
+      return path.join('://')
     },
     extract_options: function(number_of_params, args) {
-      var last_el, options;
-      last_el = args[args.length - 1];
-      if ((args.length > number_of_params && last_el === void 0) || ((last_el != null) && "object" === this.get_object_type(last_el) && !this.looks_like_serialized_model(last_el))) {
-        options = args.pop() || {};
-        delete options[this.configuration.special_options_key];
-        return options;
+      var last_el, options
+      last_el = args[args.length - 1]
+      if ((args.length > number_of_params && last_el === void 0) || ((last_el != null) && 'object' === this.get_object_type(last_el) && !this.looks_like_serialized_model(last_el))) {
+        options = args.pop() || {}
+        delete options[this.configuration.special_options_key]
+        return options
       } else {
-        return {};
+        return {}
       }
     },
     looks_like_serialized_model: function(object) {
-      return !object[this.configuration.special_options_key] && ("id" in object || "to_param" in object);
+      return !object[this.configuration.special_options_key] && ('id' in object || 'to_param' in object)
     },
     path_identifier: function(object) {
-      var property;
+      var property
       if (object === 0) {
-        return "0";
+        return '0'
       }
       if (!object) {
-        return "";
+        return ''
       }
-      property = object;
-      if (this.get_object_type(object) === "object") {
-        if ("to_param" in object) {
+      property = object
+      if (this.get_object_type(object) === 'object') {
+        if ('to_param' in object) {
           if (object.to_param == null) {
-            throw new ParameterMissing("Route parameter missing: to_param");
+            throw new ParameterMissing('Route parameter missing: to_param')
           }
-          property = object.to_param;
-        } else if ("id" in object) {
+          property = object.to_param
+        } else if ('id' in object) {
           if (object.id == null) {
-            throw new ParameterMissing("Route parameter missing: id");
+            throw new ParameterMissing('Route parameter missing: id')
           }
-          property = object.id;
+          property = object.id
         } else {
-          property = object;
+          property = object
         }
-        if (this.get_object_type(property) === "function") {
-          property = property.call(object);
+        if (this.get_object_type(property) === 'function') {
+          property = property.call(object)
         }
       }
-      return property.toString();
+      return property.toString()
     },
     clone: function(obj) {
-      var attr, copy, key;
-      if ((obj == null) || "object" !== this.get_object_type(obj)) {
-        return obj;
+      var attr, copy, key
+      if ((obj == null) || 'object' !== this.get_object_type(obj)) {
+        return obj
       }
-      copy = obj.constructor();
+      copy = obj.constructor()
       for (key in obj) {
-        if (!hasProp.call(obj, key)) continue;
-        attr = obj[key];
-        copy[key] = attr;
+        if (!hasProp.call(obj, key)) continue
+        attr = obj[key]
+        copy[key] = attr
       }
-      return copy;
+      return copy
     },
     merge: function() {
-      var tap, xs;
-      xs = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+      var tap, xs
+      xs = 1 <= arguments.length ? slice.call(arguments, 0) : []
       tap = function(o, fn) {
-        fn(o);
-        return o;
-      };
+        fn(o)
+        return o
+      }
       if ((xs != null ? xs.length : void 0) > 0) {
         return tap({}, function(m) {
-          var j, k, len, results, v, x;
-          results = [];
+          var j, k, len, results, v, x
+          results = []
           for (j = 0, len = xs.length; j < len; j++) {
-            x = xs[j];
+            x = xs[j]
             results.push((function() {
-              var results1;
-              results1 = [];
+              var results1
+              results1 = []
               for (k in x) {
-                v = x[k];
-                results1.push(m[k] = v);
+                v = x[k]
+                results1.push(m[k] = v)
               }
-              return results1;
-            })());
+              return results1
+            })())
           }
-          return results;
-        });
+          return results
+        })
       }
     },
     normalize_options: function(parts, required_parts, default_options, actual_parameters) {
-      var i, j, key, len, options, part, parts_options, result, route_parts, url_parameters, use_all_parts, value;
-      options = this.extract_options(parts.length, actual_parameters);
+      var i, j, key, len, options, part, parts_options, result, route_parts, url_parameters, use_all_parts, value
+      options = this.extract_options(parts.length, actual_parameters)
       if (actual_parameters.length > parts.length) {
-        throw new Error("Too many parameters provided for path");
+        throw new Error('Too many parameters provided for path')
       }
-      use_all_parts = actual_parameters.length > required_parts.length;
-      parts_options = {};
+      use_all_parts = actual_parameters.length > required_parts.length
+      parts_options = {}
       for (key in options) {
-        if (!hasProp.call(options, key)) continue;
-        use_all_parts = true;
+        if (!hasProp.call(options, key)) continue
+        use_all_parts = true
         if (this.indexOf(parts, key) >= 0) {
-          parts_options[key] = value;
+          parts_options[key] = value
         }
       }
-      options = this.merge(this.configuration.default_url_options, default_options, options);
-      result = {};
-      url_parameters = {};
-      result['url_parameters'] = url_parameters;
+      options = this.merge(this.configuration.default_url_options, default_options, options)
+      result = {}
+      url_parameters = {}
+      result['url_parameters'] = url_parameters
       for (key in options) {
-        if (!hasProp.call(options, key)) continue;
-        value = options[key];
+        if (!hasProp.call(options, key)) continue
+        value = options[key]
         if (this.indexOf(ReservedOptions, key) >= 0) {
-          result[key] = value;
+          result[key] = value
         } else {
-          url_parameters[key] = value;
+          url_parameters[key] = value
         }
       }
-      route_parts = use_all_parts ? parts : required_parts;
-      i = 0;
+      route_parts = use_all_parts ? parts : required_parts
+      i = 0
       for (j = 0, len = route_parts.length; j < len; j++) {
-        part = route_parts[j];
+        part = route_parts[j]
         if (i < actual_parameters.length) {
           if (!parts_options.hasOwnProperty(part)) {
-            url_parameters[part] = actual_parameters[i];
-            ++i;
+            url_parameters[part] = actual_parameters[i]
+            ++i
           }
         }
       }
-      return result;
+      return result
     },
     build_route: function(parts, required_parts, default_options, route, full_url, args) {
-      var options, parameters, result, url, url_params;
-      args = Array.prototype.slice.call(args);
-      options = this.normalize_options(parts, required_parts, default_options, args);
-      parameters = options['url_parameters'];
-      result = "" + (this.get_prefix()) + (this.visit(route, parameters));
-      url = Utils.clean_path(result);
+      var options, parameters, result, url, url_params
+      args = Array.prototype.slice.call(args)
+      options = this.normalize_options(parts, required_parts, default_options, args)
+      parameters = options['url_parameters']
+      result = '' + (this.get_prefix()) + (this.visit(route, parameters))
+      url = Utils.clean_path(result)
       if (options['trailing_slash'] === true) {
-        url = url.replace(/(.*?)[\/]?$/, "$1/");
+        url = url.replace(/(.*?)[\/]?$/, '$1/')
       }
       if ((url_params = this.serialize(parameters)).length) {
-        url += "?" + url_params;
+        url += '?' + url_params
       }
-      url += options.anchor ? "#" + options.anchor : "";
+      url += options.anchor ? '#' + options.anchor : ''
       if (full_url) {
-        url = this.route_url(options) + url;
+        url = this.route_url(options) + url
       }
-      return url;
+      return url
     },
     visit: function(route, parameters, optional) {
-      var left, left_part, right, right_part, type, value;
+      var left, left_part, right, right_part, type, value
       if (optional == null) {
-        optional = false;
+        optional = false
       }
-      type = route[0], left = route[1], right = route[2];
+      type = route[0], left = route[1], right = route[2]
       switch (type) {
         case NodeTypes.GROUP:
-          return this.visit(left, parameters, true);
+          return this.visit(left, parameters, true)
         case NodeTypes.STAR:
-          return this.visit_globbing(left, parameters, true);
+          return this.visit_globbing(left, parameters, true)
         case NodeTypes.LITERAL:
         case NodeTypes.SLASH:
         case NodeTypes.DOT:
-          return left;
+          return left
         case NodeTypes.CAT:
-          left_part = this.visit(left, parameters, optional);
-          right_part = this.visit(right, parameters, optional);
+          left_part = this.visit(left, parameters, optional)
+          right_part = this.visit(right, parameters, optional)
           if (optional && ((this.is_optional_node(left[0]) && !left_part) || ((this.is_optional_node(right[0])) && !right_part))) {
-            return "";
+            return ''
           }
-          return "" + left_part + right_part;
+          return '' + left_part + right_part
         case NodeTypes.SYMBOL:
-          value = parameters[left];
-          delete parameters[left];
+          value = parameters[left]
+          delete parameters[left]
           if (value != null) {
-            return this.encode_segment(this.path_identifier(value));
+            return this.encode_segment(this.path_identifier(value))
           }
           if (optional) {
-            return "";
+            return ''
           } else {
-            throw new ParameterMissing("Route parameter missing: " + left);
+            throw new ParameterMissing('Route parameter missing: ' + left)
           }
-          break;
+          break
         default:
-          throw new Error("Unknown Rails node type");
+          throw new Error('Unknown Rails node type')
       }
     },
     encode_segment: function(segment) {
       return segment.replace(UriEncoderSegmentRegex, function(str) {
-        return encodeURIComponent(str);
-      });
+        return encodeURIComponent(str)
+      })
     },
     is_optional_node: function(node) {
-      return this.indexOf([NodeTypes.STAR, NodeTypes.SYMBOL, NodeTypes.CAT], node) >= 0;
+      return this.indexOf([NodeTypes.STAR, NodeTypes.SYMBOL, NodeTypes.CAT], node) >= 0
     },
     build_path_spec: function(route, wildcard) {
-      var left, right, type;
+      var left, right, type
       if (wildcard == null) {
-        wildcard = false;
+        wildcard = false
       }
-      type = route[0], left = route[1], right = route[2];
+      type = route[0], left = route[1], right = route[2]
       switch (type) {
         case NodeTypes.GROUP:
-          return "(" + (this.build_path_spec(left)) + ")";
+          return '(' + (this.build_path_spec(left)) + ')'
         case NodeTypes.CAT:
-          return "" + (this.build_path_spec(left)) + (this.build_path_spec(right));
+          return '' + (this.build_path_spec(left)) + (this.build_path_spec(right))
         case NodeTypes.STAR:
-          return this.build_path_spec(left, true);
+          return this.build_path_spec(left, true)
         case NodeTypes.SYMBOL:
           if (wildcard === true) {
-            return "" + (left[0] === '*' ? '' : '*') + left;
+            return '' + (left[0] === '*' ? '' : '*') + left
           } else {
-            return ":" + left;
+            return ':' + left
           }
-          break;
+          break
         case NodeTypes.SLASH:
         case NodeTypes.DOT:
         case NodeTypes.LITERAL:
-          return left;
+          return left
         default:
-          throw new Error("Unknown Rails node type");
+          throw new Error('Unknown Rails node type')
       }
     },
     visit_globbing: function(route, parameters, optional) {
-      var left, right, type, value;
-      type = route[0], left = route[1], right = route[2];
-      value = parameters[left];
-      delete parameters[left];
+      var left, right, type, value
+      type = route[0], left = route[1], right = route[2]
+      value = parameters[left]
+      delete parameters[left]
       if (value == null) {
-        return this.visit(route, parameters, optional);
+        return this.visit(route, parameters, optional)
       }
       value = (function() {
         switch (this.get_object_type(value)) {
-          case "array":
-            return value.join("/");
+          case 'array':
+            return value.join('/')
           default:
-            return value;
+            return value
         }
-      }).call(this);
+      }).call(this)
       if (DeprecatedGlobbingBehavior) {
-        return this.path_identifier(value);
+        return this.path_identifier(value)
       } else {
-        return encodeURI(this.path_identifier(value));
+        return encodeURI(this.path_identifier(value))
       }
     },
     get_prefix: function() {
-      var prefix;
-      prefix = this.configuration.prefix;
-      if (prefix !== "") {
-        prefix = (prefix.match("/$") ? prefix : prefix + "/");
+      var prefix
+      prefix = this.configuration.prefix
+      if (prefix !== '') {
+        prefix = (prefix.match('/$') ? prefix : prefix + '/')
       }
-      return prefix;
+      return prefix
     },
     route: function(parts_table, default_options, route_spec, full_url) {
-      var j, len, part, parts, path_fn, ref, required, required_parts;
-      required_parts = [];
-      parts = [];
+      var j, len, part, parts, path_fn, ref, required, required_parts
+      required_parts = []
+      parts = []
       for (j = 0, len = parts_table.length; j < len; j++) {
-        ref = parts_table[j], part = ref[0], required = ref[1];
-        parts.push(part);
+        ref = parts_table[j], part = ref[0], required = ref[1]
+        parts.push(part)
         if (required) {
-          required_parts.push(part);
+          required_parts.push(part)
         }
       }
       path_fn = function() {
-        return Utils.build_route(parts, required_parts, default_options, route_spec, full_url, arguments);
-      };
-      path_fn.required_params = required_parts;
+        return Utils.build_route(parts, required_parts, default_options, route_spec, full_url, arguments)
+      }
+      path_fn.required_params = required_parts
       path_fn.toString = function() {
-        return Utils.build_path_spec(route_spec);
-      };
-      return path_fn;
+        return Utils.build_path_spec(route_spec)
+      }
+      return path_fn
     },
     route_url: function(route_defaults) {
-      var hostname, port, protocol, subdomain;
+      var hostname, port, protocol, subdomain
       if (typeof route_defaults === 'string') {
-        return route_defaults;
+        return route_defaults
       }
-      hostname = route_defaults.host || Utils.current_host();
+      hostname = route_defaults.host || Utils.current_host()
       if (!hostname) {
-        return '';
+        return ''
       }
-      subdomain = route_defaults.subdomain ? route_defaults.subdomain + '.' : '';
-      protocol = route_defaults.protocol || Utils.current_protocol();
-      port = route_defaults.port || (!route_defaults.host ? Utils.current_port() : void 0);
-      port = port ? ":" + port : '';
-      return protocol + "://" + subdomain + hostname + port;
+      subdomain = route_defaults.subdomain ? route_defaults.subdomain + '.' : ''
+      protocol = route_defaults.protocol || Utils.current_protocol()
+      port = route_defaults.port || (!route_defaults.host ? Utils.current_port() : void 0)
+      port = port ? ':' + port : ''
+      return protocol + '://' + subdomain + hostname + port
     },
     has_location: function() {
-      return (typeof window !== "undefined" && window !== null ? window.location : void 0) != null;
+      return (typeof window !== 'undefined' && window !== null ? window.location : void 0) != null
     },
     current_host: function() {
       if (this.has_location()) {
-        return window.location.hostname;
+        return window.location.hostname
       } else {
-        return null;
+        return null
       }
     },
     current_protocol: function() {
       if (this.has_location() && window.location.protocol !== '') {
-        return window.location.protocol.replace(/:$/, '');
+        return window.location.protocol.replace(/:$/, '')
       } else {
-        return 'http';
+        return 'http'
       }
     },
     current_port: function() {
       if (this.has_location() && window.location.port !== '') {
-        return window.location.port;
+        return window.location.port
       } else {
-        return '';
+        return ''
       }
     },
     _classToTypeCache: null,
     _classToType: function() {
-      var j, len, name, ref;
+      var j, len, name, ref
       if (this._classToTypeCache != null) {
-        return this._classToTypeCache;
+        return this._classToTypeCache
       }
-      this._classToTypeCache = {};
-      ref = "Boolean Number String Function Array Date RegExp Object Error".split(" ");
+      this._classToTypeCache = {}
+      ref = 'Boolean Number String Function Array Date RegExp Object Error'.split(' ')
       for (j = 0, len = ref.length; j < len; j++) {
-        name = ref[j];
-        this._classToTypeCache["[object " + name + "]"] = name.toLowerCase();
+        name = ref[j]
+        this._classToTypeCache['[object ' + name + ']'] = name.toLowerCase()
       }
-      return this._classToTypeCache;
+      return this._classToTypeCache
     },
     get_object_type: function(obj) {
       if (root.jQuery && (root.jQuery.type != null)) {
-        return root.jQuery.type(obj);
+        return root.jQuery.type(obj)
       }
       if (obj == null) {
-        return "" + obj;
+        return '' + obj
       }
-      if (typeof obj === "object" || typeof obj === "function") {
-        return this._classToType()[Object.prototype.toString.call(obj)] || "object";
+      if (typeof obj === 'object' || typeof obj === 'function') {
+        return this._classToType()[Object.prototype.toString.call(obj)] || 'object'
       } else {
-        return typeof obj;
+        return typeof obj
       }
     },
     indexOf: function(array, element) {
       if (Array.prototype.indexOf) {
-        return array.indexOf(element);
+        return array.indexOf(element)
       } else {
-        return this.indexOfImplementation(array, element);
+        return this.indexOfImplementation(array, element)
       }
     },
     indexOfImplementation: function(array, element) {
-      var el, i, j, len, result;
-      result = -1;
+      var el, i, j, len, result
+      result = -1
       for (i = j = 0, len = array.length; j < len; i = ++j) {
-        el = array[i];
+        el = array[i]
         if (el === element) {
-          result = i;
+          result = i
         }
       }
-      return result;
+      return result
     },
     namespace: function(root, namespace, routes) {
-      var index, j, len, part, parts;
-      parts = namespace ? namespace.split(".") : [];
+      var index, j, len, part, parts
+      parts = namespace ? namespace.split('.') : []
       if (parts.length === 0) {
-        return routes;
+        return routes
       }
       for (index = j = 0, len = parts.length; j < len; index = ++j) {
-        part = parts[index];
+        part = parts[index]
         if (index < parts.length - 1) {
-          root = (root[part] || (root[part] = {}));
+          root = (root[part] || (root[part] = {}))
         } else {
-          return root[part] = routes;
+          return root[part] = routes
         }
       }
     },
     configure: function(new_config) {
-      return this.configuration = this.merge(this.configuration, new_config);
+      return this.configuration = this.merge(this.configuration, new_config)
     },
     config: function() {
-      return this.clone(this.configuration);
+      return this.clone(this.configuration)
     },
     make: function() {
-      var routes;
+      var routes
       routes = {
 // account => /accounts/:id(.:format)
   // function(id, options)
-  account: Utils.route([["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  account: Utils.route([['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // account_dashboard => /accounts/:account_id/dashboard(.:format)
   // function(account_id, options)
-  account_dashboard: Utils.route([["account_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"dashboard",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  account_dashboard: Utils.route([['account_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'dashboard',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // account_membership => /accounts/:account_id/memberships/:id(.:format)
   // function(account_id, id, options)
-  account_membership: Utils.route([["account_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  account_membership: Utils.route([['account_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // account_memberships => /accounts/:account_id/memberships(.:format)
   // function(account_id, options)
-  account_memberships: Utils.route([["account_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  account_memberships: Utils.route([['account_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // accounts => /accounts(.:format)
   // function(options)
-  accounts: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[1,[2,[8,".",false],[3,"format",false]],false]]]),
+  accounts: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]),
 // cancel_user_registration => /users/cancel(.:format)
   // function(options)
-  cancel_user_registration: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"cancel",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  cancel_user_registration: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'cancel',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // choose_launch_pad => /launch_pad/choose(.:format)
   // function(options)
-  choose_launch_pad: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"launch_pad",false],[2,[7,"/",false],[2,[6,"choose",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  choose_launch_pad: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'launch_pad',false],[2,[7,'/',false],[2,[6,'choose',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // destroy_user_session => /users/sign_out(.:format)
   // function(options)
-  destroy_user_session: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"sign_out",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  destroy_user_session: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'sign_out',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // edit_account => /accounts/:id/edit(.:format)
   // function(id, options)
-  edit_account: Utils.route([["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  edit_account: Utils.route([['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // edit_account_dashboard => /accounts/:account_id/dashboard/edit(.:format)
   // function(account_id, options)
-  edit_account_dashboard: Utils.route([["account_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"dashboard",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  edit_account_dashboard: Utils.route([['account_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'dashboard',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // edit_account_membership => /accounts/:account_id/memberships/:id/edit(.:format)
   // function(account_id, id, options)
-  edit_account_membership: Utils.route([["account_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+  edit_account_membership: Utils.route([['account_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
 // edit_project => /projects/:id/edit(.:format)
   // function(id, options)
-  edit_project: Utils.route([["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  edit_project: Utils.route([['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // edit_project_membership => /projects/:project_id/memberships/:id/edit(.:format)
   // function(project_id, id, options)
-  edit_project_membership: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+  edit_project_membership: Utils.route([['project_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
 // edit_project_message => /projects/:project_id/messages/:id/edit(.:format)
   // function(project_id, id, options)
-  edit_project_message: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+  edit_project_message: Utils.route([['project_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
 // edit_project_message_board => /projects/:project_id/message_board/edit(.:format)
   // function(project_id, options)
-  edit_project_message_board: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"message_board",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  edit_project_message_board: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // edit_project_message_comment => /projects/:project_id/messages/:message_id/comments/:id/edit(.:format)
   // function(project_id, message_id, id, options)
-  edit_project_message_comment: Utils.route([["project_id",true],["message_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]]]),
+  edit_project_message_comment: Utils.route([['project_id',true],['message_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]]]),
 // edit_project_todo_list => /projects/:project_id/todo_lists/:id/edit(.:format)
   // function(project_id, id, options)
-  edit_project_todo_list: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+  edit_project_todo_list: Utils.route([['project_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'todo_lists',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
 // edit_user_password => /users/password/edit(.:format)
   // function(options)
-  edit_user_password: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"password",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  edit_user_password: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'password',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // edit_user_registration => /users/edit(.:format)
   // function(options)
-  edit_user_registration: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  edit_user_registration: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // launch_pad => /launch_pad(.:format)
   // function(options)
-  launch_pad: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"launch_pad",false],[1,[2,[8,".",false],[3,"format",false]],false]]]),
+  launch_pad: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'launch_pad',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]),
 // new_account => /accounts/new(.:format)
   // function(options)
-  new_account: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  new_account: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // new_account_dashboard => /accounts/:account_id/dashboard/new(.:format)
   // function(account_id, options)
-  new_account_dashboard: Utils.route([["account_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"dashboard",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  new_account_dashboard: Utils.route([['account_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'dashboard',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // new_account_membership => /accounts/:account_id/memberships/new(.:format)
   // function(account_id, options)
-  new_account_membership: Utils.route([["account_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"accounts",false],[2,[7,"/",false],[2,[3,"account_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  new_account_membership: Utils.route([['account_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // new_project => /projects/new(.:format)
   // function(options)
-  new_project: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  new_project: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // new_project_membership => /projects/:project_id/memberships/new(.:format)
   // function(project_id, options)
-  new_project_membership: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  new_project_membership: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // new_project_message => /projects/:project_id/messages/new(.:format)
   // function(project_id, options)
-  new_project_message: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  new_project_message: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // new_project_message_board => /projects/:project_id/message_board/new(.:format)
   // function(project_id, options)
-  new_project_message_board: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"message_board",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  new_project_message_board: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // new_project_message_comment => /projects/:project_id/messages/:message_id/comments/new(.:format)
   // function(project_id, message_id, options)
-  new_project_message_comment: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
+  new_project_message_comment: Utils.route([['project_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
 // new_project_message_copy => /projects/:project_id/messages/:message_id/copies/new(.:format)
   // function(project_id, message_id, options)
-  new_project_message_copy: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"copies",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
+  new_project_message_copy: Utils.route([['project_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'copies',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
 // new_project_message_move => /projects/:project_id/messages/:message_id/moves/new(.:format)
   // function(project_id, message_id, options)
-  new_project_message_move: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"moves",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
+  new_project_message_move: Utils.route([['project_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'moves',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
 // new_project_todo_list => /projects/:project_id/todo_lists/new(.:format)
   // function(project_id, options)
-  new_project_todo_list: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  new_project_todo_list: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'todo_lists',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // new_user_confirmation => /users/confirmation/new(.:format)
   // function(options)
-  new_user_confirmation: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"confirmation",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  new_user_confirmation: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'confirmation',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // new_user_password => /users/password/new(.:format)
   // function(options)
-  new_user_password: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"password",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  new_user_password: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'password',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // new_user_registration => /users/sign_up(.:format)
   // function(options)
-  new_user_registration: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"sign_up",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  new_user_registration: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'sign_up',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // new_user_session => /users/sign_in(.:format)
   // function(options)
-  new_user_session: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"sign_in",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  new_user_session: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'sign_in',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // new_user_unlock => /users/unlock/new(.:format)
   // function(options)
-  new_user_unlock: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"unlock",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  new_user_unlock: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'unlock',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // project => /projects/:id(.:format)
   // function(id, options)
-  project: Utils.route([["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  project: Utils.route([['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // project_membership => /projects/:project_id/memberships/:id(.:format)
   // function(project_id, id, options)
-  project_membership: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  project_membership: Utils.route([['project_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // project_memberships => /projects/:project_id/memberships(.:format)
   // function(project_id, options)
-  project_memberships: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"memberships",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  project_memberships: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // project_message => /projects/:project_id/messages/:id(.:format)
   // function(project_id, id, options)
-  project_message: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  project_message: Utils.route([['project_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // project_message_board => /projects/:project_id/message_board(.:format)
   // function(project_id, options)
-  project_message_board: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"message_board",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  project_message_board: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // project_message_comment => /projects/:project_id/messages/:message_id/comments/:id(.:format)
   // function(project_id, message_id, id, options)
-  project_message_comment: Utils.route([["project_id",true],["message_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
+  project_message_comment: Utils.route([['project_id',true],['message_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
 // project_message_comments => /projects/:project_id/messages/:message_id/comments(.:format)
   // function(project_id, message_id, options)
-  project_message_comments: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"comments",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+  project_message_comments: Utils.route([['project_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
 // project_message_copies => /projects/:project_id/messages/:message_id/copies(.:format)
   // function(project_id, message_id, options)
-  project_message_copies: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"copies",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+  project_message_copies: Utils.route([['project_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'copies',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
 // project_message_moves => /projects/:project_id/messages/:message_id/moves(.:format)
   // function(project_id, message_id, options)
-  project_message_moves: Utils.route([["project_id",true],["message_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[2,[7,"/",false],[2,[3,"message_id",false],[2,[7,"/",false],[2,[6,"moves",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+  project_message_moves: Utils.route([['project_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'moves',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
 // project_messages => /projects/:project_id/messages(.:format)
   // function(project_id, options)
-  project_messages: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"messages",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  project_messages: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'messages',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // project_todo_list => /projects/:project_id/todo_lists/:id(.:format)
   // function(project_id, id, options)
-  project_todo_list: Utils.route([["project_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+  project_todo_list: Utils.route([['project_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'todo_lists',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
 // project_todo_lists => /projects/:project_id/todo_lists(.:format)
   // function(project_id, options)
-  project_todo_lists: Utils.route([["project_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[2,[7,"/",false],[2,[3,"project_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),
+  project_todo_lists: Utils.route([['project_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'project_id',false],[2,[7,'/',false],[2,[6,'todo_lists',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
 // projects => /projects(.:format)
   // function(options)
-  projects: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"projects",false],[1,[2,[8,".",false],[3,"format",false]],false]]]),
+  projects: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]),
 // root => /
   // function(options)
-  root: Utils.route([], {}, [7,"/",false]),
+  root: Utils.route([], {}, [7,'/',false]),
 // unauthenticated_root => /
   // function(options)
-  unauthenticated_root: Utils.route([], {}, [7,"/",false]),
+  unauthenticated_root: Utils.route([], {}, [7,'/',false]),
 // user_confirmation => /users/confirmation(.:format)
   // function(options)
-  user_confirmation: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"confirmation",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  user_confirmation: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'confirmation',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // user_password => /users/password(.:format)
   // function(options)
-  user_password: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"password",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  user_password: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'password',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // user_registration => /users(.:format)
   // function(options)
-  user_registration: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[1,[2,[8,".",false],[3,"format",false]],false]]]),
+  user_registration: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]),
 // user_session => /users/sign_in(.:format)
   // function(options)
-  user_session: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"sign_in",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  user_session: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'sign_in',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // user_unlock => /users/unlock(.:format)
   // function(options)
-  user_unlock: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"unlock",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]),
+  user_unlock: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'unlock',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
 // users => /users(.:format)
   // function(options)
-  users: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[1,[2,[8,".",false],[3,"format",false]],false]]]),
+  users: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]),
 // users_password => /users/password(.:format)
   // function(options)
-  users_password: Utils.route([["format",false]], {}, [2,[7,"/",false],[2,[6,"users",false],[2,[7,"/",false],[2,[6,"password",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]])}
-;
+  users_password: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'password',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]])}
+
       routes.configure = function(config) {
-        return Utils.configure(config);
-      };
+        return Utils.configure(config)
+      }
       routes.config = function() {
-        return Utils.config();
-      };
+        return Utils.config()
+      }
       Object.defineProperty(routes, 'defaults', {
         get: function() {
-          throw new Error("Routes" + ".defaults is removed. Use " + "Routes" + ".configure() instead.");
+          throw new Error('Routes' + '.defaults is removed. Use ' + 'Routes' + '.configure() instead.')
         },
-        set: function(value) {}
-      });
+        set: function(value) {},
+      })
       routes.default_serializer = function(object, prefix) {
-        return Utils.default_serializer(object, prefix);
-      };
-      return Utils.namespace(root, "Routes", routes);
-    }
-  };
-
-  result = Utils.make();
-
-  if (typeof define === "function" && define.amd) {
-    define([], function() {
-      return result;
-    });
+        return Utils.default_serializer(object, prefix)
+      }
+      return Utils.namespace(root, 'Routes', routes)
+    },
   }
 
-  return result;
+  result = Utils.make()
 
-}).call(this);
+  if (typeof define === 'function' && define.amd) {
+    define([], function() {
+      return result
+    })
+  }
+
+  return result
+
+}).call(this)

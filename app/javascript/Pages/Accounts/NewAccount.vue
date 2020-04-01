@@ -16,23 +16,23 @@
           </h1>
           <div class="mx-auto mt-6 w-24 border-b-2" />
           <text-input
+            id="account_name"
             v-model="form.name"
             class="mt-10"
             label="Name"
             type="name"
             name="account[name]"
-            id="account_name"
             autofocus
             autocapitalize="off"
             :errors="$page.errors.name"
           />
           <text-input
+            id="account_subdomain"
             v-model="form.subdomain"
             class="mt-10"
             label="Subdomain"
             type="text"
             name="account[subdomain]"
-            id="account_subdomain"
             autofocus
             autocapitalize="off"
             :errors="$page.errors.subdomain"
@@ -77,7 +77,7 @@ export default {
   computed: {
     submitRoute() {
       return this.$routes.accounts()
-    }
+    },
   },
   methods: {
     submit() {

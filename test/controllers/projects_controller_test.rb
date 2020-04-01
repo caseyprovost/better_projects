@@ -1,9 +1,9 @@
-require 'test_helper'
+require "test_helper"
 
 class ProjectsControllerTest < ActionController::TestCase
   setup do
     @user = create(:user, :confirmed)
-    @account = create(:account, name: 'drow')
+    @account = create(:account, name: "drow")
     create(:account_member, account: @account, user: @user)
     @request.env["devise.mapping"] = Devise.mappings[:users]
     @controller.stubs(:current_account).returns(@account)
