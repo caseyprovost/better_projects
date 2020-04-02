@@ -1,13 +1,10 @@
 class ProjectPolicy < ApplicationPolicy
   class Scope < Scope
+    # Users can only see projects they are members of.
+    # Account owners are an exception and can add themselves to any project as part of a
+    # "permission override" feature, not in the scope of this policy :)
     def resolve
       scope.where(id: user.projects)
-    end
-
-    private
-
-    def user_projects_through_accounts(scope, user)
-      scope.joins(:account).where(accounts: {id: user.accounts}).pluck(:id)
     end
   end
 
