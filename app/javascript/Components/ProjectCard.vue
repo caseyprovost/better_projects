@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-indigo-600 p-4 flex flex-col justify-between rounded"
+    class="bg-indigo-600 p-4 flex flex-col justify-between rounded hover:bg-pink-700"
     style="min-height: 10rem;"
   >
     <h3 class="text-xl text-indigo-100">

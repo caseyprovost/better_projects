@@ -1,4 +1,7 @@
 admin_role = AccountRole.find_or_create_by(name: "Admin")
+owner_role = AccountRole.find_or_create_by(name: "Owner")
+
+admin_role.touch
 
 def setup_project_user(project, email:, permission:)
   user = User.find_by(email: email)
@@ -20,7 +23,7 @@ if Rails.env.development?
   user = User.find_or_create_by(name: "Bruce Banner", email: "hulk@avengers.net")
   user.confirm && user.save!
 
-  AccountMember.find_or_create_by(account_id: account.id, user_id: user.id, role_id: admin_role.id)
+  AccountMember.find_or_create_by(account_id: account.id, user_id: user.id, role_id: owner_role.id)
 
   project = Project.find_or_create_by(
     name: "Mark XXX Suits",

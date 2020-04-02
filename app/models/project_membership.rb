@@ -9,6 +9,18 @@ class ProjectMembership < ApplicationRecord
 
   before_create :set_status
 
+  def admin?
+    slug == "admin"
+  end
+
+  def reader?
+    slug == "read"
+  end
+
+  def writer?
+    slug == "write"
+  end
+
   private
 
   def set_status

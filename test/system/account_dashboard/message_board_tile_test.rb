@@ -23,7 +23,7 @@ class MessageBoardTileTest < ApplicationSystemTestCase
   end
 
   test "displays message previews when messages exist" do
-    message = create(:message, creator: @user, message_board: @project.message_board, subject: "Testing", content: "battle!")
+    create(:message, creator: @user, message_board: @project.message_board, subject: "Testing", content: "battle!")
     visit project_path(@project)
 
     assert_text "BB"
@@ -32,7 +32,7 @@ class MessageBoardTileTest < ApplicationSystemTestCase
   end
 
   test "goes to the message board, when there are messages" do
-    message = create(:message, creator: @user, message_board: @project.message_board, subject: "Testing", content: "battle!")
+    create(:message, creator: @user, message_board: @project.message_board, subject: "Testing", content: "battle!")
     visit project_path(@project)
 
     find(:link, text: "Message Board").click

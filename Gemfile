@@ -50,6 +50,7 @@ group :test do
   gem "selenium-webdriver"
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"
+  gem "policy-assertions"
 end
 
 group :development do

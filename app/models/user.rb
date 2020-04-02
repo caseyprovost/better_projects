@@ -13,4 +13,20 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :password_confirmation, presence: true, on: :create
+
+  def is_account_owner?(account)
+    is_account_member_kind?(account, :owner)
+  end
+
+  def is_account_admin?(account)
+    is_account_member_kind?(account, :admin)
+  end
+
+  def is_account_member_kind?(account, kind)
+    account_memberships
+      .joins(:role, :account)
+      .where(account_roles: {slug: kind.to_s.downcase})
+      .where(accounts: {id: account.id})
+      .any?
+  end
 end

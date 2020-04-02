@@ -202,6 +202,9 @@ GEM
     parser (2.7.0.5)
       ast (~> 2.4.0)
     pg (1.2.3)
+    policy-assertions (0.2.0)
+      activesupport (>= 3.0.0)
+      pundit (>= 1.0.0)
     pry (0.13.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -369,6 +372,7 @@ DEPENDENCIES
   mocha
   pagy
   pg (>= 0.18, < 2.0)
+  policy-assertions
   pry-byebug
   pry-doc
   pry-rails

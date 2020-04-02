@@ -2,6 +2,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
 
   def show
+    authorize @project
     render inertia: "Projects/ViewProject", props: {
       project: @project,
       messages: json_messages
@@ -9,29 +10,44 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+    authorize @project
   end
 
   def update
+    authorize @project
   end
 
   def new
+    @project = @account.projects.new
+    authorize @project
+
     render inertia: "Projects/NewProject", props: {
-      project: Project.new
+      project: @project
     }
   end
 
   def create
-    project = current_account.projects.new(project_params)
-    project.memberships.build(user: current_user, permission: "admin")
+    @project = current_account.projects.new(project_params)
+    authorize @project
+    @project.memberships.build(user: current_user, permission: "admin")
 
-    if project.save
-      redirect_to project_path(project), notice: "Project created."
+    if @project.save
+      redirect_to project_path(@project), notice: "Project created."
     else
-      redirect_to account_dashboard_path(current_account), errors: project.errors
+      redirect_to account_dashboard_path(current_account), errors: @project.errors
     end
   end
 
   def destroy
+    authorize @project
+
+    if @project.destroy
+      flash.notice = "Your project was incinerated!"
+    else
+      flash.error = "Oops! Looks like we could not incinerate your project"
+    end
+
+    redirect_back(fallback_location: projects_path)
   end
 
   private
@@ -42,7 +58,7 @@ class ProjectsController < ApplicationController
   end
 
   def set_project
-    @project = policy_scope(Project).includes(:message_board).find(params[:id])
+    @project = policy_scope(current_account.projects).includes(:message_board).find(params[:id])
   end
 
   def project_params

@@ -8,7 +8,7 @@ module Projects
 
       render inertia: "Messages/MessageList", props: {
         messages: messages.as_json(include: [:creator]),
-        pagination: @pagy
+        pagination: pagy
       }
     end
 

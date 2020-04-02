@@ -8,12 +8,8 @@ FactoryBot.define do
       role { AccountRole.find_or_create_by(name: "Admin") }
     end
 
-    trait :reader do
-      role { AccountRole.find_or_create_by(name: "Reader") }
-    end
-
-    trait :writer do
-      role { AccountRole.find_or_create_by(name: "Writer") }
+    trait :owner do
+      role { AccountRole.find_or_create_by(name: "Owner") }
     end
   end
 end
