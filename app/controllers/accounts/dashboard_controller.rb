@@ -11,8 +11,7 @@ module Accounts
     private
 
     def all_projects
-      policy_scope(current_account.projects)
-        .includes(:memberships)
+      policy_scope(current_account.projects).includes(:memberships)
     end
   end
 end
