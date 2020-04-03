@@ -6,7 +6,7 @@
         @click="hideDropdownMenus"
       >
         <div class="md:flex flex-shrink-0">
-          <div class="bg-indigo-700 md:flex-shrink-0 p-3 flex items-center justify-between md:justify-center border-b border-indigo-500">
+          <div class="bg-indigo-700 md:flex-shrink-0 p-3 flex items-center justify-between md:justify-center">
             <inertia-link
               :href="$routes.root()"
               aria-label="Home"
@@ -34,7 +34,54 @@
               </div>
             </dropdown>
           </div>
-          <div class="bg-indigo-600 border-b w-full p-4 md:py-0 md:px-4 text-sm text-indigo-100 md:text-md flex justify-end items-center border-indigo-500">
+          <div class="bg-indigo-600 shadow-lg w-full p-4 md:py-0 md:px-4 text-sm text-indigo-100 md:text-md flex justify-between items-center">
+            <div class="h-full flex">
+              <inertia-link
+                :href="$routes.root()"
+                aria-label="Home"
+                role="navigation"
+                class="text-indigo-100 px-2 mx-2 hover:bg-indigo-700 block inline-flex h-full items-center"
+              >
+                <i class="fa fa-home"></i>
+                <span class="ml-1">Home</span>
+              </inertia-link>
+              <inertia-link
+                :href="$routes.root()"
+                aria-label="Pings"
+                role="navigation"
+                class="text-indigo-100 px-2 mx-2 hover:bg-indigo-700 block inline-flex h-full items-center"
+              >
+                <i class="fa fa-comments"></i>
+                <span class="ml-1">Pings</span>
+              </inertia-link>
+              <inertia-link
+                :href="$routes.root()"
+                aria-label="Hey!"
+                role="navigation"
+                class="text-indigo-100 px-2 mx-2 hover:bg-indigo-700 block inline-flex h-full items-center"
+              >
+                <i class="fa fa-inbox"></i>
+                <span class="ml-1">Hey</span>
+              </inertia-link>
+              <inertia-link
+                :href="$routes.root()"
+                aria-label="Activity"
+                role="navigation"
+                class="text-indigo-100 px-2 mx-2 hover:bg-indigo-700 block inline-flex h-full items-center""
+              >
+                <i class="fa fa-stream"></i>
+                <span class="ml-1">Activity</span>
+              </inertia-link>
+              <inertia-link
+                :href="$routes.root()"
+                aria-label="Home"
+                role="navigation"
+                class="text-indigo-100 px-2 mx-2 hover:bg-indigo-700 block inline-flex h-full items-center""
+              >
+                <i class="far fa-smile"></i>
+                <span class="ml-1">My Stuff</span>
+              </inertia-link>
+            </div>
             <dropdown
               class="mt-1"
               placement="bottom-end"
