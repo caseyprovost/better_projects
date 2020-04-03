@@ -8,6 +8,9 @@ module Recordable
     before_update :update_recording
 
     has_paper_trail
+
+    default_scope { joins(:recording) }
+    scope :active, -> { where.not(recordings: { status: ["archived", "trashed"] }) }
   end
 
   private

@@ -2,7 +2,7 @@ module Archiveable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :archived_by, class_name: "User"
+    belongs_to :archived_by, class_name: "User", optional: true
   end
 
   def archive(archiver = nil)

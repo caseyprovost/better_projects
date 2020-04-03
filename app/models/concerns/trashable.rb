@@ -2,7 +2,7 @@ module Trashable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :trashed_by, class_name: "User"
+    belongs_to :trashed_by, class_name: "User", optional: true
   end
 
   def trash(garbage_man = nil)

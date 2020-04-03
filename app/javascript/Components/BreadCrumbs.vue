@@ -93,8 +93,6 @@ export default {
         routes.push(this.$routes.new_bucket_recording_move(this.bucket, this.recording))
       }
 
-      console.log(routes.indexOf(location.pathname))
-
       let result = routes.indexOf(location.pathname)
       return result !== -1
     },

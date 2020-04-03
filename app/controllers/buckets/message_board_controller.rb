@@ -1,8 +1,10 @@
 module Buckets
   class MessageBoardController < BaseController
     def show
+      pagy, messages = pagy(message_board.messages.active)
       render inertia: "Projects/MessageBoard", props: {
-        messages: message_board.messages.as_json(include: [:creator], methods: [:content_preview])
+        messages: messages.as_json(include: [:creator], methods: [:content_preview]),
+        pagination: pagy
       }
     end
 

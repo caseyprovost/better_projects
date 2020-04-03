@@ -30,22 +30,23 @@
           </inertia-link>
         </li>
         <li>
-          <a
+          <inertia-link
             :href="moveRecordingPath"
             class="text-indigo-100 py-2 px-6 hover:bg-pink-600 hover:text-pink-100 block items-center flex-inline"
           >
             <i class="fas fa-arrow-circle-right text-sm mr-1" />
             <span>Move</span>
-          </a>
+          </inertia-link>
         </li>
         <li>
-          <a
-            href="#"
+          <inertia-link
+            :href="archiveRecordingPath"
+            method="post"
             class="text-indigo-100 py-2 px-6 hover:bg-pink-600 hover:text-pink-100 block items-center flex-inline"
           >
             <i class="fas fa-archive text-sm mr-1" />
             <span>Archive</span>
-          </a>
+          </inertia-link>
         </li>
         <li>
           <a
@@ -146,6 +147,9 @@
       },
       moveRecordingPath() {
         return this.$routes.new_bucket_recording_move(this.currentBucket, this.recording)
+      },
+      archiveRecordingPath() {
+        return this.$routes.bucket_recording_archivals(this.currentBucket, this.recording)
       },
       currentBucket() {
         return this.$page.current_bucket
