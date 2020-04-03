@@ -25,6 +25,7 @@ gem "pagy"
 gem "amoeba"
 gem "m"
 gem "rack-cors"
+gem "paper_trail"
 
 # Use Active Storage variant
 gem "image_processing", "~> 1.2"
@@ -51,6 +52,7 @@ group :test do
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"
   gem "policy-assertions"
+  gem "minitest-rails"
 end
 
 group :development do
@@ -62,6 +64,7 @@ group :development do
   gem "spring-watcher-listen"
   gem "spring-commands-rspec"
   gem "guard"
+  gem "guard-minitest"
   gem "guard-bundler", "~> 2.1" # Update and install gems when necessary
   gem "guard-livereload", "~> 2.5" # Reload the browser when view files change
   gem "guard-process", "~> 1.2" # Run arbitrary processes from Guardfile

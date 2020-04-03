@@ -4,6 +4,7 @@ class Project < ApplicationRecord
   has_many :users, through: :memberships
 
   has_one :message_board, dependent: :destroy
+  has_one :bucket, as: :bucketable
   has_many :messages, through: :message_board
 
   validates :name, :description, presence: true
@@ -11,6 +12,8 @@ class Project < ApplicationRecord
 
   after_initialize :set_default_status
   before_create :set_up_the_world
+
+  has_paper_trail
 
   private
 
@@ -20,6 +23,7 @@ class Project < ApplicationRecord
 
   def set_up_the_world
     build_message_board if message_board.nil?
+    build_bucket(account: account) if bucket.nil?
     # self.vaults.build(name: "Docs & Files")
   end
 end

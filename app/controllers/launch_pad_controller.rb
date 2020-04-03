@@ -1,5 +1,5 @@
 class LaunchPadController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
   def show
     render inertia: "LaunchPad", props: {

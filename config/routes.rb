@@ -33,15 +33,31 @@ Rails.application.routes.draw do
     resources :memberships, module: "accounts"
   end
 
+  resources :buckets do
+    resource :message_board, controller: "message_board", module: "buckets" do
+      resources :messages, module: "message_boards", only: [:new, :create] do
+        resources :comments, module: "messages"
+      end
+    end
+
+    resources :recordings, module: "buckets" do
+      resource :archival, module: "recordings"
+      resources :copies, only: %i[new create], module: "recordings"
+      resources :moves, only: %i[new create], module: "recordings"
+    end
+
+    resources :messages, module: "buckets", only: [:show, :edit, :update]
+  end
+
   resources :projects do
-    resource :message_board, controller: "message_board", module: "projects"
+    # resource :message_board, controller: "message_board", module: "projects"
     resources :memberships, module: "projects"
     resources :todo_lists, module: "projects"
 
-    resources :messages, module: "projects" do
-      resources :comments, module: "messages"
-      resources :copies, only: %i[new create], module: "messages"
-      resources :moves, only: %i[new create], module: "messages"
-    end
+    # resources :messages, module: "projects" do
+    #   resources :comments, module: "messages"
+    #   resources :copies, only: %i[new create], module: "messages"
+    #   resources :moves, only: %i[new create], module: "messages"
+    # end
   end
 end

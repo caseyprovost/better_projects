@@ -2,6 +2,7 @@ require_relative "../system_test_helper"
 
 class MessagePageTest < ApplicationSystemTestCase
   include SystemTestHelper
+  include ProjectTestHelpers
 
   def open_message_actions
     find(".btn-circle-indigo").click
@@ -10,8 +11,10 @@ class MessagePageTest < ApplicationSystemTestCase
   setup do
     @user = create(:user, :confirmed, name: "Bruce Banner")
     @account = create(:account, name: "avengers", owner: @user)
-    @project = create(:project, account: @account, name: "Save the world")
-    @project2 = create(:project, account: @account, name: "Order new costumes")
+    @project = create_project_for_account(@account, name: "Save the world")
+    @project2 = create_project_for_account(@account, name: "Order new costumes")
+    add_user_to_project(@user, @project)
+    add_user_to_project(@user, @project2)
     @message = create(:message, creator: @user, message_board: @project.message_board)
     Capybara.app_host = "http://#{@account.subdomain}.lvh.me"
     sign_in(@user)
@@ -44,10 +47,10 @@ class MessagePageTest < ApplicationSystemTestCase
     assert_text "Copy this message"
   end
 
-  # test "allows the user to archive the message" do
-  #   open_message_actions
-  #   assert_text "Archive"
-  #   click_link("Archive")
-  #   assert_text "Archive this message"
-  # end
+  test "allows the user to archive the message" do
+    open_message_actions
+    assert_text "Archive"
+    click_link("Archive")
+    assert_text "You archived this a second ago"
+  end
 end

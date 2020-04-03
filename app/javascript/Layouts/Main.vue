@@ -84,7 +84,9 @@
           >
             <bread-crumbs
               :project="currentProject"
+              :bucket="currentBucket"
               :message="message"
+              :recording="recording"
             />
             <slot />
           </div>
@@ -118,8 +120,14 @@ export default {
     currentProject() {
       return this.$page.current_project
     },
+    currentBucket() {
+      return this.$page.current_bucket
+    },
     message() {
       return this.$page.message
+    },
+    recording() {
+      return this.$page.recording
     },
   },
   methods: {

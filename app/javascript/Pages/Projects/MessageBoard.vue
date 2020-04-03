@@ -7,7 +7,7 @@
             Message Board
           </h1>
           <inertia-link
-            :href="this.$routes.new_project_message(project)"
+            :href="this.$routes.new_bucket_message_board_message(currentBucket)"
             class="btn btn-indigo"
           >
             New Message
@@ -42,13 +42,11 @@
 
 <script>
   import Layout from '@/Layouts/Main'
-  import currentProject from '@/utils/currentProject'
 
   export default {
     layout: Layout,
     components: {
     },
-    mixins: [currentProject],
     props: {
       messages: {
         type: Array,
@@ -57,12 +55,15 @@
     },
     computed: {
       project() {
-        return this.$page.current_project
+        return this.$page.current_bucket.bucketable
+      },
+      currentBucket() {
+        return this.$page.current_bucket
       },
     },
     methods: {
       messagePath(message) {
-        return this.$routes.project_message(this.project, message)
+        return this.$routes.bucket_message(this.currentBucket, message)
       },
       messageCreatedAt(message) {
         let dateString = message.created_at.toString()

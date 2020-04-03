@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_29_143645) do
+ActiveRecord::Schema.define(version: 2020_04_03_141251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,16 @@ ActiveRecord::Schema.define(version: 2020_03_29_143645) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "buckets", force: :cascade do |t|
+    t.string "bucketable_type", null: false
+    t.bigint "bucketable_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_buckets_on_account_id"
+    t.index ["bucketable_type", "bucketable_id"], name: "index_buckets_on_bucketable_type_and_bucketable_id"
+  end
+
   create_table "message_boards", force: :cascade do |t|
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -98,7 +108,6 @@ ActiveRecord::Schema.define(version: 2020_03_29_143645) do
   create_table "project_memberships", force: :cascade do |t|
     t.bigint "project_id", null: false
     t.bigint "user_id", null: false
-    t.string "permission", default: "read", null: false
     t.string "status", default: "active", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -115,6 +124,27 @@ ActiveRecord::Schema.define(version: 2020_03_29_143645) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_projects_on_account_id"
+  end
+
+  create_table "recordings", force: :cascade do |t|
+    t.string "recordable_type", null: false
+    t.bigint "recordable_id", null: false
+    t.bigint "bucket_id", null: false
+    t.string "parent_type", null: false
+    t.bigint "parent_id", null: false
+    t.string "status", default: "active", null: false
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "trashed_by_id"
+    t.datetime "trashed_at"
+    t.bigint "archived_by_id"
+    t.datetime "archived_at"
+    t.index ["archived_by_id"], name: "index_recordings_on_archived_by_id"
+    t.index ["bucket_id"], name: "index_recordings_on_bucket_id"
+    t.index ["parent_type", "parent_id"], name: "index_recordings_on_parent_type_and_parent_id"
+    t.index ["recordable_type", "recordable_id"], name: "index_recordings_on_recordable_type_and_recordable_id"
+    t.index ["trashed_by_id"], name: "index_recordings_on_trashed_by_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -140,14 +170,29 @@ ActiveRecord::Schema.define(version: 2020_03_29_143645) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
   add_foreign_key "account_members", "account_roles", column: "role_id"
   add_foreign_key "account_members", "accounts"
   add_foreign_key "account_members", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "buckets", "accounts"
   add_foreign_key "message_boards", "projects"
   add_foreign_key "messages", "message_boards"
   add_foreign_key "messages", "users", column: "creator_id"
   add_foreign_key "project_memberships", "projects"
   add_foreign_key "project_memberships", "users"
   add_foreign_key "projects", "accounts"
+  add_foreign_key "recordings", "buckets"
+  add_foreign_key "recordings", "users", column: "archived_by_id"
+  add_foreign_key "recordings", "users", column: "trashed_by_id"
 end

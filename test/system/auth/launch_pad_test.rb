@@ -7,7 +7,7 @@ class LaunchPadTest < ApplicationSystemTestCase
     @user = create(:user, :confirmed)
     @account = create(:account, name: "avengers", owner: @user)
     @account2 = create(:account, owner: create(:user), name: "heroes")
-    create(:account_member, :writer, account: @account2, user: @user)
+    create(:account_member, account: @account2, user: @user)
     Capybara.app_host = "http://app.lvh.me"
   end
 

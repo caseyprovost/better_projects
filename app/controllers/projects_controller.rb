@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   def show
     authorize @project
     render inertia: "Projects/ViewProject", props: {
-      project: @project,
+      project: @project.as_json(include: [:bucket]),
       messages: json_messages
     }
   end
@@ -53,7 +53,7 @@ class ProjectsController < ApplicationController
   private
 
   def json_messages
-    @project.messages.includes(:creator).limit(10)
+    @project.messages.includes(:creator).limit(5)
       .as_json(include: [:creator], methods: [:content_preview])
   end
 

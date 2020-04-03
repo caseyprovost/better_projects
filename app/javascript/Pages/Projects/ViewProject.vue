@@ -27,7 +27,7 @@
                 :key="message.id"
                 class="mb-4 text-gray-400 flex"
               >
-                <div class="rounded-full bg-blue-600 text-blue-100 flex h-10 w-10 justify-center items-center">
+                <div class="rounded-full bg-blue-600 text-blue-100 flex h-8 text-sm w-8 justify-center items-center">
                   <span>{{ userInitials(message.creator) }}</span>
                 </div>
                 <div class="text-sm ml-2 my-auto flex flex-wrap">
@@ -161,9 +161,9 @@ export default {
   computed: {
     messageBoardPath() {
       if (this.messages.length === 0) {
-        return this.$routes.new_project_message(this.project)
+        return this.$routes.new_bucket_message_board_message(this.project.bucket)
       } else {
-        return this.$routes.project_message_board(this.project)
+        return this.$routes.bucket_message_board(this.project.bucket)
       }
     },
     todoListsPath() {

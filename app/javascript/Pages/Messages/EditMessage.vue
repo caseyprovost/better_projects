@@ -40,7 +40,6 @@
 import Layout from '@/Layouts/Main'
 import LoadingButton from '@/Components/LoadingButton'
 import MessageForm from './MessageForm'
-import currentProject from '@/utils/currentProject'
 
 export default {
   layout: Layout,
@@ -48,7 +47,6 @@ export default {
     LoadingButton,
     MessageForm,
   },
-  mixins: [currentProject],
   remember: 'form',
   props: {
     message: {
@@ -67,13 +65,19 @@ export default {
   },
   computed: {
     messagePath() {
-      return this.$routes.project_message(this.project, this.message)
+      return this.$routes.bucket_message(this.currentBucket, this.message)
+    },
+    currentProject() {
+      return this.$page.current_bucket.bucketable
+    },
+    currentBucket() {
+      return this.$page.current_bucket
     },
   },
   methods: {
     submit() {
       this.sending = true
-      this.$inertia.patch(this.$routes.project_message(this.project.id, this.message.id), this.form).then(() => {
+      this.$inertia.patch(this.$routes.bucket_message(this.currentBucket, this.message), this.form).then(() => {
         this.sending = false
         if (Object.keys(this.$page.errors).length === 0) {
           this.form = {}

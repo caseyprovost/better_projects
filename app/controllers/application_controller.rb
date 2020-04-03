@@ -8,8 +8,7 @@ class ApplicationController < ActionController::Base
   include InertiaJson
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-
-  protect_from_forgery
+  before_action :set_paper_trail_whodunnit
 
   def current_account
     return nil if current_user.nil? || Account::RESERVED_SUBDOMAINS.include?(request.subdomain)

@@ -16,6 +16,7 @@
         </div>
         <message-actions-popover
           :message="message"
+          :recording="recording"
           :opened="displayActions"
           @close="closeActions"
         />
@@ -33,7 +34,6 @@
 
 <script>
 import Layout from '@/Layouts/Main'
-import currentProject from '@/utils/currentProject'
 import MessageActionsPopover from '@/Components/MessageActionsPopover'
 
 export default {
@@ -41,9 +41,12 @@ export default {
   components: {
     MessageActionsPopover,
   },
-  mixins: [currentProject],
   props: {
     message: {
+      type: Object,
+      required: true,
+    },
+    recording: {
       type: Object,
       required: true,
     },
@@ -55,10 +58,13 @@ export default {
   },
   computed: {
     editMessagePath() {
-      return this.$routes.edit_project_message(this.project, this.message)
+      return this.$routes.edit_bucket_message(this.currentBucket, this.message)
     },
     displayActions() {
       return this.showActions
+    },
+    currentBucket() {
+      return this.$page.current_bucket
     },
   },
   methods: {

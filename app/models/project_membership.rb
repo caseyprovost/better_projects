@@ -4,22 +4,7 @@ class ProjectMembership < ApplicationRecord
   belongs_to :project
   belongs_to :user
 
-  validates :permission, presence: true
-  validates :permission, inclusion: {in: PERMISSIONS}
-
   before_create :set_status
-
-  def admin?
-    slug == "admin"
-  end
-
-  def reader?
-    slug == "read"
-  end
-
-  def writer?
-    slug == "write"
-  end
 
   private
 

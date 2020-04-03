@@ -8,6 +8,7 @@ class Account < ApplicationRecord
   has_many :account_memberships, class_name: "AccountMember", dependent: :destroy
   has_many :users, through: :account_memberships
   has_many :projects
+  has_many :buckets
 
   before_validation :set_subdomain, on: :create
   before_create :add_owner
@@ -27,7 +28,7 @@ class Account < ApplicationRecord
 
     account_memberships.build(
       user: owner,
-      role: AccountRole.find_or_create_by(name: "Admin", slug: "admin"),
+      role: AccountRole.find_or_create_by(name: "Owner"),
       account: self
     )
   end

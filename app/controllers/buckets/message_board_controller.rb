@@ -1,4 +1,4 @@
-module Projects
+module Buckets
   class MessageBoardController < BaseController
     def show
       render inertia: "Projects/MessageBoard", props: {
@@ -9,7 +9,7 @@ module Projects
     private
 
     def message_board
-      @message_board ||= current_project.message_board
+      @message_board ||= current_bucket.bucketable.message_board
     end
   end
 end

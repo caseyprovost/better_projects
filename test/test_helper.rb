@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
 require_relative "../config/environment"
 require "rails/test_help"
+require "minitest/rails"
 require "mocha/minitest"
 require "policy_assertions"
 
@@ -14,6 +15,8 @@ Minitest::Reporters.use!(
   ENV,
   Minitest.backtrace_filter
 )
+
+Dir[Rails.root.join("test", "support", "**", "*.rb")].sort.each { |f| require f }
 
 unless Webpacker.compiler.fresh?
   puts "== Webpack compiling =="

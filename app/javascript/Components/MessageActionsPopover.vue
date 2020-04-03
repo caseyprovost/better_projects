@@ -22,7 +22,7 @@
         </li>
         <li>
           <inertia-link
-            :href="copyMessagePath"
+            :href="copyRecordingPath"
             class="text-indigo-100 py-2 px-6 hover:bg-pink-600 hover:text-pink-100 block items-center flex-inline"
           >
             <i class="fas fa-copy text-sm mr-1" />
@@ -31,7 +31,7 @@
         </li>
         <li>
           <a
-            :href="moveMessagePath"
+            :href="moveRecordingPath"
             class="text-indigo-100 py-2 px-6 hover:bg-pink-600 hover:text-pink-100 block items-center flex-inline"
           >
             <i class="fas fa-arrow-circle-right text-sm mr-1" />
@@ -112,12 +112,13 @@
 </template>
 
 <script>
-  import currentProject from '@/utils/currentProject'
-
   export default {
-    mixins: [currentProject],
     props: {
       message: {
+        type: Object,
+        required: true,
+      },
+      recording: {
         type: Object,
         required: true,
       },
@@ -138,13 +139,16 @@
         return classes
       },
       editMessagePath() {
-        return this.$routes.edit_project_message(this.project, this.message)
+        return this.$routes.edit_bucket_message(this.currentBucket, this.message)
       },
-      copyMessagePath() {
-        return this.$routes.new_project_message_copy(this.project, this.message)
+      copyRecordingPath() {
+        return this.$routes.new_bucket_recording_copy(this.currentBucket, this.recording)
       },
-      moveMessagePath() {
-        return this.$routes.new_project_message_move(this.project, this.message)
+      moveRecordingPath() {
+        return this.$routes.new_bucket_recording_move(this.currentBucket, this.recording)
+      },
+      currentBucket() {
+        return this.$page.current_bucket
       },
     },
   }

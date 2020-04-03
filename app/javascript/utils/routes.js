@@ -506,6 +506,51 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // accounts => /accounts(.:format)
   // function(options)
   accounts: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]),
+// bucket => /buckets/:id(.:format)
+  // function(id, options)
+  bucket: Utils.route([['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
+// bucket_message => /buckets/:bucket_id/messages/:id(.:format)
+  // function(bucket_id, id, options)
+  bucket_message: Utils.route([['bucket_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
+// bucket_message_board => /buckets/:bucket_id/message_board(.:format)
+  // function(bucket_id, options)
+  bucket_message_board: Utils.route([['bucket_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
+// bucket_message_board_message => /buckets/:bucket_id/message_board/messages/:id(.:format)
+  // function(bucket_id, id, options)
+  bucket_message_board_message: Utils.route([['bucket_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// bucket_message_board_message_comment => /buckets/:bucket_id/message_board/messages/:message_id/comments/:id(.:format)
+  // function(bucket_id, message_id, id, options)
+  bucket_message_board_message_comment: Utils.route([['bucket_id',true],['message_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]]]),
+// bucket_message_board_message_comments => /buckets/:bucket_id/message_board/messages/:message_id/comments(.:format)
+  // function(bucket_id, message_id, options)
+  bucket_message_board_message_comments: Utils.route([['bucket_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
+// bucket_message_board_message_copies => /buckets/:bucket_id/message_board/messages/:message_id/copies(.:format)
+  // function(bucket_id, message_id, options)
+  bucket_message_board_message_copies: Utils.route([['bucket_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'copies',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
+// bucket_message_board_message_moves => /buckets/:bucket_id/message_board/messages/:message_id/moves(.:format)
+  // function(bucket_id, message_id, options)
+  bucket_message_board_message_moves: Utils.route([['bucket_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'moves',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
+// bucket_message_board_messages => /buckets/:bucket_id/message_board/messages(.:format)
+  // function(bucket_id, options)
+  bucket_message_board_messages: Utils.route([['bucket_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
+// bucket_recording => /buckets/:bucket_id/recordings/:id(.:format)
+  // function(bucket_id, id, options)
+  bucket_recording: Utils.route([['bucket_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'id',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
+// bucket_recording_archival => /buckets/:bucket_id/recordings/:recording_id/archival(.:format)
+  // function(bucket_id, recording_id, options)
+  bucket_recording_archival: Utils.route([['bucket_id',true],['recording_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'recording_id',false],[2,[7,'/',false],[2,[6,'archival',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// bucket_recording_copies => /buckets/:bucket_id/recordings/:recording_id/copies(.:format)
+  // function(bucket_id, recording_id, options)
+  bucket_recording_copies: Utils.route([['bucket_id',true],['recording_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'recording_id',false],[2,[7,'/',false],[2,[6,'copies',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// bucket_recording_moves => /buckets/:bucket_id/recordings/:recording_id/moves(.:format)
+  // function(bucket_id, recording_id, options)
+  bucket_recording_moves: Utils.route([['bucket_id',true],['recording_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'recording_id',false],[2,[7,'/',false],[2,[6,'moves',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// bucket_recordings => /buckets/:bucket_id/recordings(.:format)
+  // function(bucket_id, options)
+  bucket_recordings: Utils.route([['bucket_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
+// buckets => /buckets(.:format)
+  // function(options)
+  buckets: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]),
 // cancel_user_registration => /users/cancel(.:format)
   // function(options)
   cancel_user_registration: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'users',false],[2,[7,'/',false],[2,[6,'cancel',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
@@ -524,6 +569,27 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // edit_account_membership => /accounts/:account_id/memberships/:id/edit(.:format)
   // function(account_id, id, options)
   edit_account_membership: Utils.route([['account_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// edit_bucket => /buckets/:id/edit(.:format)
+  // function(id, options)
+  edit_bucket: Utils.route([['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
+// edit_bucket_message => /buckets/:bucket_id/messages/:id/edit(.:format)
+  // function(bucket_id, id, options)
+  edit_bucket_message: Utils.route([['bucket_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// edit_bucket_message_board => /buckets/:bucket_id/message_board/edit(.:format)
+  // function(bucket_id, options)
+  edit_bucket_message_board: Utils.route([['bucket_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
+// edit_bucket_message_board_message => /buckets/:bucket_id/message_board/messages/:id/edit(.:format)
+  // function(bucket_id, id, options)
+  edit_bucket_message_board_message: Utils.route([['bucket_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
+// edit_bucket_message_board_message_comment => /buckets/:bucket_id/message_board/messages/:message_id/comments/:id/edit(.:format)
+  // function(bucket_id, message_id, id, options)
+  edit_bucket_message_board_message_comment: Utils.route([['bucket_id',true],['message_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]]]]]),
+// edit_bucket_recording => /buckets/:bucket_id/recordings/:id/edit(.:format)
+  // function(bucket_id, id, options)
+  edit_bucket_recording: Utils.route([['bucket_id',true],['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// edit_bucket_recording_archival => /buckets/:bucket_id/recordings/:recording_id/archival/edit(.:format)
+  // function(bucket_id, recording_id, options)
+  edit_bucket_recording_archival: Utils.route([['bucket_id',true],['recording_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'recording_id',false],[2,[7,'/',false],[2,[6,'archival',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
 // edit_project => /projects/:id/edit(.:format)
   // function(id, options)
   edit_project: Utils.route([['id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[3,'id',false],[2,[7,'/',false],[2,[6,'edit',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]),
@@ -560,6 +626,36 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // new_account_membership => /accounts/:account_id/memberships/new(.:format)
   // function(account_id, options)
   new_account_membership: Utils.route([['account_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'accounts',false],[2,[7,'/',false],[2,[3,'account_id',false],[2,[7,'/',false],[2,[6,'memberships',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
+// new_bucket => /buckets/new(.:format)
+  // function(options)
+  new_bucket: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),
+// new_bucket_message_board => /buckets/:bucket_id/message_board/new(.:format)
+  // function(bucket_id, options)
+  new_bucket_message_board: Utils.route([['bucket_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
+// new_bucket_message_board_message => /buckets/:bucket_id/message_board/messages/new(.:format)
+  // function(bucket_id, options)
+  new_bucket_message_board_message: Utils.route([['bucket_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]),
+// new_bucket_message_board_message_comment => /buckets/:bucket_id/message_board/messages/:message_id/comments/new(.:format)
+  // function(bucket_id, message_id, options)
+  new_bucket_message_board_message_comment: Utils.route([['bucket_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'comments',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]]]),
+// new_bucket_message_board_message_copy => /buckets/:bucket_id/message_board/messages/:message_id/copies/new(.:format)
+  // function(bucket_id, message_id, options)
+  new_bucket_message_board_message_copy: Utils.route([['bucket_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'copies',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]]]),
+// new_bucket_message_board_message_move => /buckets/:bucket_id/message_board/messages/:message_id/moves/new(.:format)
+  // function(bucket_id, message_id, options)
+  new_bucket_message_board_message_move: Utils.route([['bucket_id',true],['message_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'message_board',false],[2,[7,'/',false],[2,[6,'messages',false],[2,[7,'/',false],[2,[3,'message_id',false],[2,[7,'/',false],[2,[6,'moves',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]]]),
+// new_bucket_recording => /buckets/:bucket_id/recordings/new(.:format)
+  // function(bucket_id, options)
+  new_bucket_recording: Utils.route([['bucket_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]),
+// new_bucket_recording_archival => /buckets/:bucket_id/recordings/:recording_id/archival/new(.:format)
+  // function(bucket_id, recording_id, options)
+  new_bucket_recording_archival: Utils.route([['bucket_id',true],['recording_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'recording_id',false],[2,[7,'/',false],[2,[6,'archival',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
+// new_bucket_recording_copy => /buckets/:bucket_id/recordings/:recording_id/copies/new(.:format)
+  // function(bucket_id, recording_id, options)
+  new_bucket_recording_copy: Utils.route([['bucket_id',true],['recording_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'recording_id',false],[2,[7,'/',false],[2,[6,'copies',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
+// new_bucket_recording_move => /buckets/:bucket_id/recordings/:recording_id/moves/new(.:format)
+  // function(bucket_id, recording_id, options)
+  new_bucket_recording_move: Utils.route([['bucket_id',true],['recording_id',true],['format',false]], {}, [2,[7,'/',false],[2,[6,'buckets',false],[2,[7,'/',false],[2,[3,'bucket_id',false],[2,[7,'/',false],[2,[6,'recordings',false],[2,[7,'/',false],[2,[3,'recording_id',false],[2,[7,'/',false],[2,[6,'moves',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]]]]]]]]]),
 // new_project => /projects/new(.:format)
   // function(options)
   new_project: Utils.route([['format',false]], {}, [2,[7,'/',false],[2,[6,'projects',false],[2,[7,'/',false],[2,[6,'new',false],[1,[2,[8,'.',false],[3,'format',false]],false]]]]]),

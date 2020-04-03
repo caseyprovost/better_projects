@@ -4,7 +4,7 @@
       <div class="w-full bg-gray-900">
         <div class="flex rounded-lg shadow-xl overflow-hidden p-4 w-full flex-wrap">
           <h1 class="text-indigo-400 text-3xl w-full">
-            Copy this message
+            Move this {{ topic }}
           </h1>
         </div>
       </div>
@@ -17,19 +17,19 @@
           style="min-height: 8.5rem"
         >
           <div>
-            {{ message.subject }}
+            {{ recording.subject }}
           </div>
           <div
             class="text-purple-100"
-            v-html="message.content.body"
+            v-html="recording.content.body"
           />
         </div>
       </div>
       <div class="md:w-2/3 w-full">
-        <copy-message-form
+        <copy-recording-form
           :form="form"
           class="bg-gray-900"
-          :projects="projects"
+          :buckets="buckets"
           @submit="submit"
         />
         <div class="px-4 md:py-1 flex justify-end items-center flex-1 pt-2 pb-4">
@@ -45,7 +45,7 @@
             type="submit"
             @click="submit"
           >
-            Copy to this project
+            Move to this location
           </loading-button>
         </div>
       </div>
@@ -56,27 +56,25 @@
 <script>
 import Layout from '@/Layouts/Main'
 import LoadingButton from '@/Components/LoadingButton'
-import CopyMessageForm from './CopyMessageForm'
-import currentProject from '@/utils/currentProject'
+import CopyRecordingForm from './CopyRecordingForm'
 
 export default {
   layout: Layout,
   components: {
     LoadingButton,
-    CopyMessageForm,
+    CopyRecordingForm,
   },
-  mixins: [currentProject],
   remember: 'form',
   props: {
-    copy: {
+    move: {
       type: Object,
       required: true,
     },
-    message: {
+    recording: {
       type: Object,
       required: true,
     },
-    projects: {
+    buckets: {
       type: Array,
       required: true,
     },
@@ -85,19 +83,26 @@ export default {
     return {
       sending: false,
       form: {
-        project_id: this.copy.project_id,
+        destination_bucket_id: this.move.destination_bucket_id,
       },
     }
   },
   computed: {
     messagePath() {
-      return this.$routes.project_message(this.project, this.message)
+      return this.$routes.bucket_message(this.currentBucket, this.recording.recordable)
+    },
+    topic() {
+      let baseName = this.recording.recordable_type.toLowerCase()
+      return baseName.replace('_', ' ')
+    },
+    currentBucket() {
+      return this.$page.current_bucket
     },
   },
   methods: {
     submit() {
       this.sending = true
-      this.$inertia.post(this.$routes.project_message_copies(this.project.id, this.message.id), this.form).then(() => {
+      this.$inertia.post(this.$routes.bucket_recording_moves(this.currentBucket, this.recording), this.form).then(() => {
         this.sending = false
         if (Object.keys(this.$page.errors).length === 0) {
           this.form = {}
