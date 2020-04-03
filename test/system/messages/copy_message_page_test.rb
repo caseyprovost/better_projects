@@ -8,17 +8,19 @@ class CopyMessagePageTest < ApplicationSystemTestCase
     @account = create(:account, name: "avengers", owner: @user)
     @project = create(:project, account: @account, name: "Save the world")
     @project2 = create(:project, account: @account, name: "Order new costumes")
+    add_user_to_project(@user, @project)
+    add_user_to_project(@user, @project2)
     @message = create(:message, creator: @user, message_board: @project.message_board)
     Capybara.app_host = "http://#{@account.subdomain}.lvh.me"
     sign_in(@user)
-    visit new_project_message_copy_path(@project, @message)
+    visit new_bucket_recording_copy_path(@project.bucket, @message.recording)
     assert_text "Copy this message"
   end
 
   test "can copy" do
-    select @project2.name, from: "project_id"
-    click_button("Copy to this project")
-    assert_text "Your copy of #{@message.subject} has been created."
-    assert current_path == project_message_path(@project2, @project2.messages.last)
+    select @project2.name, from: "destination_bucket_id"
+    click_button("Copy to this location")
+    assert_text "Your copy of #{@message.recording.title} has been created."
+    assert current_path == bucket_message_path(@project2.bucket, @project2.messages.last)
   end
 end

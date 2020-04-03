@@ -23,7 +23,7 @@
       </inertia-link>
     </div>
     <div
-      v-if="showMessageBreadcrumb"
+      v-if="showMessageBreadcrumb && recording"
       class="breadcrumb relative inline-block pr-2"
     >
       <inertia-link

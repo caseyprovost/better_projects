@@ -31,7 +31,7 @@ class RecordingMoveTest < ActiveSupport::TestCase
     assert recording_copy.persisted?
     assert_equal recording_copy.bucket.id, project2.bucket.id
     assert_equal recording_copy.title, message.title
-    assert_equal 2, message.recording.versions.count
+    assert_equal 1, message.versions.count
     assert message.trashed?
     assert_equal 1, recording_copy.recordable.versions.count
     assert_equal user.id, recording_copy.recordable.versions.first.whodunnit.to_i

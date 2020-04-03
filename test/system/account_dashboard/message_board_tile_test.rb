@@ -7,6 +7,7 @@ class MessageBoardTileTest < ApplicationSystemTestCase
     @user = create(:user, :confirmed, name: "Bruce Banner")
     @account = create(:account, name: "avengers", owner: @user)
     @project = create(:project, account: @account, name: "Save the world")
+    add_user_to_project(@user, @project)
     Capybara.app_host = "http://#{@account.subdomain}.lvh.me"
     sign_in(@user)
     visit project_path(@project)

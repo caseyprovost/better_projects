@@ -1,16 +1,17 @@
 require_relative "../system_test_helper"
 
-class MessageBoardPTest < ApplicationSystemTestCase
+class MessageBoardPageTest < ApplicationSystemTestCase
   include SystemTestHelper
 
   setup do
     @user = create(:user, :confirmed, name: "Bruce Banner")
     @account = create(:account, name: "avengers", owner: @user)
     @project = create(:project, account: @account, name: "Save the world")
+    add_user_to_project(@user, @project)
     create_list(:message, 3, creator: @user, message_board: @project.message_board)
     Capybara.app_host = "http://#{@account.subdomain}.lvh.me"
     sign_in(@user)
-    visit project_message_board_path(@project)
+    visit bucket_message_board_path(@project.bucket)
     assert_text "Message Board"
   end
 

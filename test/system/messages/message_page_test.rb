@@ -2,7 +2,6 @@ require_relative "../system_test_helper"
 
 class MessagePageTest < ApplicationSystemTestCase
   include SystemTestHelper
-  include ProjectTestHelpers
 
   def open_message_actions
     find(".btn-circle-indigo").click
@@ -18,7 +17,7 @@ class MessagePageTest < ApplicationSystemTestCase
     @message = create(:message, creator: @user, message_board: @project.message_board)
     Capybara.app_host = "http://#{@account.subdomain}.lvh.me"
     sign_in(@user)
-    visit project_message_path(@project, @message)
+    visit bucket_message_path(@project.bucket, @message)
     assert_text @message.subject
   end
 

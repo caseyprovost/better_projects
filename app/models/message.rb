@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-  include Recordable
+  include Recordable, HasRecordingStatus
 
   belongs_to :message_board
   belongs_to :creator, class_name: "User"
@@ -20,10 +20,6 @@ class Message < ApplicationRecord
     exclude_association :recording
     exclude_association :message_board
     exclude_association :creator
-  end
-
-  def status
-    recording&.status
   end
 
   def content_preview
