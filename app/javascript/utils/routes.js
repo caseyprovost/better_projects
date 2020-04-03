@@ -536,6 +536,9 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // bucket_recording_moves => /buckets/:bucket_id/recordings/:recording_id/moves(.:format)
   // function(bucket_id, recording_id, options)
   bucket_recording_moves: Utils.route([["bucket_id",true],["recording_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"recordings",false],[2,[7,"/",false],[2,[3,"recording_id",false],[2,[7,"/",false],[2,[6,"moves",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
+// bucket_recording_trashings => /buckets/:bucket_id/recordings/:recording_id/trashings(.:format)
+  // function(bucket_id, recording_id, options)
+  bucket_recording_trashings: Utils.route([["bucket_id",true],["recording_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"recordings",false],[2,[7,"/",false],[2,[3,"recording_id",false],[2,[7,"/",false],[2,[6,"trashings",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
 // bucket_recordings => /buckets/:bucket_id/recordings(.:format)
   // function(bucket_id, options)
   bucket_recordings: Utils.route([["bucket_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"recordings",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]),

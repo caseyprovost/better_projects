@@ -58,13 +58,14 @@
           </a>
         </li>
         <li>
-          <a
-            href="#"
+          <inertia-link
+            :href="trashRecordingPath"
+            method="post"
             class="text-indigo-100 py-2 px-6 hover:bg-pink-600 hover:text-pink-100 block items-center flex-inline"
           >
             <i class="fas fa-trash text-sm mr-1" />
             <span>Trash</span>
-          </a>
+          </inertia-link>
         </li>
       </ul>
       <div>
@@ -150,6 +151,9 @@
       },
       archiveRecordingPath() {
         return this.$routes.bucket_recording_archivals(this.currentBucket, this.recording)
+      },
+      trashRecordingPath() {
+        return this.$routes.bucket_recording_trashings(this.currentBucket, this.recording)
       },
       currentBucket() {
         return this.$page.current_bucket

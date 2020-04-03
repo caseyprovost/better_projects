@@ -52,4 +52,11 @@ class MessagePageTest < ApplicationSystemTestCase
     click_link("Archive")
     assert_text "You archived this a second ago"
   end
+
+  test "allows the user to trash the message" do
+    open_message_actions
+    assert_text "Trash"
+    click_link("Trash")
+    assert_text "The item has been put in the trash."
+  end
 end

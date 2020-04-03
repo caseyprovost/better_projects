@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
     resources :recordings, module: "buckets" do
       resources :archivals, only: [:create], module: "recordings"
+      resources :trashings, only: [:create], module: "recordings"
       resources :copies, only: %i[new create], module: "recordings"
       resources :moves, only: %i[new create], module: "recordings"
     end
