@@ -5,7 +5,8 @@ class ProjectsController < ApplicationController
     authorize @project
     render inertia: "Projects/ViewProject", props: {
       project: @project.as_json(include: [:bucket]),
-      messages: json_messages
+      messages: json_messages,
+      todo_lists: json_todo_lists
     }
   end
 
@@ -52,9 +53,23 @@ class ProjectsController < ApplicationController
 
   private
 
+  def current_bucket
+    current_bucket ||= @project.bucket
+  end
+
   def json_messages
     @project.messages.includes(:creator).limit(5)
       .as_json(include: [:creator], methods: [:content_preview])
+  end
+
+  def json_todo_lists
+    TodoList
+      .joins("INNER JOIN todos ON todos.parent_id = todo_lists.id")
+      .joins("INNER JOIN todo_sets ON todo_lists.parent_id = todo_sets.id")
+      .joins("INNER JOIN buckets ON todo_sets.bucket_id = buckets.id")
+      .group("todo_lists.position, todos.position, todo_lists.id")
+      .limit(5)
+      .as_json(include: [:todos], methods: [:description_preview])
   end
 
   def set_project

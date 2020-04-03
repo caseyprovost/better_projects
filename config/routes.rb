@@ -47,7 +47,11 @@ Rails.application.routes.draw do
       resources :moves, only: %i[new create], module: "recordings"
     end
 
+    resources :todo_lists, module: "buckets"
+    resources :todos, module: "buckets", only: [:show, :edit, :update]
+
     resources :messages, module: "buckets", only: [:show, :edit, :update]
+    resources :todo_sets, module: "buckets", only: [:show]
   end
 
   resources :projects do

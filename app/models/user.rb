@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_many :project_memberships
   has_many :projects, through: :project_memberships
 
+  has_many :assignments
+  has_many :assigned_todos, as: :assignable, class_name: "Todo"
+
   # Include default devise modules. Others available are:
   # :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_03_141251) do
+ActiveRecord::Schema.define(version: 2020_04_03_221135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,16 @@ ActiveRecord::Schema.define(version: 2020_04_03_141251) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "assignments", force: :cascade do |t|
+    t.string "assignable_type", null: false
+    t.bigint "assignable_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["assignable_type", "assignable_id"], name: "index_assignments_on_assignable_type_and_assignable_id"
+    t.index ["user_id"], name: "index_assignments_on_user_id"
   end
 
   create_table "buckets", force: :cascade do |t|
@@ -147,6 +157,47 @@ ActiveRecord::Schema.define(version: 2020_04_03_141251) do
     t.index ["trashed_by_id"], name: "index_recordings_on_trashed_by_id"
   end
 
+  create_table "todo_lists", force: :cascade do |t|
+    t.bigint "parent_id", null: false
+    t.bigint "creator_id", null: false
+    t.string "title", null: false
+    t.integer "todos_count", default: 0, null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_todo_lists_on_creator_id"
+    t.index ["parent_id"], name: "index_todo_lists_on_parent_id"
+    t.index ["position", "parent_id"], name: "index_todo_lists_on_position_and_parent_id", unique: true
+  end
+
+  create_table "todo_sets", force: :cascade do |t|
+    t.bigint "bucket_id", null: false
+    t.bigint "creator_id", null: false
+    t.string "title", null: false
+    t.integer "todo_list_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bucket_id"], name: "index_todo_sets_on_bucket_id"
+    t.index ["creator_id"], name: "index_todo_sets_on_creator_id"
+  end
+
+  create_table "todos", force: :cascade do |t|
+    t.bigint "parent_id", null: false
+    t.bigint "creator_id", null: false
+    t.string "title", null: false
+    t.integer "todos_count", default: 0, null: false
+    t.integer "position", default: 0, null: false
+    t.boolean "completed", default: false, null: false
+    t.datetime "starts_on"
+    t.datetime "due_on"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_todos_on_creator_id"
+    t.index ["due_on"], name: "index_todos_on_due_on"
+    t.index ["parent_id"], name: "index_todos_on_parent_id"
+    t.index ["starts_on"], name: "index_todos_on_starts_on"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -185,6 +236,7 @@ ActiveRecord::Schema.define(version: 2020_04_03_141251) do
   add_foreign_key "account_members", "accounts"
   add_foreign_key "account_members", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assignments", "users"
   add_foreign_key "buckets", "accounts"
   add_foreign_key "message_boards", "projects"
   add_foreign_key "messages", "message_boards"
@@ -195,4 +247,10 @@ ActiveRecord::Schema.define(version: 2020_04_03_141251) do
   add_foreign_key "recordings", "buckets"
   add_foreign_key "recordings", "users", column: "archived_by_id"
   add_foreign_key "recordings", "users", column: "trashed_by_id"
+  add_foreign_key "todo_lists", "todo_sets", column: "parent_id"
+  add_foreign_key "todo_lists", "users", column: "creator_id"
+  add_foreign_key "todo_sets", "buckets"
+  add_foreign_key "todo_sets", "users", column: "creator_id"
+  add_foreign_key "todos", "todo_lists", column: "parent_id"
+  add_foreign_key "todos", "users", column: "creator_id"
 end
