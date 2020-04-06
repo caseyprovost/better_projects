@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="$emit('submit')">
     <div class="p-2 flex flex-wrap w-full">
-      <div class="flex w-40 justify-end pr-2">
-        <fancy-check-box class="mt-3" />
+      <div class="flex w-40 justify-end pr-2 mt-3">
+        <i class="h-5 w-5 block border border-pink-500 rounded"></i>
       </div>
       <div class="w-1/2 items-center">
         <text-input
@@ -49,7 +49,7 @@
       <div class="w-full flex mb-4">
         <label class="text-gray-400 w-40 text-right pr-2">Due On</label>
         <div class="w-4/6">
-          <a href="#" @click.prevent="showDueOn = true" v-if="!showDueOn">Select a date...</a>
+          <a href="#" @click.prevent="showDueOn = true" v-if="!showDueOn" class="text-purple-300">Select a date...</a>
           <div v-if="showDueOn">
             <div class="flex">
               <radio-button
@@ -147,7 +147,7 @@
             trackBy="id"
             v-if="showDescription"
           />
-          <a href="#" @click.prevent="showDescription = true" v-if="!showDescription">
+          <a href="#" @click.prevent="showDescription = true" v-if="!showDescription" class="text-purple-300">
             Add extra details or attach a file...
           </a>
         </div>
@@ -232,7 +232,7 @@ export default {
 }
 </script>
 
-<style>
+<style language="scss">
   .trix-button-group.trix-button-group--text-tools {
     @apply border-purple-500;
   }
@@ -255,5 +255,25 @@ export default {
 
   .input-wrapper {
     @apply mb-4 !important;
+  }
+
+  .multiselect__tags {
+    @apply bg-gray-800 border-purple-700;
+  }
+
+  .multiselect__tags input[type="text"] {
+    @apply bg-gray-800;
+  }
+
+  .multiselect__option--highlight {
+    @apply bg-green-600;
+  }
+
+  .multiselect__option--highlight::after {
+    @apply bg-green-600;
+  }
+
+  .multiselect__content-wrapper {
+    @apply border-purple-800;
   }
 </style>

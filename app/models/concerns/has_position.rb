@@ -8,10 +8,10 @@ module HasPosition
   private
 
   def last_position_for_parent
-    parent.positionable_children.order(position: :desc).limit(1)&.position || 0
+    parent.positionable_children.order(position: :desc).first&.position || 0
   end
 
   def set_position
-    self.position ||= last_position_for_parent
+    self.position = last_position_for_parent + 1
   end
 end

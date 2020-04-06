@@ -34,27 +34,31 @@
           :key="todo_list.id"
           class="mt-2 w-full"
         >
-          <div class="w-full rounded-lg shadow-xl p-4 w-full border border-transparent items-center block hover:cursor-pointer  bg-indigo-900">
+          <div class="w-full rounded-lg shadow-xl p-4 w-full border border-transparent items-center block hover:cursor-pointer">
             <h3 class="text-gray-500 flex-1 leading-normal font-semibold">
-              <span>{{ todo_list.title }}</span>
+              <i class="fa fa-list"></i>
+              <i class="fa fa-circle mr-1"></i>
+              <inertia-link :href="$routes.bucket_todo_list(currentBucket, todo_list)">{{ todo_list.title }}</inertia-link>
             </h3>
-            <ul class="message-meta text-gray-500 leading-normal text-purple-700" v-if="todo_list.todos.length > 0">
-              <li v-for="todo in todo_list.todos">
-                {{ todo.title }}
+            <ul class="message-meta text-gray-500 leading-normal text-purple-700 ml-5" v-if="todo_list.todos.length > 0">
+              <li v-for="todo in todo_list.todos" class="flex w-full items-center mb-1">
+                <i class="h-4 w-4 block border border-pink-500 rounded" v-if="!todo.completed"></i>
+                <i class="fas fa-check-square" v-if="todo.completed"></i>
+                <inertia-link :href="$routes.bucket_todo(currentBucket, todo)" class="ml-2">{{ todo.title }}</inertia-link>
               </li>
             </ul>
+            <div class="ml-4 bg-purple-800 rounded py-4" v-if="creatingTodo">
+              <todo-form :form="todoForm" :assignees="assignees" :notifiees="notifiees">
+                <div class="px-12">
+                  <button class="btn btn-green btn-sm" @click.prevent="createTodo">Add this to-do</button>
+                  <button @click.prevent="closeTodoForm" class="btn btn-gray btn-sm">Nevermind</button>
+                </div>
+              </todo-form>
+            </div>
+            <a href="#" @click="openTodoForm(todo_list)" v-if="!creatingTodo" class="btn btn-teal btn-sm mt-2 ml-5">
+              Add a to-do
+            </a>
           </div>
-          <div class="ml-4" v-if="creatingTodo">
-            <todo-form :form="todoForm" :assignees="assignees" :notifiees="notifiees">
-              <div class="px-12">
-                <button class="btn btn-indigo btn-sm" @click.prevent="createTodo">Add this to-do</button>
-                <button @click.prevent="closeTodoForm" class="btn btn-blue-outline btn-outline btn-sm">Nevermind</button>
-              </div>
-            </todo-form>
-          </div>
-          <a href="#" @click="openTodoForm(todo_list)" v-if="!creatingTodo" class="btn btn-outline btn-teal-outline mt-4">
-            Add a to-do
-          </a>
         </div>
       </div>
     </div>
@@ -136,6 +140,8 @@
         let data = this.todoForm
         data.starts_on = data.starts_on ? moment(data.starts_on).format("YYYY-MM-DD") : null
         data.due_on = data.due_on ? moment(data.due_on).format("YYYY-MM-DD") : null
+        data.notifiee_ids = data.notifiees.map(u => u.id)
+        data.assignee_ids = data.assignees.map(u => u.id)
 
         this.$inertia.post(this.$routes.bucket_todos(this.currentBucket), data).then(() => {
           this.sending = false

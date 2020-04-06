@@ -5,6 +5,6 @@ class TodoSet < ApplicationRecord
   has_many :todos, through: :todo_lists
 
   def positionable_children
-    todo_lsits
+    todo_lists
   end
 end

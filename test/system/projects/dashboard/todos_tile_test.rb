@@ -26,7 +26,7 @@ class TodosTileTest < ApplicationSystemTestCase
   end
 
   test "displays todo list previews when todo lists exist" do
-    create(:todo_list, creator: @user, parent: @bucket.todo_sets.first, title: "Groceries")
+    create(:todo_list, creator: @user, todo_set: @bucket.todo_sets.first, title: "Groceries")
     visit project_path(@project)
 
     assert_text "To-dos" # All projects start with a TodoSet with a title of "To-dos"
@@ -34,7 +34,7 @@ class TodosTileTest < ApplicationSystemTestCase
   end
 
   test "goes to the todo set page and displays all lists" do
-    create(:todo_list, creator: @user, parent: @bucket.todo_sets.first, title: "Groceries")
+    create(:todo_list, creator: @user, todo_set: @bucket.todo_sets.first, title: "Groceries")
     visit project_path(@project)
 
     find(:link, text: "Message Board").click

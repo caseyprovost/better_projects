@@ -41,6 +41,17 @@
         {{ recording.title }}
       </inertia-link>
     </div>
+     <div
+      v-if="showTodoSetBreadcrumb"
+      class="breadcrumb relative inline-block pr-2"
+    >
+      <inertia-link
+        :href="this.$routes.bucket_todo_set(bucket, this.$page.todo_set)"
+        class="text-gray-100 underline hover:text-green-400 ml-2"
+      >
+        To-dos
+      </inertia-link>
+    </div>
   </div>
 </template>
 
@@ -77,7 +88,7 @@ export default {
   },
   computed: {
     showCrumbs() {
-      return this.bucket && this.project
+      return (this.bucket && this.project) || (this.bucket && this.$page.todo_set)
     },
     showMessageBoardBreadcrumb() {
       let routes = [
@@ -107,6 +118,16 @@ export default {
       let result = routes.indexOf(location.pathname)
       return result !== -1
     },
+    showTodoSetBreadcrumb() {
+      let routes = []
+
+      if (this.bucket && this.$page.todo_set) {
+        routes.push(this.$routes.bucket_todo_list(this.bucket, this.$page.todo_set))
+        routes.push(this.$routes.edit_bucket_todo_list(this.bucket, this.$page.todo_set))
+      }
+      let result = routes.indexOf(location.pathname)
+      return result !== -1
+    }
   },
   methods: {
   },

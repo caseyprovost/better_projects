@@ -27,13 +27,17 @@ class Recording < ApplicationRecord
     recordable.versions
   end
 
+  def default_subscription
+    subscriptions.find_by(action: "comment.created")
+  end
+
   private
 
   def generate_subscriptions
-    recording.subscriptions.create!(action: "comment.created")
+    subscriptions.create!(action: "comment.created")
 
     if recordable.is_a?(Todo)
-      recording.subscriptions.create!(action: "todo.completed")
+      subscriptions.create!(action: "todo.completed")
     end
   end
 end

@@ -6,10 +6,10 @@ module Buckets
 
       if todo.save
         flash.notice = "Your todo was successfully created"
-        redirect_back(fallback_location: bucket_todo_set_path(current_bucket, @todo_set))
+        redirect_back(fallback_location: bucket_todo_set_path(current_bucket, todo_list.todo_set))
       else
         flash.alert = "Oh no, we couldn't create your todo!"
-        redirect_to bucket_todo_set_path(current_bucket, todo_set), errors: todo.errors
+        redirect_to bucket_todo_set_path(current_bucket, todo_list.todo_set), errors: todo.errors
       end
     end
 
@@ -22,8 +22,8 @@ module Buckets
         :todo_list_id,
         :starts_on,
         :due_on,
-        :assignee_ids,
-        :notifiee_ids
+        assignee_ids: [],
+        notifiee_ids: []
       ).tap do |data|
         data[:creator] = current_user
       end

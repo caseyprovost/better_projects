@@ -5,7 +5,7 @@
 .form-input,
 .form-textarea,
 .form-select {
-  @apply .p-2 .leading-normal .block .w-full border border-indigo-800 rounded .text-gray-100 .bg-gray-800 .font-sans .text-left .appearance-none .relative;
+  @apply .p-2 .leading-normal .block .w-full border border-purple-700 rounded .text-gray-100 .bg-gray-800 .font-sans .text-left .appearance-none .relative;
 
   &:focus,
   &.focus {

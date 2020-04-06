@@ -1,5 +1,5 @@
 .btn {
-  @apply px-6 py-3 rounded text-sm font-bold whitespace-no-wrap items-center inline-flex;
+  @apply px-6 py-3 rounded text-sm font-bold whitespace-no-wrap items-center inline-flex border border-transparent;
 }
 
 .btn-circle {
@@ -20,11 +20,38 @@
 }
 
 .btn-indigo {
-  @apply bg-indigo-600 text-indigo-100;
+  @apply bg-indigo-400 text-indigo-100;
 
   &:hover,
   &:focus {
     @apply bg-indigo-500;
+  }
+}
+
+.btn-gray {
+  @apply bg-gray-800 text-gray-100;
+
+  &:hover,
+  &:focus {
+    @apply bg-gray-700;
+  }
+}
+
+.btn-green {
+  @apply bg-green-600 text-green-100;
+
+  &:hover,
+  &:focus {
+    @apply bg-green-500;
+  }
+}
+
+.btn-teal {
+  @apply bg-teal-600 text-teal-100;
+
+  &:hover,
+  &:focus {
+    @apply bg-teal-500;
   }
 }
 
