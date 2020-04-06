@@ -167,11 +167,10 @@ export default {
       }
     },
     todoListsPath() {
-      if (this.todoLists.length === 0) {
-        return this.$routes.new_project_todo_list(this.project)
-      } else {
-        return this.$routes.project_todo_lists(this.project)
-      }
+      return this.$routes.bucket_todo_set(this.currentBucket, this.currentBucket.todo_sets[0])
+    },
+    currentBucket() {
+      return this.$page.current_bucket
     },
     documentsPath() {
       // return this.$routes.project_todo_lists(this.project)

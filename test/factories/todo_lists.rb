@@ -1,10 +1,8 @@
 FactoryBot.define do
   factory :todo_list do
-    association :parent, factory: :todo_set
+    association :todo_set
     association :creator, factory: :user
-    title { "MyString" }
-    todos_count { 0 }
-    description { "MyString" }
-    position { 0 }
+    title { Faker::Book.title }
+    description { Faker::Lorem.paragraph }
   end
 end

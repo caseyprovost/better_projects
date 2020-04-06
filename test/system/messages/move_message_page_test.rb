@@ -1,4 +1,4 @@
-require_relative "../system_test_helper"
+require 'test_helper'
 
 class MoveMessagePageTest < ApplicationSystemTestCase
   include SystemTestHelper

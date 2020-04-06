@@ -33,8 +33,12 @@
   @apply mr-1 text-sm;
 }
 
+.btn-outline {
+  @apply bg-transparent border;
+}
+
 .btn-indigo-outline {
-  @apply px-6 py-3 rounded bg-transparent border border-indigo-500 text-indigo-500 text-sm font-semibold whitespace-no-wrap;
+  @apply border-indigo-500 text-indigo-500;
 
   &:hover,
   &:focus {
@@ -42,8 +46,17 @@
   }
 }
 
+.btn-teal-outline {
+  @apply border-teal-500 text-teal-500;
+
+  &:hover,
+  &:focus {
+    @apply bg-teal-500 text-teal-100;
+  }
+}
+
 .btn-blue-outline {
-  @apply px-6 py-3 rounded bg-transparent border border-blue-500 text-blue-500 text-sm font-semibold whitespace-no-wrap;
+  @apply border-blue-500 text-blue-500;
 
   &:hover,
   &:focus {
@@ -67,6 +80,10 @@
   &:focus {
     @apply bg-orange-500 text-orange-100;
   }
+}
+
+.btn.btn-sm {
+  @apply text-sm px-3 py-2 font-normal;
 }
 
 

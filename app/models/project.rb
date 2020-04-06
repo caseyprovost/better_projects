@@ -1,10 +1,12 @@
 class Project < ApplicationRecord
+  attribute :creator
+
   belongs_to :account
   has_many :memberships, class_name: "ProjectMembership", dependent: :destroy
   has_many :users, through: :memberships
 
   has_one :message_board, dependent: :destroy
-  has_one :bucket, as: :bucketable
+  has_one :bucket, as: :bucketable, dependent: :destroy
   has_many :messages, through: :message_board
 
   validates :name, :description, presence: true

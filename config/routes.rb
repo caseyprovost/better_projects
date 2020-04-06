@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     end
 
     resources :todo_lists, module: "buckets"
-    resources :todos, module: "buckets", only: [:show, :edit, :update]
+    resources :todos, module: "buckets"
 
     resources :messages, module: "buckets", only: [:show, :edit, :update]
     resources :todo_sets, module: "buckets", only: [:show]

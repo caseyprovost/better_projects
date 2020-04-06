@@ -1,7 +1,8 @@
 <template>
   <div class="checkbox">
     <label :class="labelClasses"></label>
-    <span class="checkbox__button"></span>
+    <span class="checkbox__button">
+    </span>
   </div>
 </template>
 
@@ -10,7 +11,6 @@
     props: {
       disabled: {
         type: Boolean,
-        required: false,
         default: false
       }
     },
@@ -30,12 +30,10 @@
 
 <style scoped="true" language="scss">
   .checkbox__button {
+    @apply bg-transparent border border-indigo-700;
     display: inline-block;
     width: 1.4em;
     height: 1.4em;
-    border: 1px solid rgba(0,0,0,0.25);
-    background-color: #fff;
     border-radius: 0.3em;
-    vertical-align: top;
   }
 </style>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_03_221135) do
+ActiveRecord::Schema.define(version: 2020_04_06_151248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,18 @@ ActiveRecord::Schema.define(version: 2020_04_03_221135) do
     t.index ["bucketable_type", "bucketable_id"], name: "index_buckets_on_bucketable_type_and_bucketable_id"
   end
 
+  create_table "events", force: :cascade do |t|
+    t.bigint "recording_id", null: false
+    t.bigint "creator_id"
+    t.string "action", null: false
+    t.json "details", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_events_on_action"
+    t.index ["creator_id"], name: "index_events_on_creator_id"
+    t.index ["recording_id"], name: "index_events_on_recording_id"
+  end
+
   create_table "message_boards", force: :cascade do |t|
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -157,8 +169,27 @@ ActiveRecord::Schema.define(version: 2020_04_03_221135) do
     t.index ["trashed_by_id"], name: "index_recordings_on_trashed_by_id"
   end
 
+  create_table "subscribers", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subscription_id", "user_id"], name: "index_subscribers_on_subscription_id_and_user_id", unique: true
+    t.index ["subscription_id"], name: "index_subscribers_on_subscription_id"
+    t.index ["user_id"], name: "index_subscribers_on_user_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "recording_id", null: false
+    t.string "action", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_subscriptions_on_action"
+    t.index ["recording_id"], name: "index_subscriptions_on_recording_id"
+  end
+
   create_table "todo_lists", force: :cascade do |t|
-    t.bigint "parent_id", null: false
+    t.bigint "todo_set_id", null: false
     t.bigint "creator_id", null: false
     t.string "title", null: false
     t.integer "todos_count", default: 0, null: false
@@ -166,26 +197,25 @@ ActiveRecord::Schema.define(version: 2020_04_03_221135) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_todo_lists_on_creator_id"
-    t.index ["parent_id"], name: "index_todo_lists_on_parent_id"
-    t.index ["position", "parent_id"], name: "index_todo_lists_on_position_and_parent_id", unique: true
+    t.index ["position", "todo_set_id"], name: "index_todo_lists_on_position_and_todo_set_id", unique: true
+    t.index ["todo_set_id"], name: "index_todo_lists_on_todo_set_id"
   end
 
   create_table "todo_sets", force: :cascade do |t|
     t.bigint "bucket_id", null: false
     t.bigint "creator_id", null: false
     t.string "title", null: false
-    t.integer "todo_list_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "todo_lists_count", default: 0, null: false
     t.index ["bucket_id"], name: "index_todo_sets_on_bucket_id"
     t.index ["creator_id"], name: "index_todo_sets_on_creator_id"
   end
 
   create_table "todos", force: :cascade do |t|
-    t.bigint "parent_id", null: false
+    t.bigint "todo_list_id", null: false
     t.bigint "creator_id", null: false
     t.string "title", null: false
-    t.integer "todos_count", default: 0, null: false
     t.integer "position", default: 0, null: false
     t.boolean "completed", default: false, null: false
     t.datetime "starts_on"
@@ -194,8 +224,9 @@ ActiveRecord::Schema.define(version: 2020_04_03_221135) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_todos_on_creator_id"
     t.index ["due_on"], name: "index_todos_on_due_on"
-    t.index ["parent_id"], name: "index_todos_on_parent_id"
+    t.index ["position", "todo_list_id"], name: "index_todos_on_position_and_todo_list_id", unique: true
     t.index ["starts_on"], name: "index_todos_on_starts_on"
+    t.index ["todo_list_id"], name: "index_todos_on_todo_list_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -238,6 +269,8 @@ ActiveRecord::Schema.define(version: 2020_04_03_221135) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assignments", "users"
   add_foreign_key "buckets", "accounts"
+  add_foreign_key "events", "recordings"
+  add_foreign_key "events", "users", column: "creator_id"
   add_foreign_key "message_boards", "projects"
   add_foreign_key "messages", "message_boards"
   add_foreign_key "messages", "users", column: "creator_id"
@@ -247,10 +280,13 @@ ActiveRecord::Schema.define(version: 2020_04_03_221135) do
   add_foreign_key "recordings", "buckets"
   add_foreign_key "recordings", "users", column: "archived_by_id"
   add_foreign_key "recordings", "users", column: "trashed_by_id"
-  add_foreign_key "todo_lists", "todo_sets", column: "parent_id"
+  add_foreign_key "subscribers", "subscriptions"
+  add_foreign_key "subscribers", "users"
+  add_foreign_key "subscriptions", "recordings"
+  add_foreign_key "todo_lists", "todo_sets"
   add_foreign_key "todo_lists", "users", column: "creator_id"
   add_foreign_key "todo_sets", "buckets"
   add_foreign_key "todo_sets", "users", column: "creator_id"
-  add_foreign_key "todos", "todo_lists", column: "parent_id"
+  add_foreign_key "todos", "todo_lists"
   add_foreign_key "todos", "users", column: "creator_id"
 end

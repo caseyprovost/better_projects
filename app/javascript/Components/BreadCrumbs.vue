@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="bucket"
+    v-if="showCrumbs"
     class="bg-gray-700 py-2 px-3"
   >
      <div class="breadcrumb relative inline-block pr-2">
@@ -76,6 +76,9 @@ export default {
     }
   },
   computed: {
+    showCrumbs() {
+      return this.bucket && this.project
+    },
     showMessageBoardBreadcrumb() {
       let routes = [
         this.$routes.new_bucket_message_board_message(this.bucket),

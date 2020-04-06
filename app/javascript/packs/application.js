@@ -11,6 +11,7 @@ require('channels')
 // that code so it'll be compiled.
 
 import '../stylesheets/application.scss'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -26,8 +27,16 @@ Vue.use(VueMeta)
 import PortalVue from 'portal-vue'
 Vue.use(PortalVue)
 
+import VCalendar from 'v-calendar';
+Vue.use(VCalendar, {
+  componentPrefix: 'vc',
+});
+
 import 'vue-trix'
 import axios from 'axios'
+
+import moment from 'moment'
+window.moment = moment
 
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'

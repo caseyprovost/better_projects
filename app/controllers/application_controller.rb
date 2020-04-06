@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_paper_trail_whodunnit
+  before_action :set_current_attributes
 
   def current_account
     return nil if current_user.nil? || Account::RESERVED_SUBDOMAINS.include?(request.subdomain)
@@ -29,6 +30,11 @@ class ApplicationController < ActionController::Base
   }
 
   protected
+
+  def set_current_attributes
+    Current.user = current_user
+    Current.account = current_account
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :phone_number])
