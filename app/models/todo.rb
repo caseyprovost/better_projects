@@ -31,18 +31,32 @@ class Todo < ApplicationRecord
     todo_list
   end
 
+  def mark_complete
+    self.completed = true
+    save
+  end
+
+  def mark_incomplete
+    self.completed = false
+    save
+  end
+
   def completed_subscription
     recording.subscriptions.find_by(action: "todo.completed")
   end
 
   private
 
+  def should_update_recording?
+    title_changed? || todo_list_id_changed?
+  end
+
   def change_assignees
     if assignee_ids.present?
       assignee_ids.each do |user_id|
         assignments.create!(user_id: user.id)
       end
-    elsif assignee_ids.empty?
+    elsif !assignee_ids.nil? && assignee_ids.empty?
       assignments.destroy_all
     else
       # do nothing if not intentionally modifying assignees
@@ -55,7 +69,7 @@ class Todo < ApplicationRecord
       notifiee_ids.each do |user_id|
         subscription.subscribers.create!(user_id: user_id)
       end
-    elsif notifiee_ids.empty?
+    elsif !notifiee_ids.nil? && notifiee_ids.empty?
       subscription = completed_subscription
       subscription.subscribers.destroy_all
     else

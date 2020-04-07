@@ -23,6 +23,7 @@ module IntertiaProjects
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
     Rails.application.config.hosts = nil
+    config.active_job.queue_adapter = :sidekiq
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

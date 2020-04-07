@@ -22,9 +22,10 @@
 
           <div v-if="todoList.todos.length > 0" class="w-full mt-2">
             <div v-for="todo in todoList.todos" class="ml-1 flex mb-1">
-              <i class="h-4 w-4 block border border-pink-500 rounded" v-if="!todo.completed"></i>
-              <i class="fas fa-check-square" v-if="todo.completed"></i>
-              <span class="ml-2">{{ todo.title }}</span>
+              <label class="inline-flex items-center">
+                <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3 border border-pink-600 bg-transparent" :checked="todo.completed">
+                <span class="ml-2">{{ todo.title }}</span>
+              </label>
             </div>
           </div>
         </li>

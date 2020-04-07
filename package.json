@@ -12,7 +12,7 @@
     "@inertiajs/inertia-vue": "^0.1.2",
     "@rails/actioncable": "^6.0.0",
     "@rails/actiontext": "^6.0.2-2",
-    "@rails/webpacker": "4.2.2",
+    "@rails/webpacker": "5.0.1",
     "expose-loader": "^0.7.5",
     "install": "^0.13.0",
     "lodash": "^4.17.5",
@@ -33,6 +33,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@tailwindcss/custom-forms": "^0.2.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",

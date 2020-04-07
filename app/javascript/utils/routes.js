@@ -545,6 +545,9 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // bucket_todo => /buckets/:bucket_id/todos/:id(.:format)
   // function(bucket_id, id, options)
   bucket_todo: Utils.route([["bucket_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"todos",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
+// bucket_todo_completion => /buckets/:bucket_id/todos/:todo_id/completion(.:format)
+  // function(bucket_id, todo_id, options)
+  bucket_todo_completion: Utils.route([["bucket_id",true],["todo_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"todos",false],[2,[7,"/",false],[2,[3,"todo_id",false],[2,[7,"/",false],[2,[6,"completion",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
 // bucket_todo_list => /buckets/:bucket_id/todo_lists/:id(.:format)
   // function(bucket_id, id, options)
   bucket_todo_list: Utils.route([["bucket_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
@@ -593,9 +596,6 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // edit_bucket_recording => /buckets/:bucket_id/recordings/:id/edit(.:format)
   // function(bucket_id, id, options)
   edit_bucket_recording: Utils.route([["bucket_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"recordings",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
-// edit_bucket_todo => /buckets/:bucket_id/todos/:id/edit(.:format)
-  // function(bucket_id, id, options)
-  edit_bucket_todo: Utils.route([["bucket_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"todos",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
 // edit_bucket_todo_list => /buckets/:bucket_id/todo_lists/:id/edit(.:format)
   // function(bucket_id, id, options)
   edit_bucket_todo_list: Utils.route([["bucket_id",true],["id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[3,"id",false],[2,[7,"/",false],[2,[6,"edit",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]),
@@ -647,9 +647,6 @@ Based on Rails 6.0.2.2 routes of IntertiaProjects::Application
 // new_bucket_recording_move => /buckets/:bucket_id/recordings/:recording_id/moves/new(.:format)
   // function(bucket_id, recording_id, options)
   new_bucket_recording_move: Utils.route([["bucket_id",true],["recording_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"recordings",false],[2,[7,"/",false],[2,[3,"recording_id",false],[2,[7,"/",false],[2,[6,"moves",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]]]]]),
-// new_bucket_todo => /buckets/:bucket_id/todos/new(.:format)
-  // function(bucket_id, options)
-  new_bucket_todo: Utils.route([["bucket_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"todos",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),
 // new_bucket_todo_list => /buckets/:bucket_id/todo_lists/new(.:format)
   // function(bucket_id, options)
   new_bucket_todo_list: Utils.route([["bucket_id",true],["format",false]], {}, [2,[7,"/",false],[2,[6,"buckets",false],[2,[7,"/",false],[2,[3,"bucket_id",false],[2,[7,"/",false],[2,[6,"todo_lists",false],[2,[7,"/",false],[2,[6,"new",false],[1,[2,[8,".",false],[3,"format",false]],false]]]]]]]]]),

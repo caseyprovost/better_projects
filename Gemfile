@@ -12,9 +12,7 @@ gem "puma", "~> 4.1"
 # Use SCSS for stylesheets
 gem "sass-rails", ">= 6"
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem "webpacker", "~> 4.0"
-
-gem "jbuilder", "~> 2.7"
+gem "webpacker", "~> 5.0"
 
 gem "inertia_rails"
 gem "devise"
@@ -26,6 +24,7 @@ gem "amoeba"
 gem "m"
 gem "rack-cors"
 gem "paper_trail"
+gem "sidekiq"
 
 # Use Active Storage variant
 gem "image_processing", "~> 1.2"
