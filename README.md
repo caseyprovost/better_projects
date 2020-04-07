@@ -23,6 +23,7 @@ The base of all system requirements are those required by Rails itself.
 
 ### Getting Up And Running
 
+* In a terminal window/tab run `bundle` (this will install all of your gems)
 * In a terminal window/tab run `guard` (it does a lot, but mainly you want to watch for errors), and leave running
 * In the same terminal window run `bin/setup`
 * In a new terminal tab/window run `rails s`
