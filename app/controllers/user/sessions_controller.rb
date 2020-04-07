@@ -46,10 +46,6 @@ class User::SessionsController < Devise::SessionsController
 
   private
 
-  def current_account
-    @current_account ||= Account.find_by(subdomain: request.subdomain)
-  end
-
   def ensure_no_user
     return if current_user.nil?
     flash.alert = "You must be signed out to access that page"
