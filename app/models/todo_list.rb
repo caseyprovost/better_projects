@@ -16,4 +16,8 @@ class TodoList < ApplicationRecord
   def positionable_children
     todos
   end
+
+  def description_preview
+    description.to_plain_text
+  end
 end

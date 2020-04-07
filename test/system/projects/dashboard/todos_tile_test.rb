@@ -21,8 +21,8 @@ class TodosTileTest < ApplicationSystemTestCase
 
   test "prompts the user to create their first todo list, when none exist" do
     find(:link, text: "To-dos").click
-    assert_text "Create your first to-do"
-    assert current_path bucket_todo_set_path(@bucket, @bucket.todo_sets.first)
+    assert_text "Add extra details or attach a file"
+    assert_equal current_path, bucket_todo_set_path(@bucket, @bucket.todo_sets.first)
   end
 
   test "displays todo list previews when todo lists exist" do
@@ -37,9 +37,8 @@ class TodosTileTest < ApplicationSystemTestCase
     create(:todo_list, creator: @user, todo_set: @bucket.todo_sets.first, title: "Groceries")
     visit project_path(@project)
 
-    find(:link, text: "Message Board").click
-    assert_text "Message Board"
-    assert_text "Testing"
-    assert_text "battle!"
+    find(:link, text: "To-dos").click
+    assert_text "To-do"
+    assert_text "Groceries"
   end
 end

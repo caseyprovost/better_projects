@@ -12,50 +12,8 @@
 
     <div class="flex mt-8">
       <div class="w-full flex-wrap flex md:justify-between">
-        <dashboard-tile
-          title="Message Board"
-          :empty="messages.length === 0"
-          icon-color="blue"
-          icon="sticky-note"
-          empty-text="Post accouncements, pitch ideas, progress updates, etc. Keep feedback on topic."
-          :href="messageBoardPath"
-        >
-          <template v-slot:full>
-            <ul class="w-full">
-              <li
-                v-for="message in messages"
-                :key="message.id"
-                class="mb-4 text-gray-400 flex"
-              >
-                <div class="rounded-full bg-blue-600 text-blue-100 flex h-8 text-sm w-8 justify-center items-center">
-                  <span>{{ userInitials(message.creator) }}</span>
-                </div>
-                <div class="text-sm ml-2 my-auto flex flex-wrap">
-                  <p class="font-semibold w-full">
-                    {{ message.subject }}
-                  </p>
-                  <p class="w-full">
-                    {{ truncate(message.content_preview, 30) }}
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </template>
-        </dashboard-tile>
-        <dashboard-tile
-          :href="todoListsPath"
-          title="To-dos"
-          :empty="todoLists.length === 0"
-          icon-color="green"
-          icon="check"
-          empty-text="Make lists of work to be done, assign items, due dates, and discuss"
-        >
-          <template v-slot:full>
-            <p class="text-indigo-100 w-full text-center">
-              Full
-            </p>
-          </template>
-        </dashboard-tile>
+        <dashboard-messages-tile :messages="messages" :href="messageBoardPath" />
+        <dashboard-todos-tile :todo-lists="todoLists" :href="todoListsPath" />
         <dashboard-tile
           :href="documentsPath"
           title="Docs & Files"
@@ -120,12 +78,16 @@
 <script>
 import Layout from '@/Layouts/Main'
 import DashboardTile from '@/Components/DashboardTile'
+import DashboardMessagesTile from '@/Components/DashboardMessagesTile'
+import DashboardTodosTile from '@/Components/DashboardTodosTile'
 
 export default {
   metaInfo: { title: 'Account Dashboard' },
   layout: Layout,
   components: {
     DashboardTile,
+    DashboardMessagesTile,
+    DashboardTodosTile
   },
   props: {
     project: Object,
@@ -190,13 +152,6 @@ export default {
     },
   },
   methods: {
-    truncate(string, max) {
-      return string.length > max ? string.substr(0, max-1) + '…' : string
-    },
-    userInitials(user) {
-      let parts = user.name.split(' ')
-      return parts.map(p => p[0]).join('')
-    },
   },
 }
 </script>

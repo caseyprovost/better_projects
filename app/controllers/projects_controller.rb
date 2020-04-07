@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
     render inertia: "Projects/ViewProject", props: {
       project: project.as_json(include: [:bucket]),
       messages: json_messages,
-      todo_lists: json_todo_lists,
+      todoLists: json_todo_lists,
     }
   end
 
@@ -64,7 +64,8 @@ class ProjectsController < ApplicationController
 
   def json_todo_lists
     current_bucket.todo_lists
-      .joins(:todo_set, :todos)
+      .joins(:todo_set)
+      .left_joins(:todos)
       .group("todo_lists.position, todos.position, todo_lists.id")
       .limit(5)
       .as_json(include: [:todos], methods: [:description_preview])
