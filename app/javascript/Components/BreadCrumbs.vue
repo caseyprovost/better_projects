@@ -80,7 +80,7 @@ export default {
   },
   computed: {
     showCrumbs() {
-      return this.bucket
+      return this.bucket && (this.project === null || (this.project && location.pathname !== this.$routes.project(this.project)))
     },
     showMessageBoardBreadcrumb() {
       let routes = [

@@ -65,6 +65,7 @@ class ProjectsController < ApplicationController
   def json_todo_lists
     current_bucket.todo_lists
       .includes(:todo_set, :todos)
+      .order("todo_lists.position ASC")
       .limit(5)
       .as_json(include: [:todos], methods: [:description_preview])
   end

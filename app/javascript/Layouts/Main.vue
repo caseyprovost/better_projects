@@ -130,7 +130,7 @@
             scroll-region
           >
             <bread-crumbs
-              :project="currentProject"
+              :project="currentProject || this.$page.project"
               :bucket="currentBucket"
               :message="message"
               :recording="recording"

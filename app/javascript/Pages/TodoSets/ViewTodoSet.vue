@@ -41,7 +41,7 @@
               <inertia-link :href="$routes.bucket_todo_list(currentBucket, todo_list)">{{ todo_list.title }}</inertia-link>
             </h3>
             <ul class="message-meta text-gray-500 leading-normal text-purple-700 ml-5" v-if="todo_list.todos.length > 0">
-              <li v-for="todo in todo_list.todos" class="flex w-full items-center mb-1">
+              <li v-for="todo in sortedTodos(todo_list.todos)" class="flex w-full items-center mb-1">
                 <i class="h-4 w-4 block border border-pink-500 rounded" v-if="!todo.completed"></i>
                 <i class="fas fa-check-square" v-if="todo.completed"></i>
                 <inertia-link :href="$routes.bucket_todo(currentBucket, todo)" class="ml-2">{{ todo.title }}</inertia-link>
@@ -113,9 +113,17 @@
     computed: {
       currentBucket() {
         return this.$page.current_bucket
-      }
+      },
     },
     methods: {
+      sortedTodos(todos) {
+        if (todos.length === 0) return todos
+        return todos.sort((a,b) => {
+          if (a.position > b.position) return 1;
+          if (b.position > a.position) return -1;
+          return 0;
+        })
+      },
       creatingTodoForList(todoList) {
         return this.todoForm.todo_list_id === todoList.id
       },
