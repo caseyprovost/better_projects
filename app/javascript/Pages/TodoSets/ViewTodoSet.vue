@@ -146,8 +146,9 @@
         this.$inertia.post(this.$routes.bucket_todos(this.currentBucket), data).then(() => {
           this.sending = false
           if (Object.keys(this.$page.errors).length === 0) {
-            this.listForm = {}
+            this.todoForm = {}
             this.$emit('success')
+            this.creatingTodo = false
           }
         })
       },

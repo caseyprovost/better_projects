@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     showCrumbs() {
-      return (this.bucket && this.project) || (this.bucket && this.$page.todo_set)
+      return this.bucket
     },
     showMessageBoardBreadcrumb() {
       let routes = [

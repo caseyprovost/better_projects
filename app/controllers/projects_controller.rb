@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
   def create
     new_project = current_account.projects.new(project_params)
     authorize new_project
-    new_project.memberships.build(user: current_user, permission: "admin")
+    new_project.memberships.build(user: current_user)
 
     if new_project.save
       redirect_to project_path(new_project), notice: "Project created."
@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   private
 
   def current_bucket
-    current_bucket ||= project.bucket
+    current_bucket ||= project.present? ? project.bucket : nil
   end
 
   def json_messages
@@ -76,6 +76,8 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name, :description)
+    params.require(:project).permit(:name, :description).tap do |data|
+      data[:creator] = current_user
+    end
   end
 end
