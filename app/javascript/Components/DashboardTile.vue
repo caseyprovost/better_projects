@@ -1,5 +1,5 @@
 <template>
-  <a
+  <inertia-link
     :href="href"
     class="shadow p-4 w-full bg-gray-900 max-w-sm md:w-1/3 mb-4 hover:cursor-pointer hover:bg-indigo-700"
     data-component="DashboardTile"
@@ -22,7 +22,7 @@
         name="full"
       />
     </div>
-  </a>
+  </inertia-link>
 </template>
 
 <script>

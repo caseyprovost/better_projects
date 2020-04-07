@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   def show
     authorize project
     render inertia: "Projects/ViewProject", props: {
-      project: project.as_json(include: [:bucket]),
+      project: project.as_json(include: [bucket: {}, memberships: { include: [:user] }]),
       messages: json_messages,
       todoLists: json_todo_lists,
     }
@@ -64,9 +64,7 @@ class ProjectsController < ApplicationController
 
   def json_todo_lists
     current_bucket.todo_lists
-      .joins(:todo_set)
-      .left_joins(:todos)
-      .group("todo_lists.position, todos.position, todo_lists.id")
+      .includes(:todo_set, :todos)
       .limit(5)
       .as_json(include: [:todos], methods: [:description_preview])
   end

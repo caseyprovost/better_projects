@@ -3,14 +3,6 @@
     v-if="showCrumbs"
     class="bg-gray-700 py-2 px-3"
   >
-     <div class="breadcrumb relative inline-block pr-2">
-      <inertia-link
-        :href="this.$routes.projects()"
-        class="text-gray-100 underline hover:text-green-400 font-semibold"
-      >
-        Projects
-      </inertia-link>
-    </div>
     <div class="breadcrumb relative inline-block px-2">
       <inertia-link
         :href="this.$routes.project(bucket.bucketable.id)"

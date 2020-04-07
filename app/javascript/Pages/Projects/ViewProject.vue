@@ -10,7 +10,18 @@
       </div>
     </div>
 
-    <div class="flex mt-8">
+    <div class="my-4 w-full flex  bg-gray-900 p-4 justify-center">
+      <div class="inline-flex">
+        <div class="rounded-full bg-blue-600 text-blue-100 flex h-8 text-sm w-8 justify-center items-center" v-for="membership in project.memberships">
+          <span>{{ userInitials(membership.user) }}</span>
+        </div>
+        <inertia-link href="/" class="btn btn-outline btn-teal-outline btn-sm inline-block ml-2">
+          Add/remove people
+        </inertia-link>
+      </div>
+    </div>
+
+    <div class="flex">
       <div class="w-full flex-wrap flex md:justify-between">
         <dashboard-messages-tile :messages="messages" :href="messageBoardPath" />
         <dashboard-todos-tile :todo-lists="todoLists" :href="todoListsPath" />
@@ -152,6 +163,10 @@ export default {
     },
   },
   methods: {
+    userInitials(user) {
+      let parts = user.name.split(' ')
+      return parts.map(p => p[0]).join('')
+    },
   },
 }
 </script>

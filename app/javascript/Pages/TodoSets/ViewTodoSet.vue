@@ -47,7 +47,7 @@
                 <inertia-link :href="$routes.bucket_todo(currentBucket, todo)" class="ml-2">{{ todo.title }}</inertia-link>
               </li>
             </ul>
-            <div class="ml-4 bg-purple-800 rounded py-4" v-if="creatingTodo">
+            <div class="ml-4 bg-purple-800 rounded py-4" v-if="creatingTodoForList(todo_list)">
               <todo-form :form="todoForm" :assignees="assignees" :notifiees="notifiees">
                 <div class="px-12">
                   <button class="btn btn-green btn-sm" @click.prevent="createTodo">Add this to-do</button>
@@ -55,7 +55,7 @@
                 </div>
               </todo-form>
             </div>
-            <a href="#" @click="openTodoForm(todo_list)" v-if="!creatingTodo" class="btn btn-teal btn-sm mt-2 ml-5">
+            <a href="#" @click="openTodoForm(todo_list)" v-if="!creatingTodoForList(todo_list)" class="btn btn-teal btn-sm mt-2 ml-5">
               Add a to-do
             </a>
           </div>
@@ -116,6 +116,9 @@
       }
     },
     methods: {
+      creatingTodoForList(todoList) {
+        return this.todoForm.todo_list_id === todoList.id
+      },
       openTodoForm(todoList) {
         this.todoForm.todo_list_id = todoList.id
         this.creatingTodo = true

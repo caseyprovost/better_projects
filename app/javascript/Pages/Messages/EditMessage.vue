@@ -19,13 +19,13 @@
         <div class="px-2 py-3 border-t border-gray-800 flex justify-end items-center">
           <inertia-link
             :href="messagePath"
-            class="btn-blue-outline mr-1"
+            class="btn btn-outline btn-blue-outline btn-sm mr-1"
           >
             Discard changes
           </inertia-link>
           <loading-button
             :loading="sending"
-            class="btn-green"
+            class="btn btn-green btn-sm ml-1"
             type="submit"
           >
             Save Changes

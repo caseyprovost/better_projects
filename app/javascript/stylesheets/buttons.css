@@ -20,7 +20,7 @@
 }
 
 .btn-indigo {
-  @apply bg-indigo-400 text-indigo-100;
+  @apply bg-indigo-600 text-indigo-100;
 
   &:hover,
   &:focus {
@@ -47,7 +47,7 @@
 }
 
 .btn-teal {
-  @apply bg-teal-600 text-teal-100;
+  @apply bg-teal-700 text-teal-100;
 
   &:hover,
   &:focus {
