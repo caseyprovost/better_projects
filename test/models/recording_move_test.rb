@@ -11,8 +11,8 @@ class RecordingMoveTest < ActiveSupport::TestCase
     user = create(:user)
     other_user = create(:user)
     account = create(:account)
-    project1 = create(:project, account: account)
-    project2 = create(:project, account: account)
+    project1 = create(:project, account: account, creator: user)
+    project2 = create(:project, account: account, creator: user)
     message = nil
 
     PaperTrail.request(whodunnit: other_user.id) do

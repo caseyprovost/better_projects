@@ -2,7 +2,7 @@ class TodoList < ApplicationRecord
   include Recordable, HasRecordingStatus, HasPosition
 
   belongs_to :todo_set, counter_cache: true
-  belongs_to :creator, class_name: "User"
+  belongs_to :creator, class_name: "User", default: -> { Current.user }
   has_many :todos
 
   has_rich_text :description

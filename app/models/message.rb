@@ -2,7 +2,7 @@ class Message < ApplicationRecord
   include Recordable, HasRecordingStatus
 
   belongs_to :message_board
-  belongs_to :creator, class_name: "User"
+  belongs_to :creator, class_name: "User", default: -> { Current.user }
 
   delegate :project, to: :message_board
   delegate :bucket, to: :project

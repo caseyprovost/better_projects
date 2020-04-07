@@ -22,6 +22,7 @@ if Rails.env.development?
   account = Account.find_or_create_by(name: "avengers")
   user = User.find_or_create_by(name: "Bruce Banner", email: "hulk@avengers.net")
   user.confirm && user.save!
+  Current.user = user
 
   AccountMember.find_or_create_by(account_id: account.id, user_id: user.id, role_id: owner_role.id)
 
@@ -37,3 +38,5 @@ if Rails.env.development?
   setup_project_user(project, email: "writer@avengers.net", permission: "write")
   setup_project_user(project, email: "admin@avengers.net", permission: "admin")
 end
+
+Current.user = nil

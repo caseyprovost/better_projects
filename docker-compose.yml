@@ -20,6 +20,8 @@ services:
       - type: volume
         source: postgres_data
         target: /var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
 
 volumes:
   postgres_data:

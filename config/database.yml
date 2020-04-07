@@ -8,7 +8,7 @@ development:
   <<: *shared_default
   host: localhost
   username: postgres
-  password:
+  password: password
   database: better_projects_development
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
@@ -16,7 +16,7 @@ test:
   <<: *shared_default
   host: <%= ENV['CI'].present? ? 'postgres' : 'localhost' %>
   username: postgres
-  password:
+  password: password
   database: better_projects_test
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
