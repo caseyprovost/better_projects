@@ -33,7 +33,7 @@
         {{ recording.title }}
       </inertia-link>
     </div>
-     <div
+    <div
       v-if="showTodoSetBreadcrumb"
       class="breadcrumb relative inline-block pr-2"
     >
@@ -42,6 +42,17 @@
         class="text-gray-100 underline hover:text-green-400 ml-2"
       >
         To-dos
+      </inertia-link>
+    </div>
+    <div
+      v-if="bucket && this.$page.todo"
+      class="breadcrumb relative inline-block pr-2"
+    >
+      <inertia-link
+        :href="this.$routes.bucket_todo_list(bucket, this.$page.todo_list)"
+        class="text-gray-100 underline hover:text-green-400 ml-2"
+      >
+        {{ this.$page.todo_list.title }}
       </inertia-link>
     </div>
   </div>
@@ -117,6 +128,11 @@ export default {
         routes.push(this.$routes.bucket_todo_list(this.bucket, this.$page.todo_set))
         routes.push(this.$routes.edit_bucket_todo_list(this.bucket, this.$page.todo_set))
       }
+
+      if (this.bucket && this.$page.todo) {
+        routes.push(this.$routes.bucket_todo(this.bucket, this.$page.todo))
+      }
+
       let result = routes.indexOf(location.pathname)
       return result !== -1
     }

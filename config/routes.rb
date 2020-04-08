@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     end
 
     resources :todo_lists, module: "buckets"
-    resources :todos, module: "buckets", only: [:create, :update] do
+    resources :todos, module: "buckets" do
       resource :completion, controller: "completion", only: [:create], module: "todos"
     end
 

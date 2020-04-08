@@ -1,6 +1,9 @@
 class Todo < ApplicationRecord
   include Recordable, HasRecordingStatus, HasPosition
 
+  # To-dos are due soon if they are due tomorrow
+  DUE_SOON_DAYS = 1
+
   attribute :notifiee_ids
   attribute :assignee_ids
 
@@ -22,6 +25,11 @@ class Todo < ApplicationRecord
   has_rich_text :description
 
   delegate :bucket, to: :parent
+
+  scope :due_soon, -> {
+    date = DateTime.today.advance(days: DUE_SOON_DAYS)
+    where.not(due_on: nil).where(due_on: date.beginning_of_day..date.end_of_day)
+  }
 
   def description_preview
     description.to_plain_text

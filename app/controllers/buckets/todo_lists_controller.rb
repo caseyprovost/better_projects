@@ -1,10 +1,13 @@
 module Buckets
   class TodoListsController < BaseController
+    inertia_share todo_set: -> { todo_list.todo_set }
     before_action :grab_todo_set, only: %i[show]
 
     def show
-      render inertia: "TodoSets/ViewTodoSet", props: {
-        todo_set: @todo_set.as_json(include: [:creator, todo_lists: [:todos]])
+      render inertia: "TodoLists/ViewTodoList", props: {
+        todo_list: todo_list.as_json(include: [creator: {}, todos: { include: [:assignees, :subscribers] }]),
+        assignees: possibleUsers,
+        notifiees: possibleUsers
       }
     end
 
@@ -27,6 +30,10 @@ module Buckets
       params.require(:todo_list).permit(:title, :description, :todo_set_id).tap do |data|
         data[:creator] = current_user
       end
+    end
+
+    def possibleUsers
+      @possibleUsers ||= current_bucket.record.users.where.not(users: { id: current_user.id })
     end
 
     def todo_list
