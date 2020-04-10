@@ -8,6 +8,9 @@ class User < ApplicationRecord
   has_many :assignments
   has_many :assigned_todos, as: :assignable, class_name: "Todo"
 
+  has_many :subscribers
+  has_many :subscriptions, through: :subscribers
+
   # Include default devise modules. Others available are:
   # :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

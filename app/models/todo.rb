@@ -16,6 +16,14 @@ class Todo < ApplicationRecord
   has_many :subscriptions, through: :recording
   has_many :subscribers, through: :subscriptions
 
+  has_one :completed_subscription,
+    -> { where(subscriptions: { action: "todo.completed" }) },
+    class_name: "Subscription",
+    through: :recording,
+    source: :subscriptions
+
+  has_many :completed_subscribers, class_name: "Subscriber", through: :completed_subscription, source: :subscribers
+
   after_update :emit_events
   after_save :update_completed_subscribers
   after_save :change_assignees
@@ -49,10 +57,6 @@ class Todo < ApplicationRecord
     save
   end
 
-  def completed_subscription
-    recording.subscriptions.find_by(action: "todo.completed")
-  end
-
   private
 
   def should_update_recording?
@@ -62,7 +66,7 @@ class Todo < ApplicationRecord
   def change_assignees
     if assignee_ids.present?
       assignee_ids.each do |user_id|
-        assignments.create!(user_id: user.id)
+        assignments.create!(user_id: user_id)
       end
     elsif !assignee_ids.nil? && assignee_ids.empty?
       assignments.destroy_all

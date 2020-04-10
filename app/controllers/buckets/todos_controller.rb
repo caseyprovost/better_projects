@@ -5,7 +5,14 @@ module Buckets
 
     def show
       render inertia: "Todos/ViewTodo", props: {
-        todo: todo.as_json(include: [:creator, :assignees, :subscribers])
+        todo: todo.as_json(
+          include: [
+            creator: {},
+            completed_subscribers: { include: [:user] },
+            assignments: { include: [:assignee] }
+          ]
+        ),
+        possibleUsers: current_bucket.record.users
       }
     end
 
