@@ -2,17 +2,21 @@ module Buckets
   class TodosController < BaseController
     inertia_share todo_set: -> { todo.todo_list.todo_set }
     inertia_share todo_list: -> { todo.todo_list }
+    inertia_share current_user: -> { current_user }
 
     def show
       render inertia: "Todos/ViewTodo", props: {
         todo: todo.as_json(
           include: [
             creator: {},
+            recording: { include: [:comments] },
             completed_subscribers: { include: [:user] },
             assignments: { include: [:assignee] }
           ]
         ),
-        possibleUsers: current_bucket.record.users
+        possibleUsers: current_bucket.record.users,
+        events: todo.recording.events.as_json(include: [:creator], methods: ["text"]),
+        comments: [],
       }
     end
 

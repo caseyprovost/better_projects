@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       resources :trashings, only: [:create], module: "recordings"
       resources :copies, only: %i[new create], module: "recordings"
       resources :moves, only: %i[new create], module: "recordings"
+      resources :comments, only: %i[new create], module: "recordings"
     end
 
     resources :todo_lists, module: "buckets"

@@ -1,11 +1,11 @@
 class Todo < ApplicationRecord
-  include Recordable, HasRecordingStatus, HasPosition
+  include Recordable, HasRecordingStatus, HasPosition, Assignable
+
+  include Commentable # depends on Recordable
+  include Eventable # depends on Recordable
 
   # To-dos are due soon if they are due tomorrow
   DUE_SOON_DAYS = 1
-
-  attribute :notifiee_ids
-  attribute :assignee_ids
 
   belongs_to :todo_list, counter_cache: true
   belongs_to :creator, class_name: "User", default: -> { User.current }
@@ -24,9 +24,8 @@ class Todo < ApplicationRecord
 
   has_many :completed_subscribers, class_name: "Subscriber", through: :completed_subscription, source: :subscribers
 
-  after_update :emit_events
+  before_update :emit_events
   after_save :update_completed_subscribers
-  after_save :change_assignees
 
   validates :title, presence: true
 
@@ -63,18 +62,6 @@ class Todo < ApplicationRecord
     title_changed? || todo_list_id_changed?
   end
 
-  def change_assignees
-    if assignee_ids.present?
-      assignee_ids.each do |user_id|
-        assignments.create!(user_id: user_id)
-      end
-    elsif !assignee_ids.nil? && assignee_ids.empty?
-      assignments.destroy_all
-    else
-      # do nothing if not intentionally modifying assignees
-    end
-  end
-
   def update_completed_subscribers
     if notifiee_ids.present?
       subscription = completed_subscription
@@ -91,7 +78,9 @@ class Todo < ApplicationRecord
 
   def emit_events
     if completed_changed? && completed?
-      recording.events.create!(action: "todo.completed", creator: Current.user)
+      recording.events.build(action: "todo.completed", creator: creator)
+    elsif completed_changed? && !completed?
+      recording.events.build(action: "todo.reopened", creator: creator)
     end
   end
 end

@@ -9,7 +9,8 @@ class Recording < ApplicationRecord
 
   has_many :subscriptions, dependent: :delete_all
   has_many :subscribers, through: :subscriptions
-  has_many :events
+  has_many :events, autosave: true
+  has_many :comments, as: :commentable
 
   delegate :account, to: :bucket
   delegate :content, :title, to: :recordable
@@ -29,6 +30,10 @@ class Recording < ApplicationRecord
 
   def default_subscription
     subscriptions.find_by(action: "comment.created")
+  end
+
+  def recording
+    self
   end
 
   private

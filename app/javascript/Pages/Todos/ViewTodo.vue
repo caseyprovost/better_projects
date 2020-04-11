@@ -8,7 +8,7 @@
               type="checkbox"
               class="form-checkbox text-pink-600 h-6 w-6 border border-pink-600 bg-transparent cursor-pointer mr-3"
               :checked="todo.completed"
-              @change="toggleTodoCompleted">
+              @change="toggleCompleted">
           </label>
           <h1 class="text-indigo-400 text-3xl flex-1">
             {{ todo.title }}
@@ -79,6 +79,64 @@
           </div>
         </todo-form>
       </div>
+      <div class="mt-4 w-full">
+        <h2 class="text-gray-400 text-2xl border-b border-gray-700 w-full py-2">Discussion</h2>
+
+        <div class="discussions-wrapper mt-4">
+          <div
+            v-for="event in events"
+            :key="event.id"
+            class="text-gray-400 flex w-full items-center mb-4"
+          >
+            <div class="rounded-full bg-blue-600 text-blue-100 flex h-12 text-lg w-12 justify-center items-center mr-1">
+              <span>{{ userInitials(event.creator) }}</span>
+            </div>
+            <div class="flex items-center justify-between w-full rounded bg-teal-900 px-4 py-4">
+              <div class="w-3/4">
+                <i class="fa fa-check-circle text-green-700 text-lg mr-1" v-if="event.action === 'todo.completed'"></i>
+                <i class="fa fa-times-circle text-red-600 text-lg mr-1" v-if="event.action === 'todo.reopened'"></i>
+                <span class="font-semibold">{{ event.text }}</span>
+              </div>
+              <span class="w-1/4 text-right">{{ formattedDay(event.created_at) }}</span>
+            </div>
+          </div>
+
+          <div class="text-gray-400 flex w-full items-center mb-4">
+            <div class="rounded-full bg-blue-600 text-blue-100 flex h-12 text-lg w-12 justify-center items-center mr-1">
+              <span>{{ userInitials($page.current_user) }}</span>
+            </div>
+            <div class="flex items-center w-full rounded bg-teal-900 px-3 py-3">
+              <button
+                class="text-left border border-teal-800 bg-teal-700 text-gray-400 p-3 w-full"
+                @click="creatingComment = true"
+                v-if="!creatingComment"
+              >
+                Add a comment or upload a file...
+              </button>
+              <div class="w-full" v-if="creatingComment">
+                <VueTrix
+                  v-model="newComment.content"
+                  input-id="comment_content"
+                  input-name="comment[content]"
+                  class="w-full text-gray-400"
+                  input-class="h-48"
+                  placeholder="Write away..."
+                />
+                <div
+                  v-if="$page.errors && $page.errors.content && $page.errors.content.length"
+                  class="form-error"
+                >
+                  {{ $page.errors.content.join(", ") }}
+                </div>
+                <div class="mt-3">
+                  <button @click="createComment" class="btn btn-indigo btn-sm">Add Comment</button>
+                  <button @click="creatingComment = false" class="btn btn-blue-outline btn-sm">Nevermind</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -86,11 +144,13 @@
 <script>
   import Layout from '@/Layouts/Main'
   import TodoForm from '@/Pages/Todos/TodoForm'
+  import VueTrix from 'vue-trix'
 
   export default {
     layout: Layout,
     components: {
       TodoForm,
+      VueTrix,
     },
     props: {
       todo: {
@@ -99,13 +159,20 @@
       },
       possibleUsers: {
         type: Array,
-        required: false,
-        default: []
+        required: true
+      },
+      events: {
+        type: Array,
+        required: true
       }
     },
     data() {
       return {
         editing: false,
+        creatingComment: false,
+        newComment: {
+          content: null,
+        },
         form: {
           title: this.todo.title,
           description: this.todo.description,
@@ -150,9 +217,32 @@
       formatTime(time) {
         return time ? moment(time).format('ddd, MMM D') : "N/A"
       },
+      formattedDay(time) {
+        return moment(time).format('MMM D')
+      },
       userInitials(user) {
         let parts = user.name.split(' ')
         return parts.map(p => p[0]).join('')
+      },
+      toggleCompleted() {
+        this.sending = true
+
+        this.$inertia.post(this.$routes.bucket_todo_completion(this.currentBucket, this.todo)).then(() => {
+          this.sending = false
+          if (Object.keys(this.$page.errors).length === 0) {
+            this.$emit('success')
+          }
+        })
+      },
+      createComment() {
+        this.sending = true
+
+        this.$inertia.post(this.$routes.bucket_recording_comments(this.currentBucket, this.todo.recording)).then(() => {
+          this.sending = false
+          if (Object.keys(this.$page.errors).length === 0) {
+            this.$emit('success')
+          }
+        })
       },
     },
   }
