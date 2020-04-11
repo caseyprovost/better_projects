@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_10_153356) do
+ActiveRecord::Schema.define(version: 2020_04_11_221743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,16 @@ ActiveRecord::Schema.define(version: 2020_04_10_153356) do
     t.index ["creator_id"], name: "index_comments_on_creator_id"
   end
 
+  create_table "event_requests", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.string "guid"
+    t.string "user_agent"
+    t.string "ip_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_event_requests_on_event_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.bigint "recording_id", null: false
     t.bigint "creator_id"
@@ -114,8 +124,16 @@ ActiveRecord::Schema.define(version: 2020_04_10_153356) do
     t.json "details", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "recordable_type", null: false
+    t.bigint "recordable_id", null: false
+    t.string "recordable_previous_type", null: false
+    t.bigint "recordable_previous_id", null: false
+    t.bigint "bucket_id", null: false
     t.index ["action"], name: "index_events_on_action"
+    t.index ["bucket_id"], name: "index_events_on_bucket_id"
     t.index ["creator_id"], name: "index_events_on_creator_id"
+    t.index ["recordable_previous_type", "recordable_previous_id"], name: "recordable_previous_index"
+    t.index ["recordable_type", "recordable_id"], name: "index_events_on_recordable_type_and_recordable_id"
     t.index ["recording_id"], name: "index_events_on_recording_id"
   end
 
@@ -162,8 +180,6 @@ ActiveRecord::Schema.define(version: 2020_04_10_153356) do
     t.string "recordable_type", null: false
     t.bigint "recordable_id", null: false
     t.bigint "bucket_id", null: false
-    t.string "parent_type", null: false
-    t.bigint "parent_id", null: false
     t.string "status", default: "active", null: false
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -172,9 +188,12 @@ ActiveRecord::Schema.define(version: 2020_04_10_153356) do
     t.datetime "trashed_at"
     t.bigint "archived_by_id"
     t.datetime "archived_at"
+    t.bigint "parent_id"
+    t.bigint "creator_id"
     t.index ["archived_by_id"], name: "index_recordings_on_archived_by_id"
     t.index ["bucket_id"], name: "index_recordings_on_bucket_id"
-    t.index ["parent_type", "parent_id"], name: "index_recordings_on_parent_type_and_parent_id"
+    t.index ["creator_id"], name: "index_recordings_on_creator_id"
+    t.index ["parent_id"], name: "index_recordings_on_parent_id"
     t.index ["recordable_type", "recordable_id"], name: "index_recordings_on_recordable_type_and_recordable_id"
     t.index ["trashed_by_id"], name: "index_recordings_on_trashed_by_id"
   end
@@ -191,10 +210,8 @@ ActiveRecord::Schema.define(version: 2020_04_10_153356) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "recording_id", null: false
-    t.string "action", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["action"], name: "index_subscriptions_on_action"
     t.index ["recording_id"], name: "index_subscriptions_on_recording_id"
   end
 
@@ -280,6 +297,8 @@ ActiveRecord::Schema.define(version: 2020_04_10_153356) do
   add_foreign_key "assignments", "users"
   add_foreign_key "buckets", "accounts"
   add_foreign_key "comments", "users", column: "creator_id"
+  add_foreign_key "event_requests", "events"
+  add_foreign_key "events", "buckets"
   add_foreign_key "events", "recordings"
   add_foreign_key "events", "users", column: "creator_id"
   add_foreign_key "message_boards", "projects"
@@ -289,7 +308,9 @@ ActiveRecord::Schema.define(version: 2020_04_10_153356) do
   add_foreign_key "project_memberships", "users"
   add_foreign_key "projects", "accounts"
   add_foreign_key "recordings", "buckets"
+  add_foreign_key "recordings", "recordings", column: "parent_id"
   add_foreign_key "recordings", "users", column: "archived_by_id"
+  add_foreign_key "recordings", "users", column: "creator_id"
   add_foreign_key "recordings", "users", column: "trashed_by_id"
   add_foreign_key "subscribers", "subscriptions"
   add_foreign_key "subscribers", "users"

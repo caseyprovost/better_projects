@@ -1,18 +1,16 @@
 class Message < ApplicationRecord
-  include Recordable, HasRecordingStatus
+  include Recordable, HasRecordingStatus, Creator
 
-  belongs_to :message_board
-  belongs_to :creator, class_name: "User", default: -> { Current.user }
+  belongs_to :message_board, class_name: "Message::Board", foreign_key: :message_board_id
 
   delegate :project, to: :message_board
   delegate :bucket, to: :project
+  delegate :account, to: :bucket
 
   validates :subject, presence: true
   validate :validate_content_exists
 
   has_rich_text :content
-
-  after_commit :remove_up_bad_version, on: :create
 
   amoeba do
     include_association :rich_text_content
@@ -20,6 +18,10 @@ class Message < ApplicationRecord
     exclude_association :recording
     exclude_association :message_board
     exclude_association :creator
+  end
+
+  def subscribeable?
+    true
   end
 
   def content_preview
@@ -34,24 +36,7 @@ class Message < ApplicationRecord
     message_board
   end
 
-  def should_update_recording?
-    subject_changed? || message_board_id_changed?
-  end
-
   private
-
-  # IMPORTANT: This is a nasty little patch
-  #
-  # Context: There is some strange interaction between ActionText and PaperTrail where
-  # when an object is created with rich text 2 versions are created, a "created" one that is correct
-  # and an "update" on that HAS NO CHANGES.
-  def remove_up_bad_version
-    last_version = versions.last
-
-    if versions.count == 2 && last_version.changeset.empty?
-      versions.last.destroy
-    end
-  end
 
   def validate_content_exists
     return if content_preview.length > 0

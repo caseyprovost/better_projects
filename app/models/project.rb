@@ -5,7 +5,7 @@ class Project < ApplicationRecord
   has_many :memberships, class_name: "ProjectMembership", dependent: :destroy
   has_many :users, through: :memberships
 
-  has_one :message_board, dependent: :destroy
+  has_one :message_board, class_name: "Message::Board", dependent: :destroy
   has_one :bucket, as: :bucketable, dependent: :destroy
   has_many :messages, through: :message_board
 

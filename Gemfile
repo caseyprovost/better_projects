@@ -16,7 +16,6 @@ gem "webpacker", "~> 5.0"
 
 gem "inertia_rails"
 gem "devise"
-gem "sidekiq"
 gem "interactor"
 gem "pundit"
 gem "pagy"

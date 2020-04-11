@@ -1,6 +1,9 @@
 class Event < ApplicationRecord
-  belongs_to :recording
-  belongs_to :creator, optional: true, class_name: "User", default: -> { User.current }
+  include Creator, Recordable
+
+  belongs_to :bucket
+
+  validates :action, presence: true
 
   def text
     @text = creator.name
@@ -13,6 +16,10 @@ class Event < ApplicationRecord
 
     @text += " this #{topic}"
     @text
+  end
+
+  def detail
+    @detail ||= Event::Detail.new(details.except(*excluded_details))
   end
 
   private

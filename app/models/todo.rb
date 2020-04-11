@@ -13,19 +13,21 @@ class Todo < ApplicationRecord
   has_many :assignments, as: :assignable, autosave: true
   has_many :assignees, through: :assignments
 
-  has_many :subscriptions, through: :recording
+  # Over-riding subscriptions to not include completed todo subscriptions
+  # and subscribers
+  has_many :subscriptions, -> { where.not(action: "completed") }, through: :recording
   has_many :subscribers, through: :subscriptions
 
   has_one :completed_subscription,
-    -> { where(subscriptions: { action: "todo.completed" }) },
+    -> { where(subscriptions: { action: "completed" }) },
     class_name: "Subscription",
     through: :recording,
     source: :subscriptions
 
   has_many :completed_subscribers, class_name: "Subscriber", through: :completed_subscription, source: :subscribers
 
-  before_update :emit_events
-  after_save :update_completed_subscribers
+  # before_update :emit_events
+  # after_save :update_completed_subscribers
 
   validates :title, presence: true
 
@@ -40,6 +42,10 @@ class Todo < ApplicationRecord
 
   def description_preview
     description.to_plain_text
+  end
+
+  def subscribeable?
+    true
   end
 
   def parent
@@ -62,25 +68,25 @@ class Todo < ApplicationRecord
     title_changed? || todo_list_id_changed?
   end
 
-  def update_completed_subscribers
-    if notifiee_ids.present?
-      subscription = completed_subscription
-      notifiee_ids.each do |user_id|
-        subscription.subscribers.create!(user_id: user_id)
-      end
-    elsif !notifiee_ids.nil? && notifiee_ids.empty?
-      subscription = completed_subscription
-      subscription.subscribers.destroy_all
-    else
-      # do nothing if not intentionally modifying notifiees
-    end
-  end
+  # def update_completed_subscribers
+  #   if notifiee_ids.present?
+  #     subscription = completed_subscription
+  #     notifiee_ids.each do |user_id|
+  #       subscription.subscribers.create!(user_id: user_id)
+  #     end
+  #   elsif !notifiee_ids.nil? && notifiee_ids.empty?
+  #     subscription = completed_subscription
+  #     subscription.subscribers.destroy_all
+  #   else
+  #     # do nothing if not intentionally modifying notifiees
+  #   end
+  # end
 
-  def emit_events
-    if completed_changed? && completed?
-      recording.events.build(action: "todo.completed", creator: creator)
-    elsif completed_changed? && !completed?
-      recording.events.build(action: "todo.reopened", creator: creator)
-    end
-  end
+  # def emit_events
+  #   if completed_changed? && completed?
+  #     recording.events.build(action: "todo.completed", creator: creator)
+  #   elsif completed_changed? && !completed?
+  #     recording.events.build(action: "todo.reopened", creator: creator)
+  #   end
+  # end
 end
