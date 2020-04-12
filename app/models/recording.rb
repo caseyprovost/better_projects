@@ -27,10 +27,6 @@ class Recording < ApplicationRecord
     recordable.versions
   end
 
-  def default_subscription
-    subscriptions.find_by(action: "comment.created")
-  end
-
   def recording
     self
   end

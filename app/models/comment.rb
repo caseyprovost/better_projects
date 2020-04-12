@@ -1,6 +1,7 @@
 class Comment < ApplicationRecord
+  include Creator, Recordable
+
   belongs_to :commentable, polymorphic: true
-  belongs_to :creator, class_name: "User", default: -> { Current.user }
 
   validates :content, presence: true
 
@@ -8,6 +9,8 @@ class Comment < ApplicationRecord
 
   after_create :emit_create_event
   after_create :notify_subscribers
+
+  delegate :bucket, to: :commentable
 
   def content_preview
     content.to_plain_text
@@ -20,6 +23,7 @@ class Comment < ApplicationRecord
   private
 
   def emit_create_event
+    recording.track_event()
     commentable.events.build(
       action: "comment.created",
       creator: Current.user,

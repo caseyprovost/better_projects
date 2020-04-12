@@ -33,6 +33,7 @@ module Recordings::Eventable
   end
 
   def archiving_event
+    # track(:archived, recordable_previous: recordable_was, status_was: status)
   end
 
   def trashing_event

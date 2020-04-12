@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
   include Recordable, HasRecordingStatus, Creator
+  include Commentable # depends on Recordable
 
   belongs_to :message_board, class_name: "Message::Board", foreign_key: :message_board_id
 

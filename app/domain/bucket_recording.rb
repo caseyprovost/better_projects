@@ -20,8 +20,8 @@ class BucketRecording
     ApplicationRecord.transaction do
       if model.save
         recording = build_recording
+        recording.subscriptions.build(action: "created") if model.subscribeable?
         recording.save!
-        model.subscriptions.create! if model.subscribeable?
         success = true
       else
         # do something maybe?

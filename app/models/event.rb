@@ -2,34 +2,22 @@ class Event < ApplicationRecord
   include Creator, Recordable
 
   belongs_to :bucket
+  belongs_to :recording
+  belongs_to :recordable, polymorphic: true
+  belongs_to :previous_recordable, polymorphic: true, optional: true
 
   validates :action, presence: true
 
-  def text
-    @text = creator.name
-
-    if sub_action == "reopened"
-      @text += " re-opened"
-    else
-      @text += " #{sub_action}"
-    end
-
-    @text += " this #{topic}"
-    @text
-  end
+  after_create :broadcast_subscriptions
 
   def detail
     @detail ||= Event::Detail.new(details.except(*excluded_details))
   end
 
-  private
+  def broadcast_subscriptions
+    return unless recordable.subscribeable?
 
-  def topic
-    base_topic = action.split(".").first
-    base_topic == "todo" ? "to-do" : base_topic
-  end
-
-  def sub_action
-    action.split(".").last
+    broadcaster = SubscriptionBroadcastFactory.for_event(self)
+    broadcaster.broadcast
   end
 end

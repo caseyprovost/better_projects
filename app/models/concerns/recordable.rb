@@ -6,5 +6,7 @@ module Recordable
 
     default_scope { joins(:recording) }
     scope :active, -> { where.not(recordings: { status: ["archived", "trashed"] }) }
+
+    has_paper_trail
   end
 end

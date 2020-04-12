@@ -1,8 +1,10 @@
 FactoryBot.define do
   factory :event do
-    recording { nil }
-    creator { nil }
-    action { "MyString" }
-    details { "" }
+    bucket
+    recording
+    association :creator, factory: :user
+    association :recordable, factory: :comment
+    action { "created" }
+    details { "{}" }
   end
 end

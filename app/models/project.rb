@@ -1,5 +1,5 @@
 class Project < ApplicationRecord
-  attribute :creator
+  include Creator
 
   belongs_to :account
   has_many :memberships, class_name: "ProjectMembership", dependent: :destroy

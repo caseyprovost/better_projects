@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_11_221743) do
+ActiveRecord::Schema.define(version: 2020_04_12_014951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,7 +173,9 @@ ActiveRecord::Schema.define(version: 2020_04_11_221743) do
     t.text "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "creator_id", null: false
     t.index ["account_id"], name: "index_projects_on_account_id"
+    t.index ["creator_id"], name: "index_projects_on_creator_id"
   end
 
   create_table "recordings", force: :cascade do |t|
@@ -212,6 +214,7 @@ ActiveRecord::Schema.define(version: 2020_04_11_221743) do
     t.bigint "recording_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "action", null: false
     t.index ["recording_id"], name: "index_subscriptions_on_recording_id"
   end
 
@@ -307,6 +310,7 @@ ActiveRecord::Schema.define(version: 2020_04_11_221743) do
   add_foreign_key "project_memberships", "projects"
   add_foreign_key "project_memberships", "users"
   add_foreign_key "projects", "accounts"
+  add_foreign_key "projects", "users", column: "creator_id"
   add_foreign_key "recordings", "buckets"
   add_foreign_key "recordings", "recordings", column: "parent_id"
   add_foreign_key "recordings", "users", column: "archived_by_id"
