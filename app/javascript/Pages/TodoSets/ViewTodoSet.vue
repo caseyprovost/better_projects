@@ -150,6 +150,8 @@
         data.due_on = data.due_on ? moment(data.due_on).format("YYYY-MM-DD") : null
         data.notifiee_ids = data.notifiees.map(u => u.id)
         data.assignee_ids = data.assignees.map(u => u.id)
+        delete data.assignees
+        delete data.notifiees
 
         this.$inertia.post(this.$routes.bucket_todos(this.currentBucket), data).then(() => {
           this.sending = false

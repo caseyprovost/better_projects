@@ -4,7 +4,7 @@ module Assignable
   included do
     attribute :assignee_ids
 
-    has_many :assignments, as: :assignable
+    has_many :assignments, as: :assignable, autosave: true
     has_many :assignees, through: :assignments
 
     after_save :change_assignees

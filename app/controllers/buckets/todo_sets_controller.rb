@@ -11,7 +11,7 @@ module Buckets
     private
 
     def possibleUsers
-      @possibleUsers ||= current_bucket.record.users.where.not(users: { id: current_user.id })
+      @possibleUsers ||= current_bucket.bucketable.users.where.not(users: { id: current_user.id })
     end
 
     def todo_set

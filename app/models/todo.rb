@@ -10,9 +10,6 @@ class Todo < ApplicationRecord
   belongs_to :todo_list, counter_cache: true
   belongs_to :creator, class_name: "User", default: -> { User.current }
 
-  has_many :assignments, as: :assignable, autosave: true
-  has_many :assignees, through: :assignments
-
   # Over-riding subscriptions to not include completed todo subscriptions
   # and subscribers
   has_many :subscriptions, -> { where.not(action: "completed") }, through: :recording

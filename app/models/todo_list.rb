@@ -20,4 +20,8 @@ class TodoList < ApplicationRecord
   def description_preview
     description.to_plain_text
   end
+
+  def subscribeable?
+    false
+  end
 end

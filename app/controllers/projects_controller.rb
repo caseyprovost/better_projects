@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   private
 
   def current_bucket
-    current_bucket ||= project.present? ? project.bucket : nil
+    @current_bucket ||= project.present? ? project.bucket : nil
   end
 
   def json_messages

@@ -37,13 +37,13 @@ module Recordings::Subscribeable
 
   def replace_subscribers(users)
     Subscriber.joins(:subscriptions).where(subscriptions: { id: subscriptions.ids })
-    subscribe(added)
+    subscribe(users)
   end
 
   def subscribed_by?(user)
     Subscriber.joins(:subscriptions).where(
       user_id: user.id,
       subscriptions: { id: subscriptions.ids }
-    ).exists?
+    ).exists?56
   end
 end

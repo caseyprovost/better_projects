@@ -4,7 +4,7 @@ module Recordable
   included do
     has_one :recording, as: :recordable, autosave: true
 
-    default_scope { joins(:recording) }
+    default_scope { includes(:recording) }
     scope :active, -> { where.not(recordings: { status: ["archived", "trashed"] }) }
 
     has_paper_trail

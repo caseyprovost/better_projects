@@ -21,6 +21,9 @@ class Recording < ApplicationRecord
   amoeba do
     enable
     include_association :recordable
+    include_association :subscriptions
+    include_association :subscribers
+    include_association :events
   end
 
   def recordable_versions

@@ -4,14 +4,24 @@ class BucketRecording
 
   delegate :errors, to: :model
 
-  def self.create(model, **specifics)
-    record = new(model, **specifics)
+  class Result < OpenStruct
+    attr_accessor :errors
+    attr_accessor :success
+
+    def success?
+      success
+    end
+  end
+
+  def self.create(bucket, model, **specifics)
+    record = new(bucket, model, specifics)
     record.save
   end
 
-  def initialize(model, **specifics)
+  def initialize(bucket, model, **specifics)
     @model = model
     @specifics = specifics
+    @bucket = bucket
   end
 
   def save
@@ -23,22 +33,20 @@ class BucketRecording
         recording.subscriptions.build(action: "created") if model.subscribeable?
         recording.save!
         success = true
-      else
-        # do something maybe?
       end
     end
 
-    success
+    Result.new(errors: model.errors, model: model, success: success)
   end
 
   private
 
-  def not_creator_users
-
+  def bucket
+    @bucket
   end
 
   def build_recording
-    recording = Recording.new(recordable: model)
+    recording = Recording.new(recordable: model, bucket: bucket)
     recording.assign_attributes(specifics)
     recording.title = model.title
     recording

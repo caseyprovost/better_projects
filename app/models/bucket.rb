@@ -12,8 +12,8 @@ class Bucket < ApplicationRecord
 
   before_create :set_up_the_world
 
-  def record
-    bucketable
+  def record(model, **specifics)
+    BucketRecording.create(self, model, specifics)
   end
 
   private

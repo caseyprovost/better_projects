@@ -13,11 +13,8 @@ class RecordingCopyTest < ActiveSupport::TestCase
     account = create(:account)
     project1 = create(:project, account: account)
     project2 = create(:project, account: account)
-    message = nil
-
-    PaperTrail.request(whodunnit: other_user.id) do
-      message = create(:message, message_board: project1.message_board, content: "Testing", creator: other_user)
-    end
+    message = build(:message, message_board: project1.message_board, content: "Testing", creator: other_user)
+    project1.bucket.record(message, { creator: user })
 
     copier = RecordingCopy.new(
       recording: message.recording,
@@ -31,8 +28,8 @@ class RecordingCopyTest < ActiveSupport::TestCase
     assert recording_copy.persisted?
     assert_equal recording_copy.bucket.id, project2.bucket.id
     assert_equal recording_copy.title, message.title
-    assert_equal 1, message.versions.count
-    assert_equal 1, recording_copy.recordable.versions.count
-    assert_equal user.id, recording_copy.recordable.versions.first.whodunnit.to_i
+    assert_equal 2, message.versions.count
+    assert_equal 2, recording_copy.recordable.versions.count
+    assert_equal user.id, recording_copy.recordable.versions.last.whodunnit.to_i
   end
 end

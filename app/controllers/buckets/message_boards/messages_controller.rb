@@ -11,11 +11,10 @@ module Buckets
 
       def create
         new_message = message_board.messages.new(message_params)
-        bucket_recording = build_bucket_recording(new_message)
-        success = bucket_recording.save
-        message = bucket_recording.model
+        result = create_bucket_recording(new_message)
+        message = result.model
 
-        if success
+        if result.success?
           flash.notice = "Message posted"
           redirect_to bucket_message_path(current_bucket, message)
         else
@@ -29,10 +28,9 @@ module Buckets
         @parent_recording = nil
       end
 
-      def build_bucket_recording(message)
-        BucketRecording.new(message, {
+      def create_bucket_recording(message)
+        current_bucket.record(message, {
           parent: @parent_recording,
-          bucket: current_bucket,
           # status: status_param,
           # subscribers: find_subscribers
         })

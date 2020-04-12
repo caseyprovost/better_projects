@@ -3,11 +3,10 @@ module Buckets
     class CommentsController < BaseController
       def create
         new_comment = recording.comments.new(comment_params)
-        bucket_recording = build_bucket_recording(new_comment)
-        success = bucket_recording.save
-        comment = bucket_recording.model
+        result = create_bucket_recording(new_comment)
+        comment = result.model
 
-        if success
+        if result.success?
           flash.notice = "Your comment was successfully created."
           redirect_to polymorphic_url([current_bucket, recording.parent])
         else
@@ -22,10 +21,11 @@ module Buckets
         @parent_recording = recording
       end
 
-      def build_bucket_recording(message)
-        BucketRecording.new(message, {
+      def create_bucket_recording(message)
+        current_bucket.record(message, {
           parent: @parent_recording,
           bucket: current_bucket,
+          creator: current_user
           # status: status_param,
           # subscribers: find_subscribers
         })
