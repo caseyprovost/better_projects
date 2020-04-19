@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class MessageBoardTileTest < ApplicationSystemTestCase
   include SystemTestHelper
@@ -24,7 +24,10 @@ class MessageBoardTileTest < ApplicationSystemTestCase
   end
 
   test "displays message previews when messages exist" do
-    create(:message, creator: @user, message_board: @project.message_board, subject: "Testing", content: "battle!")
+    Current.set(user: @user) do
+      @project.bucket.record(build(:message, message_board: @project.message_board, subject: "Testing", content: "battle!"))
+    end
+
     visit project_path(@project)
 
     assert_text "BB"
@@ -33,7 +36,10 @@ class MessageBoardTileTest < ApplicationSystemTestCase
   end
 
   test "goes to the message board, when there are messages" do
-    create(:message, creator: @user, message_board: @project.message_board, subject: "Testing", content: "battle!")
+    Current.set(user: @user) do
+      @project.bucket.record(build(:message, message_board: @project.message_board, subject: "Testing", content: "battle!"))
+    end
+
     visit project_path(@project)
 
     find(:link, text: "Message Board").click

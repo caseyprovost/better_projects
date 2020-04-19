@@ -1,27 +1,26 @@
-require 'test_helper'
+require "test_helper"
 
 class ForgotPasswordTest < ApplicationSystemTestCase
   include SystemTestHelper
   include ActionMailer::TestHelper
 
   setup do
-    account = create(:account, name: "avengers")
     @user = create(:user, :confirmed)
-    add_user_to_account(@user, account, role: "admin")
+    account = create(:account, name: "avengers", owner: @user)
     Capybara.app_host = "http://app.lvh.me"
     ActionMailer::Base.deliveries.clear
   end
 
-  teardown do
-    ActionMailer::Base.deliveries.clear
-  end
+  teardown { ActionMailer::Base.deliveries.clear }
 
   test "users can receive a password reset email" do
     visit new_user_password_path
     fill_in("user_email", with: @user.email)
     click_button("Reset Password")
+
     assert_text "You will receive an email with instructions"
     email = ActionMailer::Base.deliveries.first
+    assert email.present?
     assert_equal email.recipients, [@user.email]
     assert email.subject.include?("Reset password instructions")
   end

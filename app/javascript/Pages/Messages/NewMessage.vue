@@ -75,7 +75,7 @@ export default {
   methods: {
     submit() {
       this.sending = true
-      this.$inertia.post(this.$routes.bucket_message_board_messages(this.currentBucket, this.message_board), this.form).then(() => {
+      this.$inertia.post(this.$routes.bucket_message_board_messages(this.currentBucket), this.form).then(() => {
         this.sending = false
         if (Object.keys(this.$page.errors).length === 0) {
           this.form = {}

@@ -6,7 +6,7 @@ module Buckets
 
     def show
       render inertia: "TodoLists/ViewTodoList", props: {
-        todo_list: todo_list.as_json(include: [creator: {}, todos: { include: [:assignees, :subscribers] }]),
+        todo_list: todo_list.as_json(include: [creator: {}, todos: {include: [:assignees, :subscribers]}]),
         assignees: possibleUsers,
         notifiees: possibleUsers
       }
@@ -31,7 +31,7 @@ module Buckets
 
     def create_bucket_recording(model)
       current_bucket.record(model, {
-        parent: @parent_recording,
+        parent: @parent_recording
         # status: status_param,
         # subscribers: find_subscribers
       })
@@ -48,7 +48,7 @@ module Buckets
     end
 
     def possibleUsers
-      @possibleUsers ||= current_bucket.bucketable.users.where.not(users: { id: current_user.id })
+      @possibleUsers ||= current_bucket.bucketable.users.where.not(users: {id: current_user.id})
     end
 
     def todo_list

@@ -26,24 +26,24 @@ module Recordings::Subscribeable
     folks = Array.wrap(users)
     Subscriber.joins(:subscriptions).where(
       user_id: folks.map(&:id),
-      subscriptions: { id: subscriptions.ids }
+      subscriptions: {id: subscriptions.ids}
     ).destroy_all
   end
 
   def change_subscribers(added: [], removed: [], track: false, notify: false)
     subscribe(added)
-    unsubscribe(removed).where(subscriptions: { id: subscriptions.ids }).destroy_all
+    unsubscribe(removed).where(subscriptions: {id: subscriptions.ids}).destroy_all
   end
 
   def replace_subscribers(users)
-    Subscriber.joins(:subscriptions).where(subscriptions: { id: subscriptions.ids })
+    Subscriber.joins(:subscriptions).where(subscriptions: {id: subscriptions.ids})
     subscribe(users)
   end
 
   def subscribed_by?(user)
     Subscriber.joins(:subscriptions).where(
       user_id: user.id,
-      subscriptions: { id: subscriptions.ids }
+      subscriptions: {id: subscriptions.ids}
     ).exists?56
   end
 end

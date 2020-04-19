@@ -1,5 +1,8 @@
 class Todo < ApplicationRecord
-  include Recordable, HasRecordingStatus, HasPosition, Assignable
+  include Assignable
+  include HasPosition
+  include HasRecordingStatus
+  include Recordable
 
   include Commentable # depends on Recordable
   include Eventable # depends on Recordable
@@ -16,7 +19,7 @@ class Todo < ApplicationRecord
   has_many :subscribers, through: :subscriptions
 
   has_one :completed_subscription,
-    -> { where(subscriptions: { action: "completed" }) },
+    -> { where(subscriptions: {action: "completed"}) },
     class_name: "Subscription",
     through: :recording,
     source: :subscriptions

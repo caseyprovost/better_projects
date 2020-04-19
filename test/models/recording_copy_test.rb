@@ -14,7 +14,7 @@ class RecordingCopyTest < ActiveSupport::TestCase
     project1 = create(:project, account: account)
     project2 = create(:project, account: account)
     message = build(:message, message_board: project1.message_board, content: "Testing", creator: other_user)
-    project1.bucket.record(message, { creator: user })
+    project1.bucket.record(message, {creator: user})
 
     copier = RecordingCopy.new(
       recording: message.recording,

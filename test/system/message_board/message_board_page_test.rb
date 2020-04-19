@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class MessageBoardPageTest < ApplicationSystemTestCase
   include SystemTestHelper
@@ -8,7 +8,13 @@ class MessageBoardPageTest < ApplicationSystemTestCase
     @account = create(:account, name: "avengers", owner: @user)
     @project = create(:project, account: @account, name: "Save the world")
     add_user_to_project(@user, @project)
-    create_list(:message, 3, creator: @user, message_board: @project.message_board)
+
+    Current.set(user: @user) do
+      @project.bucket.record(build(:message, creator: @user, message_board: @project.message_board))
+      @project.bucket.record(build(:message, creator: @user, message_board: @project.message_board))
+      @project.bucket.record(build(:message, creator: @user, message_board: @project.message_board))
+    end
+
     Capybara.app_host = "http://#{@account.subdomain}.lvh.me"
     sign_in(@user)
     visit bucket_message_board_path(@project.bucket)

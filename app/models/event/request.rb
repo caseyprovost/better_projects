@@ -6,8 +6,8 @@ class EventRequest < ApplicationRecord
   private
 
   def set_from_current
-    self.ip_address ||=  Current.ip_address
+    self.ip_address ||= Current.ip_address
     self.guid ||= Current.request_id
-    self.user_agent ||=  Current.user_agent
+    self.user_agent ||= Current.user_agent
   end
 end

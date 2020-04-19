@@ -1,7 +1,7 @@
 module Buckets
   module MessageBoards
     class MessagesController < BaseController
-      before_action :set_parent_recording, only: %i(new create)
+      before_action :set_parent_recording, only: %i[new create]
 
       def new
         render inertia: "Messages/NewMessage", props: {
@@ -14,11 +14,11 @@ module Buckets
         result = create_bucket_recording(new_message)
         message = result.model
 
-        if result.success?
+        if message.persisted?
           flash.notice = "Message posted"
           redirect_to bucket_message_path(current_bucket, message)
         else
-          redirect_to new_bucket_message_board_message_path(current_bucket, message_board), errors: bucket_recording.errors
+          redirect_to new_bucket_message_board_message_path(current_bucket), errors: result.errors
         end
       end
 
@@ -30,7 +30,7 @@ module Buckets
 
       def create_bucket_recording(message)
         current_bucket.record(message, {
-          parent: @parent_recording,
+          parent: @parent_recording
           # status: status_param,
           # subscribers: find_subscribers
         })

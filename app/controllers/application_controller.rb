@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
   include Pundit
   include Auth
-  include SetCurrentRequestDetails, SetCurrentUser, SetCurrentAccount
+  include SetCurrentAccount
+  include SetCurrentUser
+  include SetCurrentRequestDetails
   include Pagy::Backend
   include InertiaCsrf
   include InertiaErrors

@@ -1,3 +1,5 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   devise_for :users,
     controllers: {
@@ -67,5 +69,9 @@ Rails.application.routes.draw do
     #   resources :copies, only: %i[new create], module: "messages"
     #   resources :moves, only: %i[new create], module: "messages"
     # end
+  end
+
+  authenticate :user, ->(user) { user.admin? } do
+    mount Sidekiq::Web => "/sidekiq"
   end
 end

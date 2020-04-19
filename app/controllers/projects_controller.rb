@@ -4,9 +4,9 @@ class ProjectsController < ApplicationController
   def show
     authorize project
     render inertia: "Projects/ViewProject", props: {
-      project: project.as_json(include: [bucket: {}, memberships: { include: [:user] }]),
+      project: project.as_json(include: [bucket: {}, memberships: {include: [:user]}]),
       messages: json_messages,
-      todoLists: json_todo_lists,
+      todoLists: json_todo_lists
     }
   end
 

@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class MoveMessagePageTest < ApplicationSystemTestCase
   include SystemTestHelper
@@ -10,7 +10,12 @@ class MoveMessagePageTest < ApplicationSystemTestCase
     @project2 = create(:project, account: @account, name: "Order new costumes")
     add_user_to_project(@user, @project)
     add_user_to_project(@user, @project2)
-    @message = create(:message, creator: @user, message_board: @project.message_board)
+
+    Current.set(user: @user) do
+      result = @project.bucket.record(build(:message, message_board: @project.message_board))
+      @message = result.model
+    end
+
     Capybara.app_host = "http://#{@account.subdomain}.lvh.me"
     sign_in(@user)
     visit new_bucket_recording_move_path(@project.bucket, @message.recording)

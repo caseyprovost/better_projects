@@ -9,14 +9,14 @@ module Buckets
         todo: todo.as_json(
           include: [
             creator: {},
-            recording: { include: [:comments] },
-            completed_subscribers: { include: [:user] },
-            assignments: { include: [:assignee] }
+            recording: {include: [:comments]},
+            completed_subscribers: {include: [:user]},
+            assignments: {include: [:assignee]}
           ]
         ),
         possibleUsers: current_bucket.record.users,
         events: todo.recording.events.as_json(include: [:creator], methods: ["text"]),
-        comments: [],
+        comments: []
       }
     end
 

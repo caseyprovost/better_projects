@@ -15,8 +15,12 @@ class RecordingMoveTest < ActiveSupport::TestCase
     project2 = create(:project, account: account, creator: user)
     message = nil
 
-    PaperTrail.request(whodunnit: other_user.id) do
-      message = create(:message, message_board: project1.message_board, content: "Testing", creator: other_user)
+    Current.set(user: other_user) do
+      PaperTrail.request(whodunnit: other_user.id) do
+        new_message = build(:message, message_board: project1.message_board, content: "Testing", creator: other_user)
+        result = project1.bucket.record(new_message)
+        message = result.model
+      end
     end
 
     mover = RecordingMove.new(
@@ -31,9 +35,9 @@ class RecordingMoveTest < ActiveSupport::TestCase
     assert recording_copy.persisted?
     assert_equal recording_copy.bucket.id, project2.bucket.id
     assert_equal recording_copy.title, message.title
-    assert_equal 1, message.versions.count
+    assert_equal 2, message.versions.count
     assert message.trashed?
-    assert_equal 1, recording_copy.recordable.versions.count
+    assert_equal 2, recording_copy.recordable.versions.count
     assert_equal user.id, recording_copy.recordable.versions.first.whodunnit.to_i
   end
 end

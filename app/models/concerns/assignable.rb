@@ -18,8 +18,6 @@ module Assignable
       end
     elsif !assignee_ids.nil? && assignee_ids.empty?
       assignments.destroy_all
-    else
-      # do nothing if not intentionally modifying assignees
     end
   end
 end

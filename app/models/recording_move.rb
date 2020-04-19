@@ -18,8 +18,11 @@ class RecordingMove
 
     PaperTrail.request(whodunnit: user.id) do
       new_recordable.creator = user
-      result = new_recordable.save
-      @copy = new_recordable&.recording
+      result = destination_bucket.record(new_recordable, {
+        creator: user
+      })
+
+      @copy = result.model&.recording
       # TODO: Recordables that are moved are cloned, but the sources are trashed
       recording.trash(user) if result
       result
@@ -28,9 +31,13 @@ class RecordingMove
 
   private
 
+  def destination_bucket
+    @destination_bucket ||= Bucket.includes(:bucketable).find(destination_bucket_id)
+  end
+
   # can return a Project, TodoList, Document, etc
   def destination
-    Bucket.includes(:bucketable).find(destination_bucket_id).record
+    destination_bucket.bucketable
   end
 
   def assign_recordable_bucket(recordable)

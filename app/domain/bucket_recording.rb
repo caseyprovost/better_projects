@@ -9,7 +9,7 @@ class BucketRecording
     attr_accessor :success
 
     def success?
-      success
+      !!success
     end
   end
 
@@ -41,9 +41,7 @@ class BucketRecording
 
   private
 
-  def bucket
-    @bucket
-  end
+  attr_reader :bucket
 
   def build_recording
     recording = Recording.new(recordable: model, bucket: bucket)

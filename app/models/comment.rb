@@ -1,5 +1,6 @@
 class Comment < ApplicationRecord
-  include Creator, Recordable
+  include Recordable
+  include Creator
 
   belongs_to :commentable, polymorphic: true
 
@@ -17,17 +18,17 @@ class Comment < ApplicationRecord
   end
 
   def created_subscribers
-    commentable.recording.subscribers.joins(:subscription).where(subscriptions: { action: "comment.created" })
+    commentable.recording.subscribers.joins(:subscription).where(subscriptions: {action: "comment.created"})
   end
 
   private
 
   def emit_create_event
-    recording.track_event()
+    recording.track_event
     commentable.events.build(
       action: "comment.created",
       creator: Current.user,
-      details: { content: content_preview }
+      details: {content: content_preview}
     )
   end
 

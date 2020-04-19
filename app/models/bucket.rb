@@ -20,7 +20,7 @@ class Bucket < ApplicationRecord
 
   def set_up_the_world
     if todo_sets.empty?
-      self.todo_sets.build(title: "To-dos", creator: creator)
+      todo_sets.build(title: "To-dos", creator: creator)
     end
     # self.vaults.build(name: "Docs & Files")
   end

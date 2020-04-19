@@ -8,6 +8,9 @@ require "minitest/rails"
 require "mocha/minitest"
 require "policy_assertions"
 
+require "sidekiq/testing"
+Sidekiq::Testing.inline!
+
 # Improved Minitest output (color and progress bar)
 require "minitest/reporters"
 Minitest::Reporters.use!(

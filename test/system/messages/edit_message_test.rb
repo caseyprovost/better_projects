@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class EditMessageTest < ApplicationSystemTestCase
   include SystemTestHelper
@@ -8,7 +8,12 @@ class EditMessageTest < ApplicationSystemTestCase
     account = create(:account, name: "avengers", owner: @user)
     @project = create(:project, account: account, name: "Save the world")
     add_user_to_project(@user, @project)
-    @message = create(:message, creator: @user, message_board: @project.message_board)
+
+    Current.set(user: @user) do
+      result = @project.bucket.record(build(:message, creator: @user, message_board: @project.message_board))
+      @message = result.model
+    end
+
     Capybara.app_host = "http://#{account.subdomain}.lvh.me"
     sign_in(@user)
     visit edit_bucket_message_path(@project.bucket, @message)

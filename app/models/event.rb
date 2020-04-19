@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
-  include Creator, Recordable
+  include Recordable
+  include Creator
 
   belongs_to :bucket
   belongs_to :recording
