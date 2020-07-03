@@ -32,6 +32,7 @@ module IntertiaProjects
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.i18n.fallbacks = [I18n.default_locale]
 
     config.generators do |g|
       g.test_framework :minitest, spec: false, fixture: false

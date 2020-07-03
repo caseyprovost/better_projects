@@ -1,6 +1,6 @@
 FROM ruby:2.6.5-alpine3.10
 
-LABEL maintainer="hello@inertia-projects.com"
+LABEL maintainer="hello@better-projects.com"
 
 RUN apk add --no-cache --update \
   tar \
@@ -29,5 +29,5 @@ WORKDIR /app
 
 # Install gems
 COPY Gemfile Gemfile.lock ./
-ENV BUNDLER_VERSION 2.1.2
+ENV BUNDLER_VERSION 2.1.4
 RUN gem install bundler && gem update bundler && bundle install --jobs 20 --retry 5
