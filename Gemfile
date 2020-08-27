@@ -51,7 +51,7 @@ group :test do
   gem "database_cleaner-redis"
   gem "policy-assertions"
   # TODO: not yet rails-edge compatible
-  #gem "minitest-rails"
+  gem "minitest-rails"
 end
 
 group :development do
