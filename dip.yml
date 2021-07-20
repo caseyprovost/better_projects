@@ -1,0 +1,83 @@
+version: "4.1"
+
+environment:
+  RAILS_ENV: development
+
+compose:
+  files:
+    - docker-compose.yml
+  project_name: better_projects
+
+interaction:
+  sh:
+    description: Open a Bash shell within a Rails container (with dependencies up)
+    service: runner
+    command: /bin/bash
+
+  bash:
+    description: Open a Bash shell
+    service: runner
+    command: /bin/bash
+    compose_run_options: [no-deps]
+
+  bundle:
+    description: Run Bundler commands
+    service: runner
+    command: bundle
+
+  yarn:
+    description: Run Yarn commands
+    service: runner
+    command: yarn
+
+  eslint:
+    description: Run Yarn commands
+    service: runner
+    command: yarn run eslint
+
+  rake:
+    description: Run Rake commands
+    service: runner
+    command: bundle exec rake
+
+  rails:
+    description: Run Rails commands
+    service: runner
+    command: bundle exec rails
+    subcommands:
+      s:
+        description: Run Rails server available at http://localhost:3000
+        service: rails
+        compose:
+          run_options: [service-ports, use-aliases]
+
+  sidekiq:
+    description: Run Sidekiq worker
+    service: runner
+    command: bundle exec sidekiq
+
+  test:
+    description: Run RSpec commands within test environment
+    service: runner
+    environment:
+      RAILS_ENV: test
+    command: bundle exec m
+
+  standard:
+    description: Lint ruby files
+    service: runner
+    command: bundle exec standardrb --fix
+    compose:
+      run_options: [no-deps]
+
+  setup:
+    description: Setup the local databases with some default data
+    service: runner
+    command: bin/setup
+
+provision:
+  - dip compose down --remove-orphans
+  - dip compose up -d
+  - dip bundle install
+  - dip yarn install
+  - dip setup

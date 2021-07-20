@@ -1,28 +1,128 @@
----
+version: "3"
 
-version: "3.8"
+x-app: &app
+  build:
+    context: "."
+    dockerfile: Dockerfile
+    args:
+      RUBY_VERSION: "2.7.3"
+      PG_MAJOR: "13"
+      NODE_MAJOR: "14"
+      YARN_VERSION: "1.22.5"
+      BUNDLER_VERSION: "2.2.24"
+  volumes:
+    - .:/app:cached
+    - bundle:/bundle
+  environment: &env
+    NODE_ENV: development
+    RAILS_ENV: ${RAILS_ENV:-development}
+    BUNDLER_VERSION: "2.2.24"
+  image: better_projects-dev:0.0.1
+  tmpfs:
+    - /tmp
+
+x-backend: &backend
+  <<: *app
+  stdin_open: true
+  tty: true
+  volumes:
+    - .:/app:cached
+    - rails_cache:/app/tmp/cache
+    - bundle:/bundle
+    - node_modules:/app/node_modules
+    - packs:/app/public/packs
+    - .dockerdev/.psqlrc:/root/.psqlrc:ro
+  environment: &environment
+    <<: *env
+    BOOTSNAP_CACHE_DIR: /bundle/bootsnap
+    WEBPACKER_DEV_SERVER_HOST: webpacker
+    WEBPACK_ASSET_HOST: ${WEBPACK_ASSET_HOST:-lvhost.me:3000}
+    MALLOC_ARENA_MAX: 2
+    WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
+    HISTFILE: /app/log/.bash_history
+    PSQL_HISTFILE: /app/log/.psql_history
+    EDITOR: vim
+    REDIS_URL: redis://redis:6379/0
+    SIDEKIQ_REDIS_URL: redis://redis:6379/1
+    DATABASE_URL: postgres://postgres:password@postgres:5432/better_projects_${RAILS_ENV:-development}
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_started
+    memcached:
+      condition: service_started
 
 services:
-  redis:
-    image: redis:6-alpine
+  runner:
+    <<: *backend
+    command: /bin/bash
     ports:
-      - "127.0.0.1:6379:6379"
+      - "3002:3002"
+
+  rails:
+    <<: *backend
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
+
+  sidekiq:
+    <<: *backend
+    command: bundle exec sidekiq -C config/sidekiq.yml
+
+  webpacker:
+    <<: *app
+    command: ./bin/webpack-dev-server
+    ports:
+      - "3035:3035"
     volumes:
-      - type: volume
-        source: redis_data
-        target: /data
+      - .:/app:cached
+      - rails_cache:/app/tmp/cache
+      - bundle:/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+    environment:
+      <<: *env
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+      BOOTSNAP_CACHE_DIR: /bundle/bootsnap
 
   postgres:
-    image: postgres:12-alpine
-    ports:
-      - "127.0.0.1:5432:5432"
-    volumes:
-      - type: volume
-        source: postgres_data
-        target: /var/lib/postgresql/data
+    image: postgres:13.3
     environment:
-      POSTGRES_PASSWORD: password
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=better_projects_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - .psqlrc:/root/.psqlrc:ro
+      - postgis:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U postgres -h 127.0.0.1 -d better_projects_development
+      interval: 5s
+
+  memcached:
+    image: memcached
+    ports:
+      - "11211"
+    healthcheck:
+      disable: true
+
+  redis:
+    image: redis:5.0-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
 
 volumes:
-  postgres_data:
-  redis_data:
+  postgis:
+  redis:
+  bundle:
+  node_modules:
+  rails_cache:
+  packs:

@@ -5,26 +5,9 @@ shared_default: &shared_default
   encoding: unicode
 
 development:
-  <<: *shared_default
-  host: localhost
-  username: postgres
-  password: password
-  database: better_projects_development
+  url: <%= ENV["DATABASE_URL"] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 test:
-  <<: *shared_default
-  host: <%= ENV['CI'].present? ? 'postgres' : 'localhost' %>
-  username: postgres
-  password: password
-  database: better_projects_test
+  url: <%= ENV["DATABASE_URL"].gsub("development", "test") %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-production:
-  <<: *shared_default
-  host:     <%= ENV.fetch("DB_HOST") { "" } %>
-  database: better_projects_production
-  username: deploy
-  password: <%= Rails.application.credentials.dig(:database, :password) %>
-  sslca:    ./config/rds-combined-ca-bundle.pem
-  pool: 30
