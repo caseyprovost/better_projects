@@ -14,7 +14,7 @@ module Buckets
             assignments: {include: [:assignee]}
           ]
         ),
-        possibleUsers: current_bucket.record.users,
+        possibleUsers: current_account.users,
         events: todo.recording.events.as_json(include: [:creator], methods: ["text"]),
         comments: []
       }
@@ -23,8 +23,10 @@ module Buckets
     def create
       todo_list = current_bucket.todo_lists.find(todo_params[:todo_list_id])
       new_todo = todo_list.todos.new(todo_params.except(:todo_list_id))
+      result = create_bucket_recording(new_todo)
+      todo = result.model
 
-      if new_todo.save
+      if todo.persisted?
         flash.notice = "Your todo was successfully created"
         redirect_back(fallback_location: bucket_todo_set_path(current_bucket, todo_list.todo_set))
       else
@@ -46,6 +48,15 @@ module Buckets
     end
 
     private
+
+    def create_bucket_recording(model)
+      todo_list = TodoList.find(params[:todo_list_id])
+      current_bucket.record(model, {
+        parent: todo_list.recording
+        # status: status_param,
+        # subscribers: find_subscribers
+      })
+    end
 
     def todo_params
       params.require(:todo).permit(
