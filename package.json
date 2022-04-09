@@ -16,7 +16,7 @@
     "expose-loader": "^0.7.5",
     "install": "^0.13.0",
     "lodash": "^4.17.19",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "popper.js": "^1.16",
     "portal-vue": "^2.1.7",
     "tailwindcss": "^1.2.0",
